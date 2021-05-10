@@ -62,6 +62,7 @@ const Login = () => {
                   name="username"
                   value={user.username}
                   onChange={handleChange}
+                  required
                 />
               )}
               <Form.Control
@@ -71,6 +72,7 @@ const Login = () => {
                 name="email"
                 value={user.email}
                 onChange={handleChange}
+                required
               />
               <Form.Control
                 className="mb-4"
@@ -79,6 +81,7 @@ const Login = () => {
                 name="password"
                 value={user.password}
                 onChange={handleChange}
+                required
               />
               <Button
                 className="ms-auto"
