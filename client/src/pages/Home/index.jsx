@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import Contacts from '../../components/Contacts';
 import InfoCard from '../../components/InfoCard';
@@ -7,6 +7,7 @@ import AddPost from '../../components/AddPost';
 import Post from '../../components/Post';
 import { posts } from '../../data/home';
 import { makeStyles } from '@material-ui/core/styles';
+import PostModal from '../../components/PostModal';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
@@ -21,7 +22,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  const [postList, setPostList] = useState(posts);
   const classes = useStyles();
+
+  const addPost = (post) => {
+    setPostList((prev) => {
+      const posts = [...prev, post];
+      posts.reverse();
+      return posts;
+    });
+  };
   return (
     <Container maxWidth='lg'>
       <Grid container spacing={3}>
@@ -30,9 +40,10 @@ const Home = () => {
           <Suggestions />
         </Grid>
         <Grid item sm={12} md={6}>
-          <AddPost />
-          {posts.map((p) => (
+          <AddPost addPost={addPost} />
+          {postList.map((p) => (
             <Post
+              mb
               key={p.id}
               caption={p.caption}
               pdp={p.pdp}
@@ -42,6 +53,7 @@ const Home = () => {
           ))}
         </Grid>
         <Grid item md={3} className={classes.sticky}>
+          <PostModal />
           <Contacts />
         </Grid>
       </Grid>

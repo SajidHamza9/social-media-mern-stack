@@ -38,6 +38,7 @@ const Profile = () => {
         <Grid item sm={8} xs={12}>
           {posts.map((p) => (
             <Post
+              mb
               key={p.id}
               caption={p.caption}
               pdp={p.pdp}

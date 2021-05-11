@@ -6,7 +6,7 @@ export const Card = styled.div`
   box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -moz-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
-  margin-bottom: 1rem;
+  margin-bottom: ${({ mb }) => (mb ? '1rem' : '0')};
 `;
 
 export const Header = styled.div`
@@ -69,4 +69,28 @@ export const Action = styled.div`
   margin-right: 1.5rem;
   color: #ab987a;
   cursor: pointer;
+`;
+
+export const Input = styled.input`
+  border: none;
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 400;
+  padding: 1.2rem 1rem 1.2rem 0;
+  flex-grow: 2;
+
+  &:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.11);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+
+  padding: 0 1rem;
 `;

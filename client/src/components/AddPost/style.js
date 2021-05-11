@@ -16,7 +16,7 @@ export const Header = styled.div`
   padding: 1rem;
 `;
 
-export const Input = styled.textarea`
+export const Input = styled.input`
   border: none;
   width: 90%;
   padding: 1rem 0;
@@ -50,9 +50,27 @@ export const StyledDivider = styled(Divider)`
 `;
 
 export const CardActions = styled.div`
-  padding: 1rem 2rem 1rem 10%;
+  padding: 0.5rem 2rem 0.5rem 10%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #ab987a;
+`;
+
+export const Image = styled.div`
+  width: 130px;
+  height: 130px;
+  background-image: url(${({ img }) => img});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 6px;
+  margin: 1rem 0;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 2;
 `;
