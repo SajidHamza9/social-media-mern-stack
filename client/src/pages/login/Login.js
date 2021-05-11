@@ -52,7 +52,7 @@ const Login = () => {
             <h2 className="text-center">{isLogin ? "Login" : "Sign Up"}</h2>
             <Form
               onSubmit={submitform}
-              className="d-flex flex-column justify-content-center w-75 mx-auto"
+              className="d-flex flex-column justify-content-center w-75 mx-auto my-4"
             >
               {isLogin || (
                 <Form.Control

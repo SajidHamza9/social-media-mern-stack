@@ -52,6 +52,7 @@ body {
   position: absolute;
   top: 50%;
   left: 30px;
+  min-height: 24em;
   width: calc(50% - 30px);
   padding: 50px 30px 10px;
   background-color: #fff;
@@ -61,9 +62,7 @@ body {
   transform: translate3d(100%, -50%, 0);
   transition: transform 0.4s ease-in-out;
 }
-.form-login form {
-  min-height: 18.8em;
-}
+
 .form-login input {
   background: transparent;
   border: none;
@@ -131,12 +130,49 @@ body {
 }
 /* form login */
 @media (max-width: 767.98px) {
+  /* top */
+  @keyframes bounceLeft {
+    0% {
+      transform: translate3d(0, 0%, 0);
+    }
+    50% {
+      transform: translate3d(0, calc(-105% - 30px), 0);
+    }
+
+    100% {
+      transform: translate3d(0, -105%, 0);
+    }
+  }
+  /* down */
+  @keyframes bounceRight {
+    0% {
+      transform: translate3d(0, -100%, 0);
+    }
+    50% {
+      transform: translate3d(0%, calc(10% + 30px), 0);
+    }
+    100% {
+      transform: translate3d(0%, 10%, 0);
+    }
+  }
+  .form-login.bounceLeft .col {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 100px, 0);
+  }
+  .form-login.bounceRight .col {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, -100px, 0);
+  }
   .form-login {
     bottom: 0;
     left: 30px;
     padding-top: 5%;
-    width: calc(100% - 30px);
-    min-height: 30vh;
-    transform: translate3d(0%, 20%, 0);
+    min-width: calc(100% - 60px);
+    max-width: calc(100% - 60px);
+    margin: auto;
+    min-height: 35vh;
+    transform: translate3d(0%, 0%, 0);
   }
 }
