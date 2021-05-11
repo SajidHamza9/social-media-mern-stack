@@ -5,7 +5,7 @@ import GlobalStyle from './styles/globalStyles';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-
+import Login from './pages/login';
 function App() {
   return (
     <Router>
@@ -15,6 +15,7 @@ function App() {
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/profile' component={Profile} />
+          <Route path='/login' component={Login} />
         </Switch>
         <MessagesBtn />
       </StylesProvider>
