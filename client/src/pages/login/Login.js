@@ -22,7 +22,7 @@ const Login = () => {
   };
   const submitform = (e) => {
     e.preventDefault();
-    // islogin ? login() : signUp()
+    isLogin ? console.log("login") : console.log("sign up");
     setUser({ username: "", email: "", password: "" });
   };
 
