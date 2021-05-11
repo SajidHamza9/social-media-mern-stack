@@ -1,8 +1,3 @@
-body {
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-}
-
 .login-col {
   background: #0f1626;
   padding: 4.6rem 2.8rem;
@@ -54,7 +49,8 @@ body {
   left: 30px;
   min-height: 24em;
   width: calc(50% - 30px);
-  padding: 50px 30px 10px;
+  display: grid !important;
+  place-items: center;
   background-color: #fff;
   border-radius: 3px;
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.25);
@@ -117,17 +113,6 @@ body {
   box-shadow: none !important;
 }
 
-/* text size */
-@media screen and (max-width: 750px) {
-  html {
-    font-size: 14px !important;
-  }
-}
-@media screen and (max-width: 570px) {
-  html {
-    font-size: 12px !important;
-  }
-}
 /* form login */
 @media (max-width: 767.98px) {
   /* top */
@@ -136,11 +121,11 @@ body {
       transform: translate3d(0, 0%, 0);
     }
     50% {
-      transform: translate3d(0, calc(-105% - 30px), 0);
+      transform: translate3d(0, calc(-104% - 30px), 0);
     }
 
     100% {
-      transform: translate3d(0, -105%, 0);
+      transform: translate3d(0, -104%, 0);
     }
   }
   /* down */
@@ -158,17 +143,17 @@ body {
   .form-login.bounceLeft .col {
     opacity: 0;
     visibility: hidden;
-    transform: translate3d(0, 100px, 0);
+    transform: translate3d(0, 104px, 0);
   }
   .form-login.bounceRight .col {
     opacity: 0;
     visibility: hidden;
     transform: translate3d(0, -100px, 0);
   }
+
   .form-login {
     bottom: 0;
     left: 30px;
-    padding-top: 5%;
     min-width: calc(100% - 60px);
     max-width: calc(100% - 60px);
     margin: auto;
