@@ -54,7 +54,6 @@ export const CardActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #ab987a;
 `;
 
 export const Image = styled.div`

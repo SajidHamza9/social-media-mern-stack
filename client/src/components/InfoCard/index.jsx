@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   Card,
-  List,
-  ListItem,
+  List as StyledList,
+  ListItem as Item,
   Header,
   StyledAvatar,
   Bold,
@@ -16,23 +16,23 @@ const InfoCard = () => {
       <Header>
         <StyledAvatar src='/images/img2.jpeg' />
       </Header>
-      <List>
-        <ListItem>
+      <StyledList>
+        <Item>
           <Bold>Hamza Sajid</Bold>
           <Light>Bio</Light>
-        </ListItem>
-        <ListItem>
+        </Item>
+        <Item>
           <Light>Friends</Light>
           <Bold>25</Bold>
-        </ListItem>
-        <ListItem>
+        </Item>
+        <Item>
           <Light>Posts</Light>
           <Bold>12</Bold>
-        </ListItem>
-        <ListItem>
+        </Item>
+        <Item>
           <Button>View Profile</Button>
-        </ListItem>
-      </List>
+        </Item>
+      </StyledList>
     </Card>
   );
 };

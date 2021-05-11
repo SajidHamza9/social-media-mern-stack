@@ -5,7 +5,7 @@ import GlobalStyle from './styles/globalStyles';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Login from './pages/login';
+import Login from './pages/login/Login';
 function App() {
   return (
     <Router>

@@ -22,7 +22,7 @@ export const NavbarContainer = styled(Container)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
+  height: 70px;
 `;
 
 export const NavLogo = styled(Link)`
@@ -60,6 +60,7 @@ export const NavMenu = styled.ul`
   align-items: center;
   list-style: none;
   text-align: center;
+  margin-bottom: 0;
 
   @media screen and (max-width: 960px) {
     display: ${({ click }) => (click ? 'block' : 'none')};
@@ -67,7 +68,7 @@ export const NavMenu = styled.ul`
     width: 100%;
     height: calc(100vh - 80px);
     position: absolute;
-    top: 80px;
+    top: 70px;
     left: ${({ click }) => (click ? 0 : '100%')};
     opacity: 1;
     transition: all 0.5s ease;
@@ -87,6 +88,10 @@ export const NavLink = styled(Link)`
   padding: 0.5rem 1rem;
   height: 100%;
   justify-content: center;
+
+  &:hover {
+    color: #fff;
+  }
 
   @media screen and (max-width: 960px) {
     text-align: center;

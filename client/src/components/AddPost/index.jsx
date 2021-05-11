@@ -14,7 +14,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import { IconButton } from '@material-ui/core';
 
 const AddPost = ({ addPost }) => {
-  const [files, setFiles] = useState(null);
+  const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
   const ref = useRef();
 
@@ -29,32 +29,35 @@ const AddPost = ({ addPost }) => {
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
           />
-          {files ? <Image img={URL.createObjectURL(files[0])} /> : null}
+          {file ? <Image img={file} /> : null}
         </Content>
       </Header>
       <StyledDivider />
       <CardActions>
         <input
-          files={files}
           ref={ref}
           style={{ display: 'none' }}
           type='file'
-          onChange={(e) => setFiles(e.target.files)}
+          onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))}
         />
         <IconButton onClick={() => ref.current.click()}>
-          <ImageIcon />
+          <ImageIcon style={{ color: ' #ab987a' }} />
         </IconButton>
         <IconButton
+          style={{ color: ' #ab987a' }}
           onClick={() => {
-            addPost({
-              id: Math.random() * 1000,
-              name: 'Hamza Sajid',
-              pdp: '/images/img3.jpeg',
-              image: URL.createObjectURL(files[0]),
-              caption: caption,
-            });
+            if (caption || file) {
+              addPost({
+                id: Math.random() * 1000,
+                name: 'Hamza Sajid',
+                pdp: '/images/img3.jpeg',
+                image: file,
+                caption: caption,
+              });
+            }
+
             setCaption('');
-            setFiles(null);
+            setFile(null);
           }}>
           <SendIcon />
         </IconButton>
