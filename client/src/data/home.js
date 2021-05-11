@@ -1,0 +1,66 @@
+export const contacts = [
+  { id: 1, name: 'Hamza Sajid', img: '/images/img1.jpeg' },
+  { id: 2, name: 'Hamza Sajid', img: '/images/img2.jpeg' },
+  { id: 3, name: 'Hamza Sajid', img: '/images/img3.jpeg' },
+  { id: 4, name: 'Hamza Sajid', img: '/images/img4.jpeg' },
+  { id: 5, name: 'Hamza Sajid', img: '/images/img1.jpeg' },
+  { id: 6, name: 'Hamza Sajid', img: '/images/img2.jpeg' },
+  { id: 7, name: 'Hamza Sajid', img: '/images/img3.jpeg' },
+  { id: 8, name: 'Hamza Sajid', img: '/images/img4.jpeg' },
+  { id: 9, name: 'Hamza Sajid', img: '/images/img1.jpeg' },
+  { id: 10, name: 'Hamza Sajid', img: '/images/img2.jpeg' },
+  { id: 11, name: 'Hamza Sajid', img: '/images/img3.jpeg' },
+  { id: 12, name: 'Hamza Sajid', img: '/images/img4.jpeg' },
+  { id: 13, name: 'Hamza Sajid', img: '/images/img1.jpeg' },
+  { id: 14, name: 'Hamza Sajid', img: '/images/img2.jpeg' },
+  { id: 15, name: 'Hamza Sajid', img: '/images/img3.jpeg' },
+  { id: 16, name: 'Hamza Sajid', img: '/images/img4.jpeg' },
+];
+
+export const suggestions = [
+  { id: 1, name: 'Hamza Sajid', img: '/images/img1.jpeg' },
+  { id: 2, name: 'Hamza Sajid', img: '/images/img2.jpeg' },
+  { id: 3, name: 'Hamza Sajid', img: '/images/img3.jpeg' },
+];
+
+export const posts = [
+  {
+    id: 1,
+    name: 'Hamza Sajid',
+    pdp: '/images/img1.jpeg',
+    caption:
+      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
+    image: '/images/img2.jpeg',
+  },
+  {
+    id: 2,
+    name: 'Hamza Sajid',
+    pdp: '/images/img2.jpeg',
+    caption:
+      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
+    image: '/images/img4.jpeg',
+  },
+  {
+    id: 3,
+    name: 'Hamza Sajid',
+    pdp: '/images/img3.jpeg',
+    caption:
+      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
+    image: '/images/img1.jpeg',
+  },
+  {
+    id: 4,
+    name: 'Hamza Sajid',
+    pdp: '/images/img4.jpeg',
+    caption:
+      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
+  },
+  {
+    id: 5,
+    name: 'Hamza Sajid',
+    pdp: '/images/img4.jpeg',
+    caption:
+      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
+    image: '/images/img3.jpeg',
+  },
+];
