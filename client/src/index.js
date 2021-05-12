@@ -1,12 +1,12 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import App from "./App";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Images from './Components/Images/Images';
-import  './App.css';
-import Friends from './Components/ListFriends/Friends';
 ReactDOM.render(
   <React.StrictMode>
-    <Friends/>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root'),
 );
