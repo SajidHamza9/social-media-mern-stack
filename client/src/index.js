@@ -1,10 +1,12 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-
+import Images from './Components/Images/Images';
+import  './App.css';
+import Friends from './Components/ListFriends/Friends';
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Friends/>
   </React.StrictMode>,
   document.getElementById('root'),
 );
