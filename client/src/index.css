@@ -13,3 +13,8 @@ html {
     font-size: 12px !important;
   }
 }
+@media screen and (max-width: 365px) {
+  .conversation-msgs {
+    font-size: 11px !important;
+  }
+}

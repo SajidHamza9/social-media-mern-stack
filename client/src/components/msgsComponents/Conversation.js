@@ -1,12 +1,20 @@
 import React from "react";
 import { Avatar, IconButton } from "@material-ui/core";
+import ScrollableFeed from "react-scrollable-feed";
 import Msg from "./Msg";
 import SendIcon from "@material-ui/icons/Send";
 import { useState } from "react";
+import msges from "../../pages/messages/msgs";
 
-const Conversation = ({ name, image, msgs }) => {
+const Conversation = ({ name, image }) => {
   const [message, setMessage] = useState("");
-  console.log(image);
+  const [msgs, setMsgs] = useState(msges);
+  const sendMessage = () => {
+    console.log(message);
+    setMsgs([...msgs, { message, sender: "me" }]);
+    console.log(msgs);
+    setMessage("");
+  };
   return (
     <div className="conversation">
       <div className="conversation-header ">
@@ -16,11 +24,11 @@ const Conversation = ({ name, image, msgs }) => {
         </div>
         <p>Online</p>
       </div>
-      <div className="conversation-msgs">
+      <ScrollableFeed className="conversation-msgs">
         {msgs?.map((mg, i) => (
           <Msg key={i} image={image} msg={mg} />
         ))}
-      </div>
+      </ScrollableFeed>
       <div className="conversation-send">
         <textarea
           value={message}
@@ -29,7 +37,7 @@ const Conversation = ({ name, image, msgs }) => {
           rows="1"
           placeholder="write your message"
         />
-        <IconButton onClick={() => console.log("msg : " + message)}>
+        <IconButton onClick={sendMessage}>
           <SendIcon />
         </IconButton>
       </div>
