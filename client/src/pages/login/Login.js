@@ -22,13 +22,13 @@ const Login = () => {
   };
   const submitform = (e) => {
     e.preventDefault();
-    // islogin ? login() : signUp()
+    isLogin ? console.log("login") : console.log("sign up");
     setUser({ username: "", email: "", password: "" });
   };
 
   return (
     <div
-      style={{ background: "#D3D3D3", minHeight: "100vh" }}
+      style={{ background: "transparent", minHeight: "100vh" }}
       className="d-flex align-items-center justify-content-center"
     >
       <Container style={{ position: "relative" }} fluid="lg">
@@ -52,7 +52,7 @@ const Login = () => {
             <h2 className="text-center">{isLogin ? "Login" : "Sign Up"}</h2>
             <Form
               onSubmit={submitform}
-              className="d-flex flex-column justify-content-center w-75 mx-auto my-4"
+              className="d-flex flex-column justify-content-center w-75 mx-auto "
             >
               {isLogin || (
                 <Form.Control
