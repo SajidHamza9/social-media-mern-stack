@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import "../../App.css"
 const Friends = (props) => {
   const getGridListCols = () => {
     if (isWidthUp('xl', props.width)) {

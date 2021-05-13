@@ -11,7 +11,6 @@ const Messages = () => {
   });
   const selectConv = (cnv) => {
     // grab messages with this person
-
     setPerson(cnv);
   };
   return (

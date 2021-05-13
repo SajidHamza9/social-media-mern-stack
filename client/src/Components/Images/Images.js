@@ -3,6 +3,7 @@ import tileData from '../../data/tileData';
 import { GridListTile,GridList, Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import "../../App.css"
 const Images = (props) => {
   const getGridListCols = () => {
     if (isWidthUp('xl', props.width)) {
