@@ -20,23 +20,22 @@ function App() {
     store.dispatch(loadUser());
   }, []);
   return (
-    <Provider store={store}>
-      <Router>
-        <StylesProvider injectFirst>
-          <GlobalStyle />
-          <Navbar />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/profile" component={Profile} />
-            {/* <PrivateRoute component={Profile} path="/profile" /> */}
-            <Route path="/login" component={Login} exact />
-            {/* <PrivateRoute component={Login} path="/login" type="login" /> */}
-            <Route path="/messages" component={Messages} />
-          </Switch>
-          <MessagesBtn />
-        </StylesProvider>
-      </Router>
-    </Provider>
+    <Router>
+      <StylesProvider injectFirst>
+        <GlobalStyle />
+        <Navbar />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/login" component={Login} />
+          <Route path="/messages" component={Messages} />
+          <Route path="/listFriends" component={Friends} />
+          <Route path="/Images" component={Images} />
+
+        </Switch>
+        <MessagesBtn />
+      </StylesProvider>
+    </Router>
   );
 }
 
