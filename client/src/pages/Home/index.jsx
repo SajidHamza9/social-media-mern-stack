@@ -53,7 +53,6 @@ const Home = () => {
           ))}
         </Grid>
         <Grid item md={3} className={classes.sticky}>
-          <PostModal />
           <Contacts />
         </Grid>
       </Grid>

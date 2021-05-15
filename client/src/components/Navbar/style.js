@@ -34,6 +34,9 @@ export const NavLogo = styled(Link)`
   display: flex;
   align-items: center;
   height: 100%;
+  &:hover {
+    color: #fff;
+  }
 `;
 
 export const NavIcon = styled(GraphicEqOutlinedIcon)`

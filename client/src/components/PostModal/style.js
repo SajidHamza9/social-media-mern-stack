@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     outline: 'none',
-    borderRadius: '6px',
+    borderRadius: '3px',
     backgroundColor: '#fff',
     maxHeight: '95vh',
     overflowY: 'auto',
