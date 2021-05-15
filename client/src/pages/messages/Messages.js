@@ -3,7 +3,6 @@ import "./messages.css";
 import SideBar from "../../components/msgsComponents/Sidebar";
 import Conversation from "../../components/msgsComponents/Conversation";
 import data from "../../pages/messages/data";
-import msgs from "./msgs";
 
 const Messages = () => {
   const [person, setPerson] = useState();
@@ -12,14 +11,13 @@ const Messages = () => {
   });
   const selectConv = (cnv) => {
     // grab messages with this person
-
     setPerson(cnv);
   };
   return (
     <div className="msg-page">
       <div className="msg-container ">
         <SideBar onClick={selectConv} data={data} />
-        {person && <Conversation {...person} msgs={msgs} />}
+        {person && <Conversation {...person} />}
       </div>
     </div>
   );
