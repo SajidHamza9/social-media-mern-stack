@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
+const UserPayload = require("./UserPayload");
 const Schema = mongoose.Schema;
 
+const PostShema = new Schema(
+  {
+    postId: {
+      type: Schema.Types.ObjectId,
+      ref: "Posts",
+    },
+  },
+  { _id: false }
+);
 const UserShema = new Schema(
   {
     username: {
@@ -16,6 +26,20 @@ const UserShema = new Schema(
       type: String,
       required: true,
     },
+    bio: {
+      type: String,
+    },
+    pdp: {
+      type: String,
+      default: "",
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+    posts: [PostShema],
+    followers: [UserPayload],
+    following: [UserPayload],
   },
   { timestamps: true }
 );
