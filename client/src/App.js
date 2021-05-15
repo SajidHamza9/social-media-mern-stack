@@ -3,14 +3,21 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MessagesBtn from "./components/MessagesBtn";
 import GlobalStyle from "./styles/globalStyles";
 import Navbar from "./components/Navbar";
+import Friends from "./components/ListFriends/Friends";
+import Images from "./components/Images/Images";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/login/Login";
 import Messages from "./pages/messages/Messages";
-import Friends from "./components/ListFriends/Friends";
-import Images from "./components/Images/Images";
+import { useEffect } from "react";
+import { loadUser } from "./redux/actions/authActions";
+import PrivateRoute from "./components/PrivateRoute";
+import store from "./redux/store";
 function App() {
   const pathName = window.location.pathname;
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Router>
       <StylesProvider injectFirst>

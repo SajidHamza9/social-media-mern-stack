@@ -32,7 +32,7 @@ router.post("/", registerValidation, (req, res) => {
   newUser.save().then((user) => {
     jwt.sign(
       { id: user.id },
-      require("../../config/key").jwtKeySecret,
+      process.env.jwtKeySecret,
       { expiresIn: 4000 },
       (err, token) => {
         if (err) throw err;
@@ -93,7 +93,7 @@ router.post("/login", loginValidation, (req, res) => {
 
       jwt.sign(
         { id: user.id },
-        require("../../config/key").jwtKeySecret,
+        process.env.jwtKeySecret,
         { expiresIn: 4000 },
         (err, token) => {
           if (err) throw err;
