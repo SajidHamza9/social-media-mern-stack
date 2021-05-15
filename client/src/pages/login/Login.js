@@ -7,6 +7,7 @@ const Login = () => {
   const [isLogin, setisLogin] = useState(true);
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const refForms = useRef(null);
+
   const showForm = () => {
     setisLogin(!isLogin);
     const toRemove = isLogin
@@ -22,7 +23,6 @@ const Login = () => {
   };
   const submitform = (e) => {
     e.preventDefault();
-    isLogin ? console.log("login") : console.log("sign up");
     setUser({ username: "", email: "", password: "" });
   };
 

@@ -11,7 +11,6 @@ import PostModal from '../../components/PostModal';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
-    position: '-webkit-sticky',
     position: 'sticky',
     height: 'fit-content',
     top: '70px',

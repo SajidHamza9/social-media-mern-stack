@@ -10,11 +10,12 @@ import Messages from "./pages/messages/Messages";
 import Friends from "./components/ListFriends/Friends";
 import Images from "./components/Images/Images";
 function App() {
+  const pathName = window.location.pathname;
   return (
     <Router>
       <StylesProvider injectFirst>
         <GlobalStyle />
-        <Navbar />
+        {pathName !== "/login" && <Navbar />}
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/profile" component={Profile} />
@@ -22,9 +23,8 @@ function App() {
           <Route path="/messages" component={Messages} />
           <Route path="/listFriends" component={Friends} />
           <Route path="/Images" component={Images} />
-
         </Switch>
-        <MessagesBtn />
+        {pathName !== "/login" && pathName !== "/messages" && <MessagesBtn />}
       </StylesProvider>
     </Router>
   );
