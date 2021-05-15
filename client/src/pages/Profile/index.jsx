@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import HeaderProfile from '../../components/HeaderProfile';
 import Post from '../../components/Post';
@@ -9,6 +9,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Friends from '../../components/Friends';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { loadUser } from '../../redux/actions/authActions';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: '-webkit-sticky',
@@ -21,8 +23,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = () => {
+const Profile = ( {history} ) => {
   const classes = useStyles();
+  
+  const auth = useSelector(state => state.auth);
+   
+  useEffect(() => {
+      console.log("private");
+  }, [auth]);
+
 
   return (
     <Container maxWidth='md'>
@@ -30,7 +39,7 @@ const Profile = () => {
       <Grid container spacing={3}>
         <Grid item sm={4} xs={12} className={classes.sticky}>
           <Button icon={<EditIcon />} primary>
-            Edit Profile
+             {JSON.stringify(auth)}
           </Button>
           <Photos />
           <Friends />

@@ -1,11 +1,34 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import SignInOrUp from "../../components/loginConponents/SignInOrUp";
 import "./login.css";
 
+//#####################
+
+import { register, login } from '../../redux/actions/authActions';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { useHistory } from 'react-router-dom';
+//##################
+
+
 const Login = () => {
+
+  const auth = useSelector(state => state.auth);
+  const errorsAuth = useSelector(state => state.errorsAuth);
+
+  const history = useHistory();
+  const dispath = useDispatch();
+  useEffect(() => {
+    console.log("effect");
+  }, [auth]);
   const [isLogin, setisLogin] = useState(true);
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
   const refForms = useRef(null);
   const showForm = () => {
     setisLogin(!isLogin);
@@ -22,8 +45,27 @@ const Login = () => {
   };
   const submitform = (e) => {
     e.preventDefault();
-    isLogin ? console.log("login") : console.log("sign up");
-    setUser({ username: "", email: "", password: "" });
+    if(!isLogin) {
+      console.log('signup');
+      const {username, email, password, confirmPassword } = user;
+      const newUser = {
+        username,
+        email,
+        password,
+        confirmPassword
+      };
+      dispath(register(newUser));
+    }
+    else {
+      const { email, password } = user;
+      const userAuth = {
+        email,
+        password
+      };
+      dispath(login(userAuth));
+      console.log(`inside login.js ${JSON.stringify(auth)}`);
+    }
+    setUser({ username: "", email: "", password: "", confirmPassword: "" });
   };
 
   return (
@@ -83,6 +125,17 @@ const Login = () => {
                 onChange={handleChange}
                 required
               />
+              {isLogin || (
+                <Form.Control
+                  className="mt-0 mb-3"
+                  type="text"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  value={user.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              )}
               <Button
                 className="ms-auto"
                 variant="outline-primary"
@@ -97,5 +150,15 @@ const Login = () => {
     </div>
   );
 };
+
+
+// Login.propTypes = {
+//   register: PropTypes.func.isRequired,
+//   isAuth: PropTypes.bool
+// }
+
+// const mapStateToProps = state => ({
+//   isAuth: state.auth.isAuth
+// })
 
 export default Login;
