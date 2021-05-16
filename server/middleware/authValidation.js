@@ -7,8 +7,7 @@ const registerSchema = {
     username: {
         notEmpty: {
             errorMessage : "username field canot be empty"
-        }
-        
+        }    
     },
     email: {
         custom: {

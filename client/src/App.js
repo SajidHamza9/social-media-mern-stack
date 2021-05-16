@@ -11,12 +11,20 @@ import PhotosScreen from './pages/PhotosScreen';
 import FriendsScreen from './pages/FriendsScreen';
 import Friends from './components/ListFriends/Friends';
 import Images from './components/Images/Images';
+import { useEffect } from 'react';
+import { loadUser } from './redux/actions/authActions';
+import PrivateRoute from './components/PrivateRoute';
+import store from './redux/store';
 function App() {
+  const pathName = window.location.pathname;
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Router>
       <StylesProvider injectFirst>
         <GlobalStyle />
-        <Navbar />
+        {pathName !== '/login' && <Navbar />}
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/profile' component={Profile} />
@@ -27,7 +35,7 @@ function App() {
           <Route path='/listFriends' component={Friends} />
           <Route path='/Images' component={Images} />
         </Switch>
-        <MessagesBtn />
+        {pathName !== '/login' && pathName !== '/messages' && <MessagesBtn />}
       </StylesProvider>
     </Router>
   );

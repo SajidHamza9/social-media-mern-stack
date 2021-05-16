@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const [postList, setPostList] = useState(posts);
   const classes = useStyles();
-
+  console.log("ddd");
   const addPost = (post) => {
     setPostList((prev) => {
       const posts = [...prev, post];
