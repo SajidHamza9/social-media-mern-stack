@@ -28,18 +28,23 @@ export const Button = styled(Btn)`
   color: #ab987a;
   font-weight: 700;
   font-size: 0.7rem;
+  &:hover {
+    color: #ab987a;
+  }
 `;
 
 export const Body = styled.div`
   padding: 0.5rem;
 `;
 
-export const Image = styled.div`
+export const ImageContainer = styled.div`
   height: 100px;
-  background-image: url(${({ img }) => img});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  border-radius: 6px;
   margin: 0.5rem;
+`;
+
+export const Image = styled.img`
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
 `;

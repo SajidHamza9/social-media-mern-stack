@@ -7,11 +7,9 @@ import AddPost from '../../components/AddPost';
 import Post from '../../components/Post';
 import { posts } from '../../data/home';
 import { makeStyles } from '@material-ui/core/styles';
-import PostModal from '../../components/PostModal';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
-    position: '-webkit-sticky',
     position: 'sticky',
     height: 'fit-content',
     top: '70px',

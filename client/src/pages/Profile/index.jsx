@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
-    position: '-webkit-sticky',
     position: 'sticky',
     height: 'fit-content',
     top: '70px',
