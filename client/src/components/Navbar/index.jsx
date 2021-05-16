@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Nav,
   NavbarContainer,
@@ -15,18 +15,11 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 
-import SearchInput from '../SearchInput';
 
-const useStyles = makeStyles({
-  linkIcon: {
-    marginRight: 5,
-  },
-});
+
 const Navbar = () => {
-  const classes = useStyles();
   const [click, setClick] = useState(false);
 
   return (

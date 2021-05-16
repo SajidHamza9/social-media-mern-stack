@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
-import msgs from "../../pages/messages/msgs";
 
 const Msg = ({ image, msg }) => {
   const type = msg.sender === "me" ? "sent" : "received";
