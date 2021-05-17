@@ -22,15 +22,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = ( {history} ) => {
+const Profile = ({ history }) => {
   const classes = useStyles();
-  
-  const auth = useSelector(state => state.auth);
-   
-  useEffect(() => {
-      console.log("private");
-  }, [auth]);
 
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    console.log('private');
+  }, [auth]);
 
   return (
     <Container maxWidth='md'>
@@ -38,7 +37,7 @@ const Profile = ( {history} ) => {
       <Grid container spacing={3}>
         <Grid item sm={4} xs={12} className={classes.sticky}>
           <Button icon={<EditIcon />} primary>
-             {JSON.stringify(auth)}
+            Edit Profile
           </Button>
           <Photos />
           <Friends />

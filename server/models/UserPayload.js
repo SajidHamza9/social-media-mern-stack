@@ -1,9 +1,12 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 module.exports = UserShema = new Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: 'User',
     },
     username: {
       type: String,
@@ -14,5 +17,5 @@ module.exports = UserShema = new Schema(
       required: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );

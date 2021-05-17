@@ -1,6 +1,8 @@
-const UserPayload = require("./UserPayload");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const UserPayload = require('./UserPayload');
 
-CommentShema = new Schema(
+const CommentSchema = new Schema(
   {
     comment: {
       type: String,
@@ -8,15 +10,15 @@ CommentShema = new Schema(
     },
     user: UserPayload,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-module.exports = PostShema = new Schema(
+const PostSchema = new Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: 'User',
     },
 
     image: {
@@ -25,8 +27,10 @@ module.exports = PostShema = new Schema(
     caption: {
       type: String,
     },
-    comments: [CommentShema],
-    like: [UserPayload],
+    comments: [CommentSchema],
+    likes: [UserPayload],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
+
+module.exports = mongoose.model('Post', PostSchema);

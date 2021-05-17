@@ -21,7 +21,7 @@ export const SearchInput = styled.input`
   width: 100%;
   color: #ab987a;
   font-size: 0.9rem;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   &::focus {
     border: none;
     outline: none;

@@ -1,17 +1,17 @@
-const mongoose = require("mongoose");
-const UserPayload = require("./UserPayload");
+const mongoose = require('mongoose');
+const UserPayload = require('./UserPayload');
 const Schema = mongoose.Schema;
 
-const PostShema = new Schema(
+const PostSchema = new Schema(
   {
     postId: {
       type: Schema.Types.ObjectId,
-      ref: "Posts",
+      ref: 'Posts',
     },
   },
-  { _id: false }
+  { _id: false },
 );
-const UserShema = new Schema(
+const UserSchema = new Schema(
   {
     username: {
       type: String,
@@ -31,17 +31,17 @@ const UserShema = new Schema(
     },
     pdp: {
       type: String,
-      default: "",
+      default: '',
     },
     status: {
       type: Boolean,
       default: false,
     },
-    posts: [PostShema],
+    posts: [PostSchema],
     followers: [UserPayload],
     following: [UserPayload],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-module.exports = mongoose.model("user", UserShema);
+module.exports = mongoose.model('User', UserSchema);
