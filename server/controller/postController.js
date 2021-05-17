@@ -69,3 +69,59 @@ exports.removeLike = asyncHandler(async (req, res) => {
     throw new Error('Post not found');
   }
 });
+
+// @route POST api/posts
+// @desc create new Post
+// @access Private
+exports.addPost = (req, res) => {
+    const {image, caption} = req.body;
+    
+    User.findById(req.user.id)
+        .then(user => {
+          const newPost = new Post({
+            userId: req.user.id,
+            image,
+            caption
+          });
+          newPost.save().then(post => {
+            user.posts.push(post._id);
+            res.status(201).json(post);
+          }).catch(err => res.status(400).json({error: true, message: err}))
+        })
+        .catch(err => res.status(400).json({error: true, message: "user not found"}))
+}
+
+// @route Put api/posts/:id
+// @desc  Update post
+// @access Private
+exports.updatePost = (req, res) => {
+  const { caption } = req.body;
+  const idPost = req.params.id;
+  Post.findById(idPost)
+      .then(post => {
+        post.caption = caption;
+        post.save().then(updatedPost => res.status(200).json(updatedPost));
+      })
+      .catch(err => res.status(400).json({error: true, message: "post not found"}));
+};
+
+// @route delete api/posts/:id
+// @desc  delete post
+// @access Private
+exports.deletePost = (req, res) => {
+  const idPost = req.params.id;
+  Post.findByIdAndRemove(idPost)
+      .then(() => {
+        User.findById(req.user.id)
+            .then(user => {
+              const index = user.posts.indexOf(idPost);
+              if(index > -1) user.posts.splice(index, 1);
+            })
+      })
+      .catch(err =>  res.status(400).json({error: true, message: "post not found"}))
+}
+
+
+
+
+

@@ -1,9 +1,10 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorMiddleware');
 const postRoutes = require('./routes/api/posts');
-dotenv.config();
+
+
 connectDB();
 
 const app = express();
