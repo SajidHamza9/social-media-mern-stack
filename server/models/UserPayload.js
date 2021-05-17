@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 module.exports = UserShema = new Schema(
   {
     userId: {

@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const UserPayload = require("./UserPayload");
 const Schema = mongoose.Schema;
-
-const PostShema = new Schema(
+const PostShema = new mongoose.Schema(
   {
     postId: {
       type: Schema.Types.ObjectId,
