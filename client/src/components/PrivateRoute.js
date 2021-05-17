@@ -10,6 +10,7 @@ const PrivateRoute = ({component: Component, ...res}) => {
     useEffect(() => {
         console.log("private");
     }, [auth]);
+    
     return (
         <Route {...res} render={props => {
             return  auth.isAuth ? <Component {...props} />
