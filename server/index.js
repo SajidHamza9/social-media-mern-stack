@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //use routes api
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/users', require('./routes/api/follows'));
 
 // app.get('/items', auth, (req, res) => {
 //   res.send('hello from social network apk');
