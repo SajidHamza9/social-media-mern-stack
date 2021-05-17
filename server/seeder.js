@@ -25,8 +25,18 @@ const importData = async () => {
           pdp: u.pdp,
           userId: u._id,
         });
+        user.followers.push({
+          username: u.username,
+          pdp: u.pdp,
+          userId: u._id,
+        });
         const _user = await User.findById(u._id);
         _user.followers.push({
+          username: user.username,
+          pdp: user.pdp,
+          userId: user._id,
+        });
+        _user.following.push({
           username: user.username,
           pdp: user.pdp,
           userId: user._id,
@@ -40,7 +50,16 @@ const importData = async () => {
       return { ...post, userId: createdUsers[index]._id };
     });
 
-    await Post.insertMany(_posts);
+    const postItems = await Post.insertMany(_posts);
+    const post = await Post.findById(postItems[1]._id);
+    post.comments.push({
+      comment: 'WOw!!',
+      userId: createdUsers[0]._id,
+      pdp: createdUsers[0].pdp,
+      username: createdUsers[0].username,
+    });
+
+    await post.save();
 
     console.log('Data Imported!');
     process.exit();
