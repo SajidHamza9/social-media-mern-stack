@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Typography, Avatar, Divider } from '@material-ui/core';
+import { Avatar, Divider } from '@material-ui/core';
 
 export const Card = styled.div`
   background-color: #fff;

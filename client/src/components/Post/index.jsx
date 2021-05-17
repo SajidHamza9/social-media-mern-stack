@@ -7,7 +7,8 @@ import {
   StyledAvatar,
   Body,
   Caption,
-  ImageWrapper,
+  ImageContainer,
+  Image,
   CardActions,
   Action,
   Number,
@@ -15,7 +16,6 @@ import {
   InputContainer,
 } from './style';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import SendIcon from '@material-ui/icons/Send';
 import { IconButton } from '@material-ui/core';
@@ -46,7 +46,12 @@ const Post = ({ pdp, caption, image, name, children, mb }) => {
         </Header>
         <Body>
           <Caption>{caption}</Caption>
-          {image ? <ImageWrapper img={image} /> : null}
+          {image ? (
+            <ImageContainer>
+              {' '}
+              <Image src={image} />{' '}
+            </ImageContainer>
+          ) : null}
         </Body>
         <CardActions>
           <Action>

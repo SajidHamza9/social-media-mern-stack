@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Div, Name, StyledAvatar, FlexDiv } from './style';
 import AddIcon from '@material-ui/icons/Add';
 
-const SuggestionItem = ({ img, name }) => {
+const UserItem = ({ img, name, status }) => {
   return (
     <Div>
       <FlexDiv>
@@ -16,4 +16,4 @@ const SuggestionItem = ({ img, name }) => {
   );
 };
 
-export default SuggestionItem;
+export default UserItem;

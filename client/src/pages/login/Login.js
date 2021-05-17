@@ -1,21 +1,19 @@
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import SignInOrUp from "../../components/loginConponents/SignInOrUp";
 import "./login.css";
 
 //#####################
 
-import { register, login } from '../../redux/actions/authActions';
-import { useSelector, useDispatch } from 'react-redux';
+import { register, login } from "../../redux/actions/authActions";
+import { useSelector, useDispatch } from "react-redux";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 //##################
 
-
 const Login = () => {
-
-  const auth = useSelector(state => state.auth);
-  const errorsAuth = useSelector(state => state.errorsAuth);
+  const auth = useSelector((state) => state.auth);
+  const errorsAuth = useSelector((state) => state.errorsAuth);
 
   const history = useHistory();
   const dispath = useDispatch();
@@ -27,9 +25,10 @@ const Login = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const refForms = useRef(null);
+
   const showForm = () => {
     setisLogin(!isLogin);
     const toRemove = isLogin
@@ -45,22 +44,21 @@ const Login = () => {
   };
   const submitform = (e) => {
     e.preventDefault();
-    if(!isLogin) {
-      console.log('signup');
-      const {username, email, password, confirmPassword } = user;
+    if (!isLogin) {
+      console.log("signup");
+      const { username, email, password, confirmPassword } = user;
       const newUser = {
         username,
         email,
         password,
-        confirmPassword
+        confirmPassword,
       };
       dispath(register(newUser));
-    }
-    else {
+    } else {
       const { email, password } = user;
       const userAuth = {
         email,
-        password
+        password,
       };
       dispath(login(userAuth));
       console.log(`inside login.js ${JSON.stringify(auth)}`);
@@ -128,7 +126,7 @@ const Login = () => {
               {isLogin || (
                 <Form.Control
                   className="mt-0 mb-3"
-                  type="text"
+                  type="password"
                   placeholder="Confirm Password"
                   name="confirmPassword"
                   value={user.confirmPassword}
@@ -150,7 +148,6 @@ const Login = () => {
     </div>
   );
 };
-
 
 // Login.propTypes = {
 //   register: PropTypes.func.isRequired,

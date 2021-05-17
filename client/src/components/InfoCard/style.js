@@ -63,4 +63,7 @@ export const Button = styled(Btn)`
   color: #ab987a;
   font-weight: 700;
   font-size: 0.7rem;
+  &:hover {
+    color: #ab987a;
+  }
 `;
