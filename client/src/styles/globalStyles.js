@@ -20,6 +20,7 @@ body {
   }
 }
 
+
 `;
 
 export default GlobalStyle;

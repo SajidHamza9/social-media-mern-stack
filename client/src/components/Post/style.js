@@ -40,12 +40,17 @@ export const Body = styled.div`
   justify-content: center;
 `;
 
-export const ImageWrapper = styled.div`
+export const ImageContainer = styled.div`
   height: 500px;
-  background-image: url(${({ img }) => img});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+`;
+
+export const Image = styled.img`
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 `;
 
 export const CardActions = styled.div`

@@ -34,6 +34,9 @@ export const NavLogo = styled(Link)`
   display: flex;
   align-items: center;
   height: 100%;
+  &:hover {
+    color: #fff;
+  }
 `;
 
 export const NavIcon = styled(GraphicEqOutlinedIcon)`
@@ -45,10 +48,7 @@ export const MobileIcon = styled.div`
 
   @media screen and (max-width: 960px) {
     display: block;
-    /* position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 60%); */
+
     font-size: 2.5rem;
     cursor: pointer;
     color: #fff;
@@ -61,17 +61,14 @@ export const NavMenu = styled.ul`
   list-style: none;
   text-align: center;
   margin-bottom: 0;
+  padding: 0;
 
   @media screen and (max-width: 960px) {
-    display: ${({ click }) => (click ? 'block' : 'none')};
-    flex-direction: row;
-    width: 100%;
-    height: calc(100vh - 80px);
+    display: ${({ click }) => (click ? 'flex' : 'none')};
+    flex-direction: column;
+    top: 65px;
     position: absolute;
-    top: 70px;
-    left: ${({ click }) => (click ? 0 : '100%')};
-    opacity: 1;
-    transition: all 0.5s ease;
+    right: 0;
     background: #0f1626;
   }
 `;
@@ -103,4 +100,33 @@ export const NavLink = styled(Link)`
 export const StyledAvatar = styled(Avatar)`
   width: 30px;
   height: 30px;
+`;
+
+export const SearchContainer = styled.div`
+  width: 18rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  height: 55%;
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  color: #0f1626;
+  padding: 1rem 0.5rem;
+`;
+
+export const SearchInput = styled.input`
+  border: none;
+  flex-grow: 2;
+  outline: none;
+  height: 100%;
+  border-radius: 8px;
+  width: 100%;
+  color: #0f1626;
+  font-size: 0.9rem;
+  padding: 1rem 0.5rem;
+  &::focus {
+    border: none;
+    outline: none;
+  }
 `;

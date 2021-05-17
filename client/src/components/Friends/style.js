@@ -13,8 +13,8 @@ export const Header = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.11);
   display: flex;
   align-items: center;
-  padding: 1rem;
-  height: 10%;
+  padding: 0 1rem;
+  height: 62px;
 `;
 
 export const Title = styled(Typography)`

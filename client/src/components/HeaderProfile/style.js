@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Avatar } from "@material-ui/core";
+import styled from 'styled-components';
+import { Avatar } from '@material-ui/core';
 
 export const Header = styled.div`
   background-color: #ab987a;

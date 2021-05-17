@@ -1,5 +1,13 @@
 import React from 'react';
-import { Card, Header, Title, Button, Body, Image } from './style';
+import {
+  Card,
+  Header,
+  Title,
+  Button,
+  Body,
+  Image,
+  ImageContainer,
+} from './style';
 import { Grid } from '@material-ui/core';
 import { photos } from '../../data/profile';
 
@@ -8,13 +16,15 @@ const Photos = () => {
     <Card>
       <Header>
         <Title>Photos</Title>
-        <Button>View All</Button>
+        <Button href='/photos'>View All</Button>
       </Header>
       <Body>
         <Grid container>
           {photos.map((p) => (
-            <Grid key={p.id} xs={6}>
-              <Image img={p.img} />
+            <Grid item key={p.id} xs={6}>
+              <ImageContainer>
+                <Image src={p.img} />
+              </ImageContainer>
             </Grid>
           ))}
         </Grid>

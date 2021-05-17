@@ -7,7 +7,8 @@ import {
   StyledAvatar,
   Body,
   Caption,
-  ImageWrapper,
+  ImageContainer,
+  Image,
   CardActions,
   Action,
   Number,
@@ -45,7 +46,12 @@ const Post = ({ pdp, caption, image, name, children, mb }) => {
         </Header>
         <Body>
           <Caption>{caption}</Caption>
-          {image ? <ImageWrapper img={image} /> : null}
+          {image ? (
+            <ImageContainer>
+              {' '}
+              <Image src={image} />{' '}
+            </ImageContainer>
+          ) : null}
         </Body>
         <CardActions>
           <Action>
