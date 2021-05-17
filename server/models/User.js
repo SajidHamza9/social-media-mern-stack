@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 const UserPayload = require('./UserPayload');
 const Schema = mongoose.Schema;
-<<<<<<< HEAD
-const PostShema = new mongoose.Schema(
-=======
 
 const PostSchema = new Schema(
->>>>>>> b50e4ef82f75bf0888f032197a0014ed52dcc369
   {
     postId: {
       type: Schema.Types.ObjectId,

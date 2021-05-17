@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-var mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-=======
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
->>>>>>> b50e4ef82f75bf0888f032197a0014ed52dcc369
 module.exports = UserShema = new Schema(
   {
     userId: {
