@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Header, Title, Body } from './style';
 import ContactItem from '../ContactItem';
-import { contacts } from '../../data/home';
+// import { contacts } from '../../data/home';
+import utils from '../../utils/socket'
 
 const Contacts = () => {
+const [contacts,setContacts]=useState([])
+  useEffect(() => {
+    utils.socket.on("loggedIn",data=>{
+      setContacts(data);
+    });
+    
+  },[contacts])
   return (
     <Card>
       <Header>
@@ -11,7 +19,7 @@ const Contacts = () => {
       </Header>
       <Body>
         {contacts.map((c) => (
-          <ContactItem key={c.id} name={c.name} img={c.img} />
+          c._id !==utils.user._id && <ContactItem key={c._id} name={c.username} img={c.pdp} />
         ))}
       </Body>
     </Card>
