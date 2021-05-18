@@ -133,6 +133,29 @@ exports.addFollowing = asyncHandler(async (req, res) => {
                     }
                 }
             );
+            User.findByIdAndUpdate(
+                { _id: req.body.id },
+                {
+                    $push: {
+                        followers: {
+                            userId: req.params.id,
+                            username: data1.username,
+                            pdp: data1.pdp
+                        }
+                    }
+                },
+                async (err, data2) => {
+                    if (err) {
+                        await res
+                            .status(404)
+                            .send(`Cannot find follower with this ID : ${req.params.id}`);
+                    } else {
+                        res.status(201).json({
+                            message: "follow added to the list of following"
+                        });
+                    }
+                }
+            );
         }
     })
 });
