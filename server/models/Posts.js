@@ -18,8 +18,7 @@ const CommentSchema = new Schema(
       required: true,
     },
     pdp: {
-      type: String,
-      required: true,
+      type: String
     },
   },
   { timestamps: true },

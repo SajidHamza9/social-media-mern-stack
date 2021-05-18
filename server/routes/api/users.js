@@ -19,14 +19,15 @@ const {
 //Validation with express-validator
 const { body, validationResult } = require('express-validator');
 
-router.route('/:id/posts').get(userController.getPosts);
-router.route('/:id').get(userController.getUserInfo);
-router.route('/:id').delete(userController.removeUser);
+// router.route('/:id/posts').get(userController.getPosts);
+// router.route('/:id').get(userController.getUserInfo);
+// router.route('/:id').delete(userController.removeUser);
 
 // @route POST api/users
 // @desc Register new User
 // @acess Public
 router.post('/', registerValidation, (req, res) => {
+  
   const { username, email, password } = req.body;
   const newUser = new User({
     username,
@@ -36,7 +37,7 @@ router.post('/', registerValidation, (req, res) => {
 
   newUser.save().then((user) => {
     jwt.sign(
-      { id: user.id },
+      { id: user._id },
       process.env.jwtKeySecret,
       { expiresIn: 4000 },
       (err, token) => {
@@ -121,8 +122,12 @@ router.post('/login', loginValidation, (req, res) => {
 // @acess Private
 router.get('/auth', auth, (req, res) => {
   User.findById(req.user.id)
-    .select('-password')
-    .then((user) => res.json(user));
+       .select('-password')
+       .then(user => res.json(user))
+})
+
+router.get('/bobo', (req, res) => {
+  return res.send('hola bobo');
 });
 
 module.exports = router;

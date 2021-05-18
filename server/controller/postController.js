@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
+const mongoose = require('mongoose');
+
 
 // @desc    add like
 // @route   POST /posts/:id/likes
@@ -75,20 +77,24 @@ exports.removeLike = asyncHandler(async (req, res) => {
 // @access Private
 exports.addPost = (req, res) => {
     const {image, caption} = req.body;
-    
+    console.log(req.user.id);
     User.findById(req.user.id)
         .then(user => {
           const newPost = new Post({
-            userId: req.user.id,
+            userId: user._id,
             image,
             caption
           });
           newPost.save().then(post => {
-            user.posts.push(post._id);
-            res.status(201).json(post);
+            const postId = {
+              postId: post._id
+            };
+            user.posts.push(postId);
+            user.save().then(() => res.status(201).json(post))
+                        .catch(err => res.status(400).json({error: true, message: 'err'}));
           }).catch(err => res.status(400).json({error: true, message: err}))
         })
-        .catch(err => res.status(400).json({error: true, message: "user not found"}))
+        .catch(err => res.status(400).json({error: true, message: err}))
 }
 
 // @route Put api/posts/:id
@@ -110,16 +116,20 @@ exports.updatePost = (req, res) => {
 // @access Private
 exports.deletePost = (req, res) => {
   const idPost = req.params.id;
-  Post.findByIdAndRemove(idPost)
+  Post.deleteOne({_id: idPost})
       .then(() => {
+        
         User.findById(req.user.id)
             .then(user => {
-              const index = user.posts.indexOf(idPost);
+              const index = user.posts.findIndex(post => post.postId == idPost);
               if(index > -1) user.posts.splice(index, 1);
+              user.save().then(() => res.status(200).json({msg: "post deleted with success"}));
             })
+            .catch(err => res.status(400).json({error: true, msg: err}))
       })
       .catch(err =>  res.status(400).json({error: true, message: "post not found"}))
 }
+
 
 
 

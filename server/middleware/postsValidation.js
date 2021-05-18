@@ -37,6 +37,26 @@ const updatePostShema = {
     }
 }
 
+//custom errors messages
+const customErrors = errors => {
+    const myErrors = {};
+    errors.map((error) => {
+       
+        myErrors[error.param] = {msg: error.msg};
+    });
+
+    return myErrors;
+};
+
+//management comments validation
+const commentShema = {
+    comment: {
+        notEmpty:{
+            errorMessage: "comment does not be empty"
+        }
+    }
+}
+
 //validation Middeleware
 const validate = validations => {
     return async (req, res, next) => {
@@ -55,3 +75,4 @@ const validate = validations => {
 
 exports.addPostValidation = validate(checkSchema(addPostShema));
 exports.updatePostValidation = validate(checkSchema(updatePostShema));
+exports.commentValidation = validate(checkSchema(commentShema));
