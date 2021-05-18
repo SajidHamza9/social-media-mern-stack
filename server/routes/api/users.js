@@ -20,7 +20,7 @@ const {
 const { body, validationResult } = require('express-validator');
 
 router.route('/:id/posts').get(userController.getPosts);
-router.route('/:id').get(userController.getUserInfo);
+// router.route('/:id').get(userController.getUserInfo);
 router.route('/:id').delete(userController.removeUser);
 
 // @route POST api/users
