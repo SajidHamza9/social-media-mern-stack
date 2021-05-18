@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Header, Title, Body } from './style';
+import { useDispatch, useSelector } from "react-redux";
 import ContactItem from '../ContactItem';
-// import { contacts } from '../../data/home';
 import utils from '../../utils/socket'
+import { getloggedIn } from '../../redux/actions/LoginActions';
 
 const Contacts = () => {
-const [contacts,setContacts]=useState([])
+const dispatch = useDispatch();
+  const { users, error } = useSelector(
+    (state) => state.loginReducer
+  );
   useEffect(() => {
-    utils.socket.on("loggedIn",data=>{
-      setContacts(data);
-    });
-    
-  },[contacts])
+    dispatch(getloggedIn())
+  },[])
   return (
     <Card>
       <Header>
         <Title>Contacts</Title>
       </Header>
       <Body>
-        {contacts.map((c) => (
-          c._id !==utils.user._id && <ContactItem key={c._id} name={c.username} img={c.pdp} />
+        {users.map((c) => (
+          c._id !==utils.user._id && <ContactItem key={c._id} {...c} />
         ))}
       </Body>
     </Card>

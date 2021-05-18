@@ -19,9 +19,15 @@ const {
 //Validation with express-validator
 const { body, validationResult } = require('express-validator');
 
+<<<<<<< HEAD
 router.route('/:id/posts').get(userController.getPosts);
 // router.route('/:id').get(userController.getUserInfo);
 router.route('/:id').delete(userController.removeUser);
+=======
+// router.route('/:id/posts').get(userController.getPosts);
+// router.route('/:id').get(userController.getUserInfo);
+// router.route('/:id').delete(userController.removeUser);
+>>>>>>> 44febafddb41c9d29eb82c69b7f0a29a569f374f
 
 // @route POST api/users
 // @desc Register new User

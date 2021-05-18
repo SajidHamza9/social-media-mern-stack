@@ -1,22 +1,34 @@
+const User = require("../models/User");
 class WebSockets {
-  //  holds the list of all the active users
   users = [];
-  // takes our server instance
+  expired = [];
   connection = (socket) => {
-    // when a user connection is lost this method will be called
-    socket.on("disconnect", () => {
-      this.users = this.users.filter((user) => user.socketId !== socket.id);
+    socket.on("disconnect", async () => {
+      this.expired.push(socket.id);
     });
-    // when user logs in he will make a connection with our socket by giving its id
-    socket.on("identity", (userId) => {
-      this.users.push({
-        socketId: socket.id,
-        userId: userId,
-      });
-      socket.emit("loggedIn", [
-        ...new Set(this.users.map((item) => item.userId)),
-      ]);
-      console.log("sent ");
+    socket.on("identity", async (user) => {
+      if (user) {
+        await User.updateOne(
+          { _id: user._id },
+          {
+            status: true,
+            $push: { tokens: socket.id },
+          }
+        );
+        await User.updateOne(
+          { _id: user._id },
+          {
+            status: true,
+            $pullAll: { tokens: this.expired },
+          }
+        );
+        this.users = await User.find(
+          { status: true },
+          { _id: 1, pdp: 1, username: 1 }
+        );
+        // send to all users TODO
+        global.io.sockets.emit("loggedIn", this.users);
+      }
     });
   };
 }
