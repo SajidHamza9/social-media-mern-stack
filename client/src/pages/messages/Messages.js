@@ -6,10 +6,9 @@ import SideBar from "../../components/msgsComponents/Sidebar";
 import Conversation from "../../components/msgsComponents/Conversation";
 import data from "../../pages/messages/data";
 
-const Messages = () => {
-  const [person, setPerson] = useState();
-  // const auth = useSelector((state) => state.auth?.user?._id);
-  // console.log(auth);
+const Messages = ({ pers }) => {
+  const [person, setPerson] = useState(pers);
+  console.log(pers);
   useEffect(() => {
     // const socket = io();
     // console.log(auth);
@@ -23,7 +22,6 @@ const Messages = () => {
     // };
   });
   const selectConv = (cnv) => {
-    // grab messages with this person
     setPerson(cnv);
   };
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
+import {Link} from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import { Div, Name } from './style';
 
@@ -33,9 +34,15 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const ContactItem = ({ name, img }) => {
+const ContactItem = ({_id, pdp, username }) => {
   return (
-    <Div>
+    <Link to={{
+    pathname: "/Messages",
+    state: {
+      _id,
+    },
+  }}>
+    <Div >
       <StyledBadge
         overlap='circle'
         anchorOrigin={{
@@ -43,10 +50,11 @@ const ContactItem = ({ name, img }) => {
           horizontal: 'right',
         }}
         variant='dot'>
-        <Avatar alt='Remy Sharp' src={img} />
+        <Avatar alt='Remy Sharp' src={pdp} />
       </StyledBadge>
-      <Name>{name}</Name>
+      <Name>{username}</Name>
     </Div>
+          </Link>
   );
 };
 
