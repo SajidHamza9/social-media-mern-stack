@@ -17,7 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //use routes api
-app.use("/api/users", require("./routes/api/users"));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/users', require('./routes/api/follows'));
 
 app.use("/posts", postRoutes);
 app.use(errorHandler);

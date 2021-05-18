@@ -8,7 +8,19 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    user: UserPayload,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    pdp: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true },
 );

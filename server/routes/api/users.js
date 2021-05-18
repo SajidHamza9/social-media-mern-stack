@@ -19,7 +19,9 @@ const {
 //Validation with express-validator
 const { body, validationResult } = require("express-validator");
 
-router.route("/:id/posts").get(userController.getPosts);
+router.route('/:id/posts').get(userController.getPosts);
+router.route('/:id').get(userController.getUserInfo);
+router.route('/:id').delete(userController.removeUser);
 
 // @route POST api/users
 // @desc Register new User
@@ -122,5 +124,6 @@ router.get("/auth", auth, (req, res) => {
     .select("-password")
     .then((user) => res.json(user));
 });
+
 
 module.exports = router;
