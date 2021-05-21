@@ -11,7 +11,7 @@ export const Card = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   padding: 1rem;
 `;
 
@@ -19,7 +19,7 @@ export const Name = styled(Typography)`
   color: #000;
   font-weight: 700;
   font-size: 0.9rem;
-  margin-left: 15px;
+  margin-left: 10px;
 `;
 
 export const StyledAvatar = styled(Avatar)`

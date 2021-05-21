@@ -24,6 +24,7 @@ const AddPost = ({ addPost }) => {
         <StyledAvatar src='/images/img2.jpeg' />
         <Content>
           <Input
+            multiline
             placeholder='What’s happening?'
             type='text'
             value={caption}

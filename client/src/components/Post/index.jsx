@@ -18,34 +18,70 @@ import {
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import SendIcon from '@material-ui/icons/Send';
-import { IconButton } from '@material-ui/core';
-import PostModal from '../PostModal';
+import { IconButton, Menu, MenuItem, Box, Fade } from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ConfirmModal from '../ConfirmModal';
+import EditPost from '../EditPost';
+import { openModal } from '../../redux/actions/modalActions';
+import { useDispatch } from 'react-redux';
 
 const Post = ({ pdp, caption, image, name, children, mb }) => {
-  const post = {
-    pdp,
-    name,
-    caption,
-    image,
-  };
-  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+  const handleDelete = () => {
+    setAnchorEl(null);
+    setOpenDelete(true);
+  };
+
+  const handleEdit = () => {
+    setAnchorEl(null);
+    setShowEdit(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
   return (
     <>
       <Card mb={mb}>
         <Header>
-          <StyledAvatar src={pdp} />
-          <Name>{name}</Name>
+          <Box display='flex' alignItems='center'>
+            <StyledAvatar src={pdp} />
+            <Name>{name}</Name>
+          </Box>
+          <Box>
+            <MoreVertIcon
+              style={{ color: '#ab987a', cursor: 'pointer' }}
+              onClick={handleClick}
+            />
+            <Menu
+              TransitionComponent={Fade}
+              id='simple-menu'
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}>
+              <MenuItem onClick={handleEdit}>Edit</MenuItem>
+              <MenuItem onClick={handleDelete}>Delete</MenuItem>
+            </Menu>
+          </Box>
         </Header>
         <Body>
-          <Caption>{caption}</Caption>
+          {showEdit ? (
+            <EditPost text={caption} close={() => setShowEdit(false)} />
+          ) : (
+            <Caption>{caption}</Caption>
+          )}
           {image ? (
             <ImageContainer>
               {' '}
@@ -59,8 +95,8 @@ const Post = ({ pdp, caption, image, name, children, mb }) => {
             <Number>20</Number>
           </Action>
           <Action>
-            <AddCommentIcon onClick={handleOpen} />
-            <Number onClick={handleOpen}>16</Number>
+            <AddCommentIcon onClick={() => dispatch(openModal())} />
+            <Number onClick={() => dispatch(openModal())}>16</Number>
           </Action>
         </CardActions>
         <InputContainer>
@@ -71,7 +107,7 @@ const Post = ({ pdp, caption, image, name, children, mb }) => {
         </InputContainer>
         {children}
       </Card>
-      <PostModal post={post} open={open} handleClose={handleClose} />
+      <ConfirmModal open={openDelete} handleClose={handleCloseDelete} />
     </>
   );
 };

@@ -1,9 +1,8 @@
 import React from 'react';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
-import {Link} from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
-import { Div, Name } from './style';
+import { Div, Name, Link } from './style';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -34,27 +33,28 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const ContactItem = ({_id, pdp, username }) => {
+const ContactItem = ({ _id, pdp, username }) => {
   return (
-    <Link to={{
-    pathname: "/Messages",
-    state: {
-      _id,
-    },
-  }}>
-    <Div >
-      <StyledBadge
-        overlap='circle'
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        variant='dot'>
-        <Avatar alt='Remy Sharp' src={pdp} />
-      </StyledBadge>
-      <Name>{username}</Name>
-    </Div>
-          </Link>
+    <Link
+      to={{
+        pathname: '/Messages',
+        state: {
+          _id,
+        },
+      }}>
+      <Div>
+        <StyledBadge
+          overlap='circle'
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          variant='dot'>
+          <Avatar alt='Remy Sharp' src={pdp} />
+        </StyledBadge>
+        <Name>{username}</Name>
+      </Div>
+    </Link>
   );
 };
 

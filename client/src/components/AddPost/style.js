@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Avatar, Divider } from '@material-ui/core';
+import { Avatar, Divider, InputBase } from '@material-ui/core';
 
 export const Card = styled.div`
   background-color: #fff;
@@ -16,26 +16,12 @@ export const Header = styled.div`
   padding: 1rem;
 `;
 
-export const Input = styled.input`
-  border: none;
+export const Input = styled(InputBase)`
   width: 90%;
   padding: 1rem 0;
-  color: #a09999;
-  font-weight: 300;
-  font-size: 1rem;
-  resize: none;
-
-  &:focus {
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
-
-  &::placeholder {
-    color: #a09999;
-    font-weight: 300;
-    font-size: 1.2rem;
-  }
+  color: #000;
+  font-weight: 400;
+  font-size: 1.2rem;
 `;
 
 export const StyledAvatar = styled(Avatar)`

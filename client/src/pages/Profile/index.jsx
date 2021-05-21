@@ -41,6 +41,7 @@ const Profile = ({ history }) => {
           </Button>
           <Photos />
           <Friends />
+          <Friends />
         </Grid>
         <Grid item sm={8} xs={12}>
           {posts.map((p) => (

@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
+const Notification = require('../models/Notifications');
 
 // @desc    add like
 // @route   POST /posts/:id/likes
@@ -30,7 +31,15 @@ exports.addLike = asyncHandler(async (req, res) => {
     };
     post.likes.push(userData);
     await post.save();
-    res.status(201).json({ message: 'Like added' });
+    const notification = new Notification({
+      type: 'LIKE',
+      targetUserId: post.userId,
+      currentUser: userData,
+      postId: req.params.id,
+    });
+    const notif = await notification.save();
+    global.io.emit(post.userId.toString(), { notification: notif });
+    res.status(201).json({ message: 'Like added', notif });
   } else {
     res.status(404);
     throw new Error('Post not found');
@@ -59,6 +68,10 @@ exports.removeLike = asyncHandler(async (req, res) => {
     if (index > -1) {
       post.likes.splice(index, 1);
       await post.save();
+      await Notification.deleteMany({
+        postId: req.params.id,
+        targetUserId: req.body.user,
+      });
       res.status(201).json({ message: 'Like removed' });
     } else {
       res.status(404);

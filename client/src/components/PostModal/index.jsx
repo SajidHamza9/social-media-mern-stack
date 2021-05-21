@@ -6,22 +6,33 @@ import Post from '../Post';
 import CommentItem from '../CommentItem';
 import { useStyles } from './style';
 import { comments } from '../../data/home';
+import { useSelector, useDispatch } from 'react-redux';
+import { closeModal } from '../../redux/actions/modalActions';
 
-const PostModal = ({ post, handleClose, open }) => {
+const post = {
+  pdp: './images/img1.jpeg',
+  caption:
+    'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
+  image: './images/img3.jpeg',
+  name: 'Hamza Sajid',
+};
+const PostModal = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.modal);
 
   return (
     <div>
       <Modal
         className={classes.modal}
-        open={open}
-        onClose={handleClose}
+        open={isOpen}
+        onClose={() => dispatch(closeModal())}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}>
-        <Fade in={open}>
+        <Fade in={isOpen}>
           <div className={classes.wrapper}>
             <Post {...post}>
               {comments.map((c) => (
