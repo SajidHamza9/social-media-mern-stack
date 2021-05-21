@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorMiddleware");
 const postRoutes = require("./routes/api/posts");
+const convRoutes = require("./routes/api/conversation.routes");
+const msgRoutes = require("./routes/api/message.routes");
 const socketio = require("socket.io");
 const WebSockets = require("./utils/WebSockets");
 //middeleware
@@ -21,6 +23,8 @@ app.use("/api/users", require("./routes/api/users"));
 app.use("/api/users", require("./routes/api/follows"));
 
 app.use("/posts", postRoutes);
+app.use("/conversations", convRoutes);
+app.use("/messages", msgRoutes);
 app.use(errorHandler);
 
 const server = app.listen(process.env.PORT, () => {

@@ -13,15 +13,11 @@ import Friends from "./components/ListFriends/Friends";
 import Images from "./components/Images/Images";
 import { useEffect } from "react";
 import utils from "./utils/socket";
-import { useSelector } from "react-redux";
-// import PrivateRoute from "./components/PrivateRoute";
 function App() {
   const pathName = window.location.pathname;
-  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
-    if (user) {
-      utils.socket.emit("identity", user);
-      utils.user = user;
+    if (utils.user) {
+      utils.socket.emit("identity", utils.user);
       console.log(utils);
     }
   });

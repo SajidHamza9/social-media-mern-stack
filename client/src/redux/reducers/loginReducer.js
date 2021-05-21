@@ -1,5 +1,4 @@
 import {
-  GET_LOGGED_IN,
   REQUEST_LOGGED_IN_SUCCESS,
   REQUEST_LOGGED_IN_FAILED,
 } from "../actions/types";
