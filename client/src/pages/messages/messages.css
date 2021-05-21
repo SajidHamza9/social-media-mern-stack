@@ -104,6 +104,7 @@
   display: flex;
   align-items: center;
 }
+
 .received .MuiAvatar-root {
   margin-right: 0.5em;
 }
@@ -111,10 +112,11 @@
   background: #ab987a;
   position: relative;
   padding: 0.5em 1.2em;
-  width: fit-content;
+  max-width: 35vw;
+  overflow-wrap: break-word;
   border-radius: 50px;
   color: #fff;
-  margin-top: 1em; 
+  margin-top: 0.5em;
 }
 .conversation-msgs .sent p {
   background: #0f1626;
@@ -147,11 +149,11 @@
     min-width: 5em;
     overflow: hidden;
   }
-  .sidebar-header > h5  {
-    font-size: .8em;
+  .sidebar-header > h5 {
+    font-size: 0.8em;
     padding-left: 0;
   }
-  .sidebar-header{
+  .sidebar-header {
     justify-content: center;
   }
   .disc-info,

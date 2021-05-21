@@ -23,12 +23,10 @@ function App() {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (user) {
-      utils.socket.emit('identity', user);
-      utils.user = user;
+    if (utils.user) {
+      utils.socket.emit('identity', utils.user);
       utils.socket.on(user._id.toString(), (data) => {
         enqueueSnackbar(data.notification.type);
-        console.log('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
       });
     }
   }, []);

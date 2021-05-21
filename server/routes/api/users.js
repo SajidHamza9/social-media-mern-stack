@@ -20,7 +20,6 @@ const {
 const { body, validationResult } = require('express-validator');
 
 // router.route('/:id/posts').get(userController.getPosts);
-// router.route('/:id').get(userController.getUserInfo);
 // router.route('/:id').delete(userController.removeUser);
 
 // @route POST api/users
@@ -124,5 +123,6 @@ router.get('/auth', auth, (req, res) => {
     .select('-password')
     .then((user) => res.json(user));
 });
+router.route("/:id").get(userController.getUserInfo);
 
 module.exports = router;
