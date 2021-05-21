@@ -1,31 +1,37 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const userController = require("../../controller/userController");
+const userController = require('../../controller/userController');
 // User model
-const User = require("../../models/User");
+const User = require('../../models/User');
 //JWT
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 //Bcryptjs
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 //hash function
-const { getHashPassowrd } = require("../../config/salt");
+const { getHashPassowrd } = require('../../config/salt');
 //middleware auth
-const auth = require("../../middleware/auth");
+const auth = require('../../middleware/auth');
 //middleware validation register
 const {
   registerValidation,
   loginValidation,
-} = require("../../middleware/authValidation");
+} = require('../../middleware/authValidation');
 //Validation with express-validator
-const { body, validationResult } = require("express-validator");
+const { body, validationResult } = require('express-validator');
 
+<<<<<<< HEAD
+router.route('/:id/posts').get(userController.getPosts);
+// router.route('/:id').get(userController.getUserInfo);
+router.route('/:id').delete(userController.removeUser);
+=======
 // router.route('/:id/posts').get(userController.getPosts);
 // router.route('/:id').delete(userController.removeUser);
+>>>>>>> 44febafddb41c9d29eb82c69b7f0a29a569f374f
 
 // @route POST api/users
 // @desc Register new User
 // @acess Public
-router.post("/", registerValidation, (req, res) => {
+router.post('/', registerValidation, (req, res) => {
   const { username, email, password } = req.body;
   const newUser = new User({
     username,
@@ -48,7 +54,7 @@ router.post("/", registerValidation, (req, res) => {
             email: user.email,
           },
         });
-      }
+      },
     );
   });
 
@@ -86,14 +92,14 @@ router.post("/", registerValidation, (req, res) => {
 });
 
 //log in
-router.post("/login", loginValidation, (req, res) => {
+router.post('/login', loginValidation, (req, res) => {
   const { email, password } = req.body;
 
   User.findOne({ email }).then((user) => {
-    if (!user) return res.status(400).json({ msg: "Invalid credentials" });
+    if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
     //Verify the password
     bcrypt.compare(password, user.password).then((isEqual) => {
-      if (!isEqual) return res.status(400).json({ msg: "Invalid credentials" });
+      if (!isEqual) return res.status(400).json({ msg: 'Invalid credentials' });
 
       jwt.sign(
         { id: user.id },
@@ -109,7 +115,7 @@ router.post("/login", loginValidation, (req, res) => {
               email: user.email,
             },
           });
-        }
+        },
       );
     });
   });
@@ -118,9 +124,9 @@ router.post("/login", loginValidation, (req, res) => {
 // @route POST api/auth/user
 // @desc Get user data
 // @acess Private
-router.get("/auth", auth, (req, res) => {
+router.get('/auth', auth, (req, res) => {
   User.findById(req.user.id)
-    .select("-password")
+    .select('-password')
     .then((user) => res.json(user));
 });
 router.route("/:id").get(userController.getUserInfo);

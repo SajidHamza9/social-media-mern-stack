@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 function auth(req, res, next) {
-  const token = req.header("auth-token");
+  const token = req.header('auth-token');
 
-  if (!token) return res.status(401).json({ msg: "authorization denied ...!" });
+  if (!token) return res.status(401).json({ msg: 'authorization denied ...!' });
 
   const secretKey = process.env.jwtKeySecret;
   try {
@@ -11,7 +11,7 @@ function auth(req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ msg: "authorization denied ...!" });
+    return res.status(401).json({ msg: 'authorization denied ...!' });
   }
 }
 
