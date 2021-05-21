@@ -1,19 +1,18 @@
-import { 
-        USER_LOADED, 
-        USER_LOADING, 
-        AUTH_ERROR, 
-        REGISTER_SUCCESS, 
-        REGISTER_FAIL ,
-        LOGING_SUCCESS,
-        LOGIN_FAIL,
-        LOGOUT_SUCCESS,
-        IS_AUTH
-    } from '../actions/types';
-
+import {
+  USER_LOADED,
+  USER_LOADING,
+  AUTH_ERROR,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  LOGING_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS,
+  IS_AUTH,
+} from "../actions/types";
 const initialState = {
     token: localStorage.getItem('token'),
     currentUserId: localStorage.getItem('currentUserId'),
-    isAuth: false,
+    isAuth: localStorage.getItem('isAuth'),
     isLoading: false,
     user: null
 };
@@ -45,6 +44,7 @@ export default function(state = initialState, action) {
         case AUTH_ERROR:
         case REGISTER_FAIL:
         case LOGIN_FAIL:
+        case LOGOUT_SUCCESS:
             localStorage.removeItem('token');
             localStorage.removeItem('currentUserId');
             return {
@@ -57,7 +57,7 @@ export default function(state = initialState, action) {
         case IS_AUTH:
             return state.isAuth;
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }

@@ -14,7 +14,7 @@ router.route('/:id/likes').delete(postController.removeLike);
 //partie brahim
 router.post('/',[auth, addPostValidation], postController.addPost);
 router.route('/:id')
-    .put(postController.updatePost)
+    .put(auth,postController.updatePost)
     .delete(auth, postController.deletePost);
 
 //management comments routes

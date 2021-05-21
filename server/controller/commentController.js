@@ -8,17 +8,20 @@ const mongoose = require('mongoose');
 // @access Private
 exports.addComment =  asyncHandler( async(req, res) => {
     const id = req.params.id;
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        res.status(400);
-        throw new Error('Params Invalid');
-    }
+    // if(!mongoose.Types.ObjectId.isValid(id)){
+    //     res.status(400);
+    //     throw new Error('Params Invalid');
+    // }
        
     const { comment } = req.body;
     //find current user
     const currentUser = await User.findById(req.user.id);
     
     const post = await Post.findById(id);
-    if(!post) throw createError(400, 'Post not found');
+    if(!post) {
+        res.status(400);
+        throw new Error("Post not Found");
+    }
     const commentaire = {
         comment,
         userId: currentUser._id,

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 function paramsValidation(ids) {
     return function(req, res, next) {
+        //console.log('test params validation');
         ids.forEach(id => {
             if(!mongoose.Types.ObjectId.isValid(req.params[id])){
                 res.status(400);

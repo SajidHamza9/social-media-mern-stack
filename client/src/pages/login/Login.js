@@ -17,9 +17,7 @@ const Login = () => {
 
   const history = useHistory();
   const dispath = useDispatch();
-  useEffect(() => {
-    console.log("effect");
-  }, [auth]);
+  
   const [isLogin, setisLogin] = useState(true);
   const [user, setUser] = useState({
     username: "",
@@ -61,7 +59,6 @@ const Login = () => {
         password,
       };
       dispath(login(userAuth));
-      console.log(`inside login.js ${JSON.stringify(auth)}`);
     }
     setUser({ username: "", email: "", password: "", confirmPassword: "" });
   };

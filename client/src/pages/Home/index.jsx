@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import Contacts from '../../components/Contacts';
 import InfoCard from '../../components/InfoCard';
@@ -8,6 +8,9 @@ import Post from '../../components/Post';
 import { posts } from '../../data/home';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useHistory } from 'react-router';
+import { loadUser } from '../../redux/actions/authActions';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -22,7 +25,14 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const [postList, setPostList] = useState(posts);
   const classes = useStyles();
-  console.log("ddd");
+  const history = useHistory();
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   console.log(`home = ${isAuth}`);
+  //   // dispatch(loadUser());
+  //   // if(!isAuth)
+  //   //   history.push("/login");   
+  // }, [isAuth])
   const addPost = (post) => {
     setPostList((prev) => {
       const posts = [...prev, post];
@@ -30,8 +40,10 @@ const Home = () => {
       return posts;
     });
   };
+  const {isAuth} = useSelector(state => state.auth);
   return (
     <Container maxWidth='lg'>
+      {isAuth ?<h1>hamza</h1> : <h1>lolo</h1> }
       <Grid container spacing={3}>
         <Grid item md={3} className={classes.sticky}>
           <InfoCard />

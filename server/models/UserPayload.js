@@ -14,7 +14,6 @@ module.exports = UserShema = new Schema(
     },
     pdp: {
       type: String,
-      required: true,
     },
   },
   { _id: false },

@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from "react";
+// import { useSelector } from "react-redux";
+// import io from "socket.io-client";
 import "./messages.css";
 import SideBar from "../../components/msgsComponents/Sidebar";
 import Conversation from "../../components/msgsComponents/Conversation";
 import data from "../../pages/messages/data";
 
-const Messages = () => {
-  const [person, setPerson] = useState();
+const Messages = ({ pers }) => {
+  const [person, setPerson] = useState(pers);
+  console.log(pers);
   useEffect(() => {
-    // grab with who this person was talking
+    // const socket = io();
+    // console.log(auth);
+    // socket.emit("identity", auth);
+    // socket.emit("chat", { message: "weee" });
+    // socket.on("chat", (data) => {
+    //   console.log(data);
+    // });
+    // return () => {
+    //   socket.disconnect();
+    // };
   });
   const selectConv = (cnv) => {
-    // grab messages with this person
     setPerson(cnv);
   };
   return (

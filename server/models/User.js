@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
-const UserPayload = require('./UserPayload');
+const mongoose = require("mongoose");
+const UserPayload = require("./UserPayload");
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema(
   {
     postId: {
       type: Schema.Types.ObjectId,
-      ref: 'Posts',
+      ref: "Posts",
     },
   },
-  { _id: false },
+  { _id: false }
 );
 const UserSchema = new Schema(
   {
@@ -31,17 +31,21 @@ const UserSchema = new Schema(
     },
     pdp: {
       type: String,
-      default: '',
+      default: "",
     },
     status: {
       type: Boolean,
       default: false,
     },
+    tokens: {
+      type: [{ type: String }],
+      default: [],
+    },
     posts: [PostSchema],
     followers: [UserPayload],
     following: [UserPayload],
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

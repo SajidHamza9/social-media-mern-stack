@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Route } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Redirect, Route } from "react-router-dom";
 
+const PrivateRoute = ({ component: Component, ...res }) => {
+  const auth = useSelector((state) => state.auth);
 
 const PrivateRoute = ({component: Component, ...res}) => {
     
@@ -18,5 +20,5 @@ const PrivateRoute = ({component: Component, ...res}) => {
         }} />
     )
 };
-
+}
 export default PrivateRoute;

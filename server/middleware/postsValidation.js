@@ -1,7 +1,8 @@
 const { checkSchema, validationResult } = require('express-validator');
-
+const mongoose = require('mongoose');
 //import Model
 const Post = require('../models/Posts');
+const User = require('../models/User');
 
 //addPost shema
 
@@ -33,6 +34,47 @@ const updatePostShema = {
     caption: {
         notEmpty: {
             errorMessage: "caption field cannot be empty"
+        }
+    }
+}
+
+
+//add notification shema
+const notificationShema = {
+    type: {
+        notEmpty: {
+            errorMessage: "type field cannot be empty"
+        }
+    },
+    targetUserId: {
+        custom: {
+            options: (value) => {
+                if(!value || value == '')
+                    throw new Error("targetUser cannot be empty");
+                if(!mongoose.Types.ObjectId.isValid(value))
+                    throw new Error("id not valid");
+                User.findById(value).then(user => {
+                    console.log('gogo spacetoone');
+                    if(!user)
+                        throw new Error("this target user is not found");
+                });
+            return true;    
+            }
+        }
+    },
+    postId: {
+        custom: {
+            options: (value) => {
+                if(!value || value == '')
+                    throw new Error("postId cannot be empty");
+                if(!mongoose.Types.ObjectId.isValid(value))
+                    throw new Error("id not valid");
+                Post.findById(value).then(post => {
+                    if(!post) 
+                        throw new Error("this post is not found");
+                });
+                return true;
+            }
         }
     }
 }
@@ -76,3 +118,5 @@ const validate = validations => {
 exports.addPostValidation = validate(checkSchema(addPostShema));
 exports.updatePostValidation = validate(checkSchema(updatePostShema));
 exports.commentValidation = validate(checkSchema(commentShema));
+exports.notificationValidation = validate(checkSchema(notificationShema));
+

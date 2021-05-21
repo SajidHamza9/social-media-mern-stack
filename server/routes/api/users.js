@@ -19,6 +19,7 @@ const {
 //Validation with express-validator
 const { body, validationResult } = require('express-validator');
 
+
 // router.route('/:id/posts').get(userController.getPosts);
 // router.route('/:id').get(userController.getUserInfo);
 // router.route('/:id').delete(userController.removeUser);
