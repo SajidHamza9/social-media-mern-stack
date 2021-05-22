@@ -1,33 +1,43 @@
+const Conversation = require("../models/Conversation");
 const User = require("../models/User");
 class WebSockets {
   users = [];
-  expired = [];
   connection = (socket) => {
-    socket.on("disconnect", async () => {
-      this.expired.push(socket.id);
+    socket.on("disconnect", () => {
+      // this.expired.push(socket.id);
+      this.users = this.users.filter((user) => user.socketId !== socket.id);
     });
     socket.on("identity", async (user) => {
-      if (user) {
-        await User.updateOne(
-          { _id: user._id },
-          {
-            status: true,
-            $push: { tokens: socket.id },
-          }
-        );
-        await User.updateOne(
-          { _id: user._id },
-          {
-            status: true,
-            $pullAll: { tokens: this.expired },
-          }
-        );
-        this.users = await User.find(
-          { status: true },
-          { _id: 1, pdp: 1, username: 1 }
-        );
-        // send to all users TODO
-        global.io.sockets.emit("loggedIn", this.users);
+      this.users.push({
+        socketId: socket.id,
+        userId: user,
+      });
+      console.log(this.users);
+      // const loggedIn = this.users.map((user) => user.userId);
+      // to remove
+      await User.updateOne(
+        { _id: user },
+        {
+          status: true,
+        }
+      );
+
+      // get friend's sockets id and send them
+      const loggedIn = await User.find(
+        { status: true },
+        { _id: 1, pdp: 1, username: 1, status: 1 }
+      );
+
+      // send to all users TODO
+      global.io.sockets.emit("loggedIn", loggedIn);
+    });
+    socket.on("message", (message) => {
+      const toSend = this.users.find(
+        (user) => user.userId === message.receiver
+      );
+
+      if (toSend) {
+        global.io.to(toSend.socketId).emit("message", { message });
       }
     });
   };

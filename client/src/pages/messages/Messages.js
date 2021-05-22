@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from "react";
-// import { useSelector } from "react-redux";
-// import io from "socket.io-client";
 import "./messages.css";
 import SideBar from "../../components/msgsComponents/Sidebar";
 import Conversation from "../../components/msgsComponents/Conversation";
-import data from "../../pages/messages/data";
+import { useLocation } from "react-router";
+import axios from "axios";
 
-const Messages = ({ pers }) => {
+const Messages = () => {
+  // if i click on a connected person
+  const location = useLocation();
+  const { pers } = location;
+  cons[(updateSidebar, setUpdateSidebar)] = useState(false);
   const [person, setPerson] = useState(pers);
-  console.log(pers);
-  useEffect(() => {
-    // const socket = io();
-    // console.log(auth);
-    // socket.emit("identity", auth);
-    // socket.emit("chat", { message: "weee" });
-    // socket.on("chat", (data) => {
-    //   console.log(data);
-    // });
-    // return () => {
-    //   socket.disconnect();
-    // };
-  });
-  const selectConv = (cnv) => {
-    setPerson(cnv);
+  const selectConv = (user, convId) => {
+    user.convId = convId;
+    setPerson(user);
   };
+  const orderSidebar = () => {};
+  console.log("conv opened with this person :");
+  console.log(person);
   return (
     <div className="msg-page">
       <div className="msg-container ">
-        <SideBar onClick={selectConv} data={data} />
+        <SideBar onClick={selectConv} />
         {person && <Conversation {...person} />}
       </div>
     </div>

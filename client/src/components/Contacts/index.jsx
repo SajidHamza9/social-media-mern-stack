@@ -11,6 +11,7 @@ const dispatch = useDispatch();
     (state) => state.loginReducer
   );
   useEffect(() => {
+    console.log('get logged in users');
     dispatch(getloggedIn())
   },[])
   return (
@@ -20,7 +21,7 @@ const dispatch = useDispatch();
       </Header>
       <Body>
         {users.map((c) => (
-          c._id !==utils.user._id && <ContactItem key={c._id} {...c} />
+          c._id !==utils?.user && <ContactItem key={c._id} {...c} />
         ))}
       </Body>
     </Card>

@@ -28,13 +28,10 @@ function App() {
   useEffect(() => {
       dispatch(loadUser());
       console.log("faa");
-    
-    
-    if (user) {
-      utils.socket.emit("identity", user);
-      utils.user = user;
-      console.log(utils);
-    }
+      if (utils.user) {
+        utils.socket.emit("identity", utils.user);
+        console.log(utils);
+      }
   }, []);
   return (
           <Router>

@@ -37,10 +37,6 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    tokens: {
-      type: [{ type: String }],
-      default: [],
-    },
     posts: [PostSchema],
     followers: [UserPayload],
     following: [UserPayload],
