@@ -8,19 +8,41 @@ const User = require('../models/User');
 // @access  Private
 
 exports.getPosts = asyncHandler(async (req, res) => {
+  console.log(req.user.id);
+
   const all = req.query.all === 'true';
   const userId = req.params.id;
   const user = await User.findById(userId, '_id following');
   if (user) {
     const followingIds = user.following.map((f) => f.userId);
     const ids = all ? [...followingIds, userId] : [userId];
-    console.log(typeof all, ids);
     const posts = await Post.find({
       userId: {
         $in: ids,
       },
+    }).sort({
+      updatedAt: -1,
     });
-    res.json(posts);
+    const users = await User.find(
+      {
+        _id: {
+          $in: ids,
+        },
+      },
+      {
+        pdp: 1,
+        username: 1,
+      },
+    );
+    const postsList = posts.map((p) => {
+      const { pdp, username } = users.find(
+        (u) => u._id.toString() === p.userId.toString(),
+      );
+      return { ...p._doc, pdp, username };
+    });
+    console.log(postsList);
+
+    res.json(postsList);
   } else {
     res.status(404);
     throw new Error('User not found');

@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
 const Notification = require('../models/Notifications');
+const WebSockets = require('../utils/WebSockets');
 
 // @desc    add like
 // @route   POST /posts/:id/likes
@@ -38,7 +39,13 @@ exports.addLike = asyncHandler(async (req, res) => {
       postId: req.params.id,
     });
     const notif = await notification.save();
-    global.io.emit(post.userId.toString(), { notification: notif });
+    const socketIds = WebSockets.users.filter((user) => {
+      return user.userId.toString() === post.userId.toString();
+    });
+    socketIds.forEach((item) => {
+      global.io.to(item.socketId).emit('notification', { notification: notif });
+    });
+
     res.status(201).json({ message: 'Like added', notif });
   } else {
     res.status(404);

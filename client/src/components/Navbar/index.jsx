@@ -20,12 +20,12 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
 import NotifCard from '../NotifCard';
-
+import { useSelector } from 'react-redux';
 const Navbar = () => {
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-
+  const { currentUserId } = useSelector((state) => state.auth);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -75,7 +75,7 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem onClick={() => setClick(!click)}>
-              <NavLink to='/profile'>
+              <NavLink to={`/profile/${currentUserId}`}>
                 <StyledAvatar alt='pdp' src='/images/img2.jpeg' />
               </NavLink>
             </NavItem>

@@ -24,12 +24,28 @@ import ConfirmModal from '../ConfirmModal';
 import EditPost from '../EditPost';
 import { openModal } from '../../redux/actions/modalActions';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-const Post = ({ pdp, caption, image, name, children, mb }) => {
+const Post = ({
+  pdp,
+  caption,
+  image,
+  name,
+  children,
+  mb,
+  nbLikes,
+  nbComments,
+  userId,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDelete, setOpenDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const showProfile = () => {
+    history.push(`/profile/${userId}`);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,8 +72,8 @@ const Post = ({ pdp, caption, image, name, children, mb }) => {
       <Card mb={mb}>
         <Header>
           <Box display='flex' alignItems='center'>
-            <StyledAvatar src={pdp} />
-            <Name>{name}</Name>
+            <StyledAvatar onClick={showProfile} src={pdp} />
+            <Name onClick={showProfile}>{name}</Name>
           </Box>
           <Box>
             <MoreVertIcon
@@ -92,11 +108,11 @@ const Post = ({ pdp, caption, image, name, children, mb }) => {
         <CardActions>
           <Action>
             <FavoriteIcon />
-            <Number>20</Number>
+            <Number>{nbLikes}</Number>
           </Action>
           <Action>
             <AddCommentIcon onClick={() => dispatch(openModal())} />
-            <Number onClick={() => dispatch(openModal())}>16</Number>
+            <Number onClick={() => dispatch(openModal())}>{nbComments} </Number>
           </Action>
         </CardActions>
         <InputContainer>

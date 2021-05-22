@@ -8,6 +8,7 @@ import {
   CardActions,
   Content,
   Image,
+  ImageContainer,
 } from './style';
 import SendIcon from '@material-ui/icons/Send';
 import ImageIcon from '@material-ui/icons/Image';
@@ -30,7 +31,11 @@ const AddPost = ({ addPost }) => {
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
           />
-          {file ? <Image img={file} /> : null}
+          {file ? (
+            <ImageContainer>
+              <Image src={URL.createObjectURL(file)} />
+            </ImageContainer>
+          ) : null}
         </Content>
       </Header>
       <StyledDivider />
@@ -39,7 +44,12 @@ const AddPost = ({ addPost }) => {
           ref={ref}
           style={{ display: 'none' }}
           type='file'
-          onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))}
+          accept='image/*'
+          name='image'
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            e.target.value = null;
+          }}
         />
         <IconButton onClick={() => ref.current.click()}>
           <ImageIcon style={{ color: ' #ab987a' }} />
@@ -48,17 +58,13 @@ const AddPost = ({ addPost }) => {
           style={{ color: ' #ab987a' }}
           onClick={() => {
             if (caption || file) {
-              addPost({
-                id: Math.random() * 1000,
-                name: 'Hamza Sajid',
-                pdp: '/images/img3.jpeg',
-                image: file,
-                caption: caption,
-              });
+              const formData = new FormData();
+              formData.append('caption', caption);
+              formData.append('image', file);
+              setCaption('');
+              setFile(null);
+              console.log(formData);
             }
-
-            setCaption('');
-            setFile(null);
           }}>
           <SendIcon />
         </IconButton>

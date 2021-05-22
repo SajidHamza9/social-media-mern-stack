@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/users', require('./routes/api/follows'));
 
-app.use('/posts', postRoutes);
+app.use('/api/posts', postRoutes);
 app.use('/conversations', convRoutes);
 app.use('/messages', msgRoutes);
 app.use(errorHandler);

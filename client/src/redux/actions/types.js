@@ -18,3 +18,6 @@ export const REQUEST_LOGGED_IN_FAILED = 'REQUEST_LOGGED_IN_FAILED';
 
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
+
+export const POSTS_LOADING = 'POSTS_LOADING';
+export const POSTS_SUCCESS = 'POSTS_SUCCESS';

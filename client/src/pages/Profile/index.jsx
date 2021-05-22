@@ -4,13 +4,15 @@ import HeaderProfile from '../../components/HeaderProfile';
 import Post from '../../components/Post';
 import Photos from '../../components/Photos';
 import Button from '../../components/Button';
-import { posts } from '../../data/home';
+// import { posts } from '../../data/home';
 import EditIcon from '@material-ui/icons/Edit';
 import Friends from '../../components/Friends';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadUser } from '../../redux/actions/authActions';
+import SkeletonPost from '../../components/SkeletonPost';
+import { loadProfilePosts } from '../../redux/actions/postActions';
+
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -22,14 +24,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = ({ history }) => {
+const Profile = ({}) => {
   const classes = useStyles();
-
-  const auth = useSelector((state) => state.auth);
+  const { id } = useParams();
+  const { posts, loading } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('private');
-  }, [auth]);
+    dispatch(loadProfilePosts(id));
+  }, []);
 
   return (
     <Container maxWidth='md'>
@@ -41,19 +44,27 @@ const Profile = ({ history }) => {
           </Button>
           <Photos />
           <Friends />
-          <Friends />
         </Grid>
         <Grid item sm={8} xs={12}>
-          {posts.map((p) => (
-            <Post
-              mb
-              key={p.id}
-              caption={p.caption}
-              pdp={p.pdp}
-              image={p.image}
-              name={p.name}
-            />
-          ))}
+          {loading ? (
+            <div>
+              <SkeletonPost />
+              <SkeletonPost />
+            </div>
+          ) : (
+            posts.map((p) => (
+              <Post
+                mb
+                key={p._id}
+                caption={p.caption}
+                pdp={p.pdp}
+                image={p.image}
+                name={p.username}
+                nbLikes={p.likes.length}
+                nbComments={p.comments.length}
+              />
+            ))
+          )}
         </Grid>
       </Grid>
     </Container>
