@@ -19,13 +19,20 @@ const {
 //Validation with express-validator
 const { body, validationResult } = require('express-validator');
 
+<<<<<<< HEAD
 router.route('/:id/posts').get(auth, userController.getPosts);
 router.route('/:id').delete(userController.removeUser);
+=======
+
+// router.route('/:id/posts').get(userController.getPosts);
+// router.route('/:id').delete(userController.removeUser);
+>>>>>>> 89d3a8a5968df6dcf5cfee49eb447d46599b9c7b
 
 // @route POST api/users
 // @desc Register new User
 // @acess Public
 router.post('/', registerValidation, (req, res) => {
+  
   const { username, email, password } = req.body;
   const newUser = new User({
     username,
@@ -35,7 +42,7 @@ router.post('/', registerValidation, (req, res) => {
 
   newUser.save().then((user) => {
     jwt.sign(
-      { id: user.id },
+      { id: user._id },
       process.env.jwtKeySecret,
       { expiresIn: 4000 },
       (err, token) => {
@@ -94,7 +101,8 @@ router.post('/login', loginValidation, (req, res) => {
     //Verify the password
     bcrypt.compare(password, user.password).then((isEqual) => {
       if (!isEqual) return res.status(400).json({ msg: 'Invalid credentials' });
-
+      user.status = true;
+      
       jwt.sign(
         { id: user.id },
         process.env.jwtKeySecret,

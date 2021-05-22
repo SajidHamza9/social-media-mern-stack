@@ -1,9 +1,16 @@
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
+<<<<<<< HEAD
 const Notification = require('../models/Notifications');
 const WebSockets = require('../utils/WebSockets');
 
+=======
+const mongoose = require('mongoose');
+const { encode } = require('base64-arraybuffer');
+const fs = require('fs');
+const path = require('path');
+>>>>>>> 89d3a8a5968df6dcf5cfee49eb447d46599b9c7b
 // @desc    add like
 // @route   POST /posts/:id/likes
 // @access  Private
@@ -89,3 +96,83 @@ exports.removeLike = asyncHandler(async (req, res) => {
     throw new Error('Post not found');
   }
 });
+
+// @route POST api/posts
+// @desc create new Post
+// @access Private
+exports.addPost = (req, res) => {
+  const { caption } = req.body;
+  //some validation
+  if(!req.file && !caption )
+      return res.status(400).json({message: "2 fields cannot be empty"});
+
+    var image = null;
+    const dirname = (__dirname).replace("\\server\\controller", "");
+    if(req.file) {
+      const base64String = fs.readFileSync(path.join(dirname + '/uploads/' + req.file.filename));
+      image = {
+        data: encode(base64String),
+        contentType: req.file.mimetype
+      }
+    }
+    //delete file
+    fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
+        if(err) throw new Error(err);
+    })
+    User.findById(req.user.id)
+        .then(user => {
+          const newPost = new Post({
+            userId: user._id,
+            image,
+            caption
+          });
+          newPost.save().then(post => {
+            const postId = {
+              postId: post._id
+            };
+            user.posts.push(postId);
+            user.save().then(() => res.status(201).json(post))
+                        .catch(err => res.status(400).json({error: true, message: 'err'}));
+          }).catch(err => res.status(400).json({error: true, message: err}))
+        })
+        .catch(err => res.status(400).json({error: true, message: err}))
+}
+
+// @route Put api/posts/:id
+// @desc  Update post
+// @access Private
+exports.updatePost = (req, res) => {
+  const { caption } = req.body;
+  const idPost = req.params.id;
+  Post.findById(idPost)
+      .then(post => {
+        post.caption = caption;
+        post.save().then(updatedPost => res.status(200).json(updatedPost));
+      })
+      .catch(err => res.status(400).json({error: true, message: "post not found"}));
+};
+
+// @route delete api/posts/:id
+// @desc  delete post
+// @access Private
+exports.deletePost = (req, res) => {
+  const idPost = req.params.id;
+  Post.deleteOne({_id: idPost})
+      .then(() => {
+        
+        User.findById(req.user.id)
+            .then(user => {
+              const index = user.posts.findIndex(post => post.postId == idPost);
+              if(index > -1) user.posts.splice(index, 1);
+              user.save().then(() => res.status(200).json({msg: "post deleted with success"}));
+            })
+            .catch(err => res.status(400).json({error: true, msg: err}))
+      })
+      .catch(err =>  res.status(400).json({error: true, message: "post not found"}))
+}
+
+
+
+
+
+

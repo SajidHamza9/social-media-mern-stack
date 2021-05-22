@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const UserPayload = require('./UserPayload');
-
+const Image = require('./Image');
 const CommentSchema = new Schema(
   {
     comment: {
@@ -17,10 +17,7 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    pdp: {
-      type: String,
-      required: true,
-    },
+    pdp: Image
   },
   { timestamps: true },
 );
@@ -33,9 +30,7 @@ const PostSchema = new Schema(
       ref: 'User',
     },
 
-    image: {
-      type: String,
-    },
+    image: Image,
     caption: {
       type: String,
     },

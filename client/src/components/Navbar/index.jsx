@@ -37,6 +37,22 @@ const Navbar = () => {
     setOpen(false);
   };
 
+//import logout function action
+import { logout } from '../../redux/actions/authActions';
+import { useHistory } from 'react-router-dom';
+const Navbar = () => {
+  const [click, setClick] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleLogout = () => {
+    console.log("logout");
+    dispatch(logout());
+    history.push("/login");
+
+  }
+
+
   return (
     <>
       <NotifCard open={open} anchorEl={anchorRef.current} close={handleClose} />
@@ -79,8 +95,8 @@ const Navbar = () => {
                 <StyledAvatar alt='pdp' src='/images/img2.jpeg' />
               </NavLink>
             </NavItem>
-            <NavItem onClick={() => setClick(!click)}>
-              <NavLink to='/'>
+            <NavItem>
+              <NavLink onClick={handleLogout}>
                 <ExitToAppIcon />
               </NavLink>
             </NavItem>
@@ -89,6 +105,6 @@ const Navbar = () => {
       </Nav>
     </>
   );
-};
+}};
 
 export default Navbar;

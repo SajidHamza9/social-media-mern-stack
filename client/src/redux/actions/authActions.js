@@ -7,11 +7,13 @@ import {
   LOGING_SUCCESS,
   LOGIN_FAIL,
   CLEAR_ERRORS,
+  LOGOUT_SUCCESS,
   IS_AUTH,
-} from './types';
-import { returnErrors } from './errorsActions';
-import { history } from '../helpers/history';
-import axios from 'axios';
+} from "./types";
+import { returnErrors } from "./errorsActions";
+import { history } from "../helpers/history";
+import axios from "axios";
+import { Redirect } from "react-router";
 export const loadUser = () => (dispatch, getState) => {
   // loading user
   dispatch({ type: USER_LOADING });
@@ -31,6 +33,8 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({ type: AUTH_ERROR });
     });
+
+    console.log("load user");
 };
 
 // register User
@@ -52,9 +56,9 @@ export const register = (user) => (dispatch) => {
 
 //login
 export const login = (user) => (dispatch) => {
-  console.log('inside logien');
-  axios
-    .post('/api/users/login', user)
+  console.log("inside logien");
+  
+  axios.post("/api/users/login", user)
     .then((res) => {
       console.log('THEN');
       dispatch({
@@ -63,8 +67,10 @@ export const login = (user) => (dispatch) => {
       });
       dispatch({ type: CLEAR_ERRORS });
 
-      //  history.push("/profile");
-      //window.location.reload();
+      
+
+      history.push("/");
+      window.location.reload();
     })
     .catch((err) => {
       console.log('CATCH');
@@ -72,6 +78,20 @@ export const login = (user) => (dispatch) => {
       dispatch(returnErrors(err.response.data, err.response.status));
     });
 };
+
+export const logout = () => (dispatch, getState) => {
+  //config headers
+  const configHeader = tokenConfig(getState);
+  //send request to server
+  axios
+    .get("/api/users/logout", configHeader)
+    .then((res) => {
+      dispatch({ type: LOGOUT_SUCCESS });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+    })
+}
 
 export const tokenConfig = (getState) => {
   const token = getState().auth.token;

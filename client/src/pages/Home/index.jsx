@@ -12,6 +12,9 @@ import { loadHomePosts } from '../../redux/actions/postActions';
 import SkeletonPost from '../../components/SkeletonPost';
 import { loadUser } from '../../redux/actions/authActions';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useHistory } from 'react-router';
+import { loadUser } from '../../redux/actions/authActions';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -32,6 +35,9 @@ const Home = () => {
   const { currentUserId } = useSelector((state) => state.auth);
   const [postList, setPostList] = useState(posts);
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+ 
   const addPost = (post) => {
     setPostList((prev) => {
       const posts = [...prev, post];
