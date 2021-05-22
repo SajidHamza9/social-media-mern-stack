@@ -66,10 +66,10 @@ export const login = (user) => (dispatch) => {
       });
       dispatch({ type: CLEAR_ERRORS });
 
-      //window.location.replace("http://localhost:3000/");
+      
 
-      //  history.push("/profile");
-      //window.location.reload();
+      history.push("/");
+      window.location.reload();
     })
     .catch((err) => {
       dispatch({ type: LOGIN_FAIL });
@@ -77,10 +77,18 @@ export const login = (user) => (dispatch) => {
     });
 };
 
-export const logout = () => {
-  return {
-    Type: LOGOUT_SUCCESS
-  }
+export const logout = () => (dispatch, getState) => {
+  //config headers
+  const configHeader = tokenConfig(getState);
+  //send request to server
+  axios
+    .get("/api/users/logout", configHeader)
+    .then((res) => {
+      dispatch({ type: LOGOUT_SUCCESS });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+    })
 }
 
 export const tokenConfig = (getState) => {

@@ -2,8 +2,9 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
 const mongoose = require('mongoose');
-
-
+const { encode } = require('base64-arraybuffer');
+const fs = require('fs');
+const path = require('path');
 // @desc    add like
 // @route   POST /posts/:id/likes
 // @access  Private
@@ -76,8 +77,24 @@ exports.removeLike = asyncHandler(async (req, res) => {
 // @desc create new Post
 // @access Private
 exports.addPost = (req, res) => {
-    const {image, caption} = req.body;
-    console.log(req.user.id);
+  const { caption } = req.body;
+  //some validation
+  if(!req.file && !caption )
+      return res.status(400).json({message: "2 fields cannot be empty"});
+
+    var image = null;
+    const dirname = (__dirname).replace("\\server\\controller", "");
+    if(req.file) {
+      const base64String = fs.readFileSync(path.join(dirname + '/uploads/' + req.file.filename));
+      image = {
+        data: encode(base64String),
+        contentType: req.file.mimetype
+      }
+    }
+    //delete file
+    fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
+        if(err) throw new Error(err);
+    })
     User.findById(req.user.id)
         .then(user => {
           const newPost = new Post({

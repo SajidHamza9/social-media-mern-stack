@@ -97,7 +97,8 @@ router.post('/login', loginValidation, (req, res) => {
     //Verify the password
     bcrypt.compare(password, user.password).then((isEqual) => {
       if (!isEqual) return res.status(400).json({ msg: 'Invalid credentials' });
-
+      user.status = true;
+      
       jwt.sign(
         { id: user.id },
         process.env.jwtKeySecret,
@@ -127,8 +128,6 @@ router.get('/auth', auth, (req, res) => {
        .then(user => res.json(user))
 })
 
-router.get('/bobo', (req, res) => {
-  return res.send('hola bobo');
-});
+
 
 module.exports = router;

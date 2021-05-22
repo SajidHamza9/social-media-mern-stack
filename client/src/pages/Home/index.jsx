@@ -40,10 +40,8 @@ const Home = () => {
       return posts;
     });
   };
-  const {isAuth} = useSelector(state => state.auth);
   return (
     <Container maxWidth='lg'>
-      {isAuth ?<h1>hamza</h1> : <h1>lolo</h1> }
       <Grid container spacing={3}>
         <Grid item md={3} className={classes.sticky}>
           <InfoCard />

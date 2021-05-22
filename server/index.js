@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //use routes api
-app.use("/api/users", require("./routes/api/users"));
+app.use("/api/users", require("./routes/api/authentification"));
 app.use("/api/users", require("./routes/api/follows"));
 //notifications
 app.use("/api/notifications", require('./routes/api/notifications'));

@@ -13,11 +13,10 @@ import Friends from "./components/ListFriends/Friends";
 import Images from "./components/Images/Images";
 import { useEffect } from "react";
 import utils from "./utils/socket";
-import { useSelector, useDispatch, Provider } from "react-redux";
-// import PrivateRoute from "./components/PrivateRoute";
+import { useSelector, useDispatch } from "react-redux";
+import PrivateRoute from "./components/PrivateRoute";
 
-import { loadUser } from "./redux/actions/authActions";
-import store from './redux/store';
+import { loadUser, logout } from "./redux/actions/authActions";
 
 
 function App() {
@@ -27,10 +26,9 @@ function App() {
   
  
   useEffect(() => {
-    if(!isAuth){
       dispatch(loadUser());
       console.log("faa");
-    }
+    
     
     if (user) {
       utils.socket.emit("identity", user);
@@ -39,25 +37,34 @@ function App() {
     }
   }, []);
   return (
-      <Provider store={store}>
           <Router>
             <StylesProvider injectFirst>
               <GlobalStyle />
               {pathName !== "/login" && <Navbar />}
               <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/login" component={Login} />
-                <Route path="/messages" component={Messages} />
+                {/* <Route path="/" exact component={Home} /> */}
+                {/* <Route path="/profile" component={Profile} /> */}
+                {/* <Route path="/login" component={Login} /> */}
+                {/* <Route path="/messages" component={Messages} />
                 <Route path="/photos" component={PhotosScreen} />
                 <Route path="/friends" component={FriendsScreen} />
                 <Route path="/listFriends" component={Friends} />
-                <Route path="/Images" component={Images} />
+                <Route path="/Images" component={Images} /> */}
+
+                <PrivateRoute exact component={Home} path="/" />
+                <PrivateRoute exact component={Profile} path="/profile" />
+                <PrivateRoute exact component={Messages} path="/messages" />
+                <PrivateRoute exact component={PhotosScreen} path="/photos" />
+                <PrivateRoute exact component={Friends} path="/listFriends" />
+                <PrivateRoute exact component={Images} path="/Images" />
+                <Route exact path="/login">
+                   {isAuth ? <Redirect to="/" /> : <Login />} 
+                </Route>
+             
               </Switch>
               {pathName !== "/login" && pathName !== "/messages" && <MessagesBtn />}
             </StylesProvider>
           </Router>
-      </Provider>
   );
 }
 

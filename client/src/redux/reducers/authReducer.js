@@ -35,6 +35,7 @@ export default function(state = initialState, action) {
         case LOGING_SUCCESS:
             localStorage.setItem('token', action.payload.token);
             localStorage.setItem('currentUserId', action.payload.user.id);
+            localStorage.setItem('isAuth', true);
             return {
                 ...state,
                 ...action.payload,
@@ -47,9 +48,11 @@ export default function(state = initialState, action) {
         case LOGOUT_SUCCESS:
             localStorage.removeItem('token');
             localStorage.removeItem('currentUserId');
+            localStorage.removeItem('isAuth');
             return {
                 ...state,
                 token: null,
+                currentUserId: null,
                 user: null,
                 isAuth: false,
                 isLoading: false

@@ -8,11 +8,13 @@ const { addPostValidation, commentValidation } = require('../../middleware/posts
 const errorMiddleware = require('../../middleware/errorMiddleware');
 const errorHandler = require('../../middleware/errorMiddleware');
 
+const uploadImage = require('../../middleware/uploadImage');
+
 router.route('/:id/likes').post(postController.addLike);
 router.route('/:id/likes').delete(postController.removeLike);
 
 //partie brahim
-router.post('/',[auth, addPostValidation], postController.addPost);
+router.post('/',[auth, uploadImage.single('image')], postController.addPost);
 router.route('/:id')
     .put(auth,postController.updatePost)
     .delete(auth, postController.deletePost);
@@ -25,3 +27,4 @@ router.route('/:idPost/comments/:idComment')
       .delete([auth,paramsValidation(['idPost','idComment'])], commentController.deleteComent);
       
 module.exports = router;
+

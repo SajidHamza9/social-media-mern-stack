@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Nav,
   NavbarContainer,
@@ -20,8 +21,21 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
 
+//import logout function action
+import { logout } from '../../redux/actions/authActions';
+import { useHistory } from 'react-router-dom';
 const Navbar = () => {
   const [click, setClick] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleLogout = () => {
+    console.log("logout");
+    dispatch(logout());
+    history.push("/login");
+
+  }
+
 
   return (
     <>
@@ -62,7 +76,7 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink to='/'>
+              <NavLink onClick={handleLogout}>
                 <ExitToAppIcon />
               </NavLink>
             </NavItem>
