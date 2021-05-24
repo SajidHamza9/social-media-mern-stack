@@ -16,18 +16,17 @@ import utils from "./utils/socket";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute";
 
-import { loadUser, logout } from "./redux/actions/authActions";
+import { loadUser } from "./redux/actions/authActions";
 
 
 function App() {
   const pathName = window.location.pathname;
-  const { isAuth, user } = useSelector((state) => state.auth);
+  const { isAuth } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   
  
   useEffect(() => {
       dispatch(loadUser());
-      console.log("faa");
       if (utils.user) {
         utils.socket.emit("identity", utils.user);
         console.log(utils);
@@ -37,7 +36,7 @@ function App() {
           <Router>
             <StylesProvider injectFirst>
               <GlobalStyle />
-              {pathName !== "/login" && <Navbar />}
+              {isAuth && <Navbar />}
               <Switch>
                 {/* <Route path="/" exact component={Home} /> */}
                 {/* <Route path="/profile" component={Profile} /> */}

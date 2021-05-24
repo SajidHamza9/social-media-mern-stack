@@ -81,8 +81,32 @@ exports.logout = asyncHandler(async (req, res) => {
     return res.status(200).json({message: "logout with success"});
 })
 
+exports.changePassword = asyncHandler(async (req, res) => {
+   const {oldPassword, newPassword, confirmNewPassword} = req.body;
+   const currentUser = await User.findById(req.user.id);
+   const isEqual = await bcrypt.compare(req);
+   if(!isEqual){
+    res.status(400);
+    throw new Error("old password is incorrect");
+   }
+   user.password = getHashPassowrd(newPassword);
+   await user.save();
+
+   return res.status(200).json({message: "password changed with success"});
+
+})
+
 exports.getAuth = (req, res) => {
     User.findById(req.user.id)
-    .select('-password')
-    .then(user => res.status(200).json(user))
+    .select('-password -tokens')
+    .then(user => res.status(200).json({
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        status: user.status,
+        bio: user.bio,
+        postsCount: user.posts.length,
+        followersCount: user.followers.length,
+        followingCount: user.following.length
+    }));
 }

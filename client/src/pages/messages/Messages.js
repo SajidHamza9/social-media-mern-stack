@@ -9,7 +9,7 @@ const Messages = () => {
   // if i click on a connected person
   const location = useLocation();
   const { pers } = location;
-  cons[(updateSidebar, setUpdateSidebar)] = useState(false);
+  //const [(updateSidebar, setUpdateSidebar)] = useState(false);
   const [person, setPerson] = useState(pers);
   const selectConv = (user, convId) => {
     user.convId = convId;

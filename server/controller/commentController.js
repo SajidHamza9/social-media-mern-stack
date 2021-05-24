@@ -1,5 +1,6 @@
 const Post = require('../models/Posts');
 const User = require('../models/User');
+const Notification = require('../models/Notifications');
 const asyncHandler = require('express-async-handler');
 const mongoose = require('mongoose');
 
@@ -26,10 +27,26 @@ exports.addComment =  asyncHandler( async(req, res) => {
         comment,
         userId: currentUser._id,
         username: currentUser.username,
-        pdp: currentUser.pdp
+        
     };
     post.comments.push(commentaire);
     await post.save();
+
+    //add notification
+    const userPayload = {
+        userId: currentUser._id,
+        username: currentUser.username,
+        pdp: currentUser.pdp
+    };
+    const newNotification = new Notification({
+        type: "COMMENT",
+        targetUserId: post.userId,
+        currentUser: userPayload,
+        postId: post._id
+    });
+
+    const notif = await newNotification.save();
+    console.log(`notif: ${notif}`);
 
     return res.status(201).json(post);
     

@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 //use routes api
 app.use("/api/users", require("./routes/api/authentification"));
 app.use("/api/users", require("./routes/api/follows"));
+app.use("/api/users", require("./routes/api/users"));
 //notifications
 app.use("/api/notifications", require('./routes/api/notifications'));
 // app.get('/items', auth, (req, res) => {

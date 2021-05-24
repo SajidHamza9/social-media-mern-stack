@@ -14,3 +14,7 @@ export const IS_AUTH = "IS_AUTH";
 
 export const REQUEST_LOGGED_IN_SUCCESS = "REQUEST_LOGGED_IN_SUCCESS";
 export const REQUEST_LOGGED_IN_FAILED = "REQUEST_LOGGED_IN_FAILED";
+
+//user Profile
+export const GET_USER_PROFILE = "GET_USER_PROFILE";
+

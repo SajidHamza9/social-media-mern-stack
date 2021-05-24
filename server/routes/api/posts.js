@@ -20,7 +20,7 @@ router.route('/:id')
     .delete(auth, postController.deletePost);
 
 //management comments routes
-router.post('/:id/comments', [auth,paramsValidation(['id']), commentValidation], commentController.addComment);
+router.post('/:id/comments', [auth,paramsValidation(['id'])], commentController.addComment);
 router.get('/:idPost/comments/:bo', paramsValidation(['idPost', 'bo']), commentController.getComments);
 router.route('/:idPost/comments/:idComment')
       .put([auth,paramsValidation(['idPost','idComment']), commentValidation], commentController.updateComment)

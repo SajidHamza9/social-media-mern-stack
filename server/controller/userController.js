@@ -93,3 +93,7 @@ exports.removeUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
+// exports.updateUser = asyncHandler(async(req, res) => {
+//     const {username, bio, email, pdp}
+// })

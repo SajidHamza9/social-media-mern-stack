@@ -90,11 +90,13 @@ exports.addPost = (req, res) => {
         data: encode(base64String),
         contentType: req.file.mimetype
       }
-    }
-    //delete file
+
+        //delete file
     fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
-        if(err) throw new Error(err);
-    })
+      if(err) throw new Error(err);
+  })
+    }
+  
     User.findById(req.user.id)
         .then(user => {
           const newPost = new Post({
@@ -107,6 +109,10 @@ exports.addPost = (req, res) => {
               postId: post._id
             };
             user.posts.push(postId);
+            post._doc.username = user.username;
+            post._doc.pdp = user.pdp;
+            console.log(post);
+           // post["username"] = user.pdp;
             user.save().then(() => res.status(201).json(post))
                         .catch(err => res.status(400).json({error: true, message: 'err'}));
           }).catch(err => res.status(400).json({error: true, message: err}))
