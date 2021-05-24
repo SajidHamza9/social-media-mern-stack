@@ -7,6 +7,7 @@ const convRoutes = require('./routes/api/conversation.routes');
 const msgRoutes = require('./routes/api/message.routes');
 const socketio = require('socket.io');
 const WebSockets = require('./utils/WebSockets');
+const userRoutes = require('./routes/api/users');
 //middeleware
 const auth = require('./middleware/auth');
 const app = express();
@@ -19,27 +20,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //use routes api
-<<<<<<< HEAD
-app.use('/api/users', require('./routes/api/users'));
+app.use('/api/users', require('./routes/api/authentification'));
 app.use('/api/users', require('./routes/api/follows'));
+//notifications
+app.use('/api/notifications', require('./routes/api/notifications'));
+
+app.use('/api/users', userRoutes);
 
 app.use('/api/posts', postRoutes);
+
 app.use('/conversations', convRoutes);
 app.use('/messages', msgRoutes);
-=======
-app.use("/api/users", require("./routes/api/authentification"));
-app.use("/api/users", require("./routes/api/follows"));
-//notifications
-app.use("/api/notifications", require('./routes/api/notifications'));
-// app.get('/items', auth, (req, res) => {
-//   res.send('hello from social network apk');
-// });
-app.use('/api/posts', postRoutes);
-
-
-app.use("/conversations", convRoutes);
-app.use("/messages", msgRoutes);
->>>>>>> 89d3a8a5968df6dcf5cfee49eb447d46599b9c7b
 app.use(errorHandler);
 
 const server = app.listen(process.env.PORT, () => {

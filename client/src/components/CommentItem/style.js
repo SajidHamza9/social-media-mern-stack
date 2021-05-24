@@ -12,6 +12,13 @@ export const Name = styled(Typography)`
   font-size: 0.9rem;
 `;
 
+export const Time = styled(Typography)`
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 300;
+  font-size: 10px;
+  margin-right: 10px;
+`;
+
 export const Comment = styled(Typography)`
   color: #000;
   font-weight: 400;

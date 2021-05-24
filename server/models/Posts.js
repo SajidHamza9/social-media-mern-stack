@@ -17,7 +17,9 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    pdp: Image
+    pdp: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

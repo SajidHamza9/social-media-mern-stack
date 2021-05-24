@@ -1,26 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Post from '../Post';
 import CommentItem from '../CommentItem';
 import { useStyles } from './style';
-import { comments } from '../../data/home';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/actions/modalActions';
+import SkeletonComment from '../SkeletonComment';
 
-const post = {
-  pdp: './images/img1.jpeg',
-  caption:
-    'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia',
-  image: './images/img3.jpeg',
-  name: 'Hamza Sajid',
-};
 const PostModal = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.modal);
-
+  const { isOpen, postId } = useSelector((state) => state.modal);
+  const { posts } = useSelector((state) => state.post);
+  const post = posts.find((p) => p._id.toString() === postId);
   return (
     <div>
       <Modal
@@ -34,16 +28,32 @@ const PostModal = () => {
         }}>
         <Fade in={isOpen}>
           <div className={classes.wrapper}>
-            <Post {...post}>
-              {comments.map((c) => (
-                <CommentItem
-                  key={c.id}
-                  pdp={c.pdp}
-                  name={c.name}
-                  comment={c.comment}
-                />
-              ))}
-            </Post>
+            {post && (
+              <Post
+                caption={post.caption}
+                pdp={post.pdp}
+                image={post.image}
+                name={post.username}
+                nbLikes={post.likes.length}
+                nbComments={post.comments.length}
+                userId={post.userId}
+                isLiked={post.isLiked}
+                likes={post.likes}
+                postId={post._id}>
+                {post.comments.map((c) => (
+                  <CommentItem
+                    key={c._id}
+                    pdp={c.pdp}
+                    name={c.username}
+                    comment={c.comment}
+                    userId={c.userId}
+                    postId={post._id}
+                    commentId={c._id}
+                    time={c.createdAt}
+                  />
+                ))}
+              </Post>
+            )}
           </div>
         </Fade>
       </Modal>

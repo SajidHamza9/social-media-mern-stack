@@ -8,8 +8,6 @@ const User = require('../models/User');
 // @access  Private
 
 exports.getPosts = asyncHandler(async (req, res) => {
-  console.log(req.user.id);
-
   const all = req.query.all === 'true';
   const userId = req.params.id;
   const user = await User.findById(userId, '_id following');
@@ -21,7 +19,7 @@ exports.getPosts = asyncHandler(async (req, res) => {
         $in: ids,
       },
     }).sort({
-      updatedAt: -1,
+      createdAt: -1,
     });
     const users = await User.find(
       {
@@ -38,9 +36,12 @@ exports.getPosts = asyncHandler(async (req, res) => {
       const { pdp, username } = users.find(
         (u) => u._id.toString() === p.userId.toString(),
       );
-      return { ...p._doc, pdp, username };
+      const isLiked = !!p._doc.likes.find(
+        (l) => l.userId.toString() === req.user.id.toString(),
+      );
+
+      return { ...p._doc, pdp, username, isLiked };
     });
-    console.log(postsList);
 
     res.json(postsList);
   } else {

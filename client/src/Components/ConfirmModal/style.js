@@ -17,6 +17,7 @@ export const Card = styled.div`
   flex-direction: column;
   width: 400px;
   border-radius: 5px;
+  outline: none;
 `;
 
 export const Header = styled.div`

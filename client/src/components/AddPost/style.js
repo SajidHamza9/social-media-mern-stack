@@ -22,7 +22,7 @@ export const Input = styled(InputBase)`
   padding: 1rem 0;
   color: #000;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1rem;
 `;
 
 export const StyledAvatar = styled(Avatar)`

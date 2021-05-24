@@ -1,8 +1,10 @@
 import { OPEN_MODAL, CLOSE_MODAL } from './types';
-
-export const openModal = () => {
+export const openModal = (postId) => {
   return {
     type: OPEN_MODAL,
+    payload: {
+      postId,
+    },
   };
 };
 

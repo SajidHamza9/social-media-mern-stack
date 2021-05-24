@@ -13,11 +13,14 @@ import {
 import SendIcon from '@material-ui/icons/Send';
 import ImageIcon from '@material-ui/icons/Image';
 import { IconButton } from '@material-ui/core';
+import { addPost } from '../../redux/actions/postActions';
+import { useDispatch } from 'react-redux';
 
-const AddPost = ({ addPost }) => {
+const AddPost = () => {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
   const ref = useRef();
+  const dispatch = useDispatch();
 
   return (
     <Card>
@@ -63,7 +66,7 @@ const AddPost = ({ addPost }) => {
               formData.append('image', file);
               setCaption('');
               setFile(null);
-              console.log(formData);
+              dispatch(addPost(formData));
             }
           }}>
           <SendIcon />

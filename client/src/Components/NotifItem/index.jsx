@@ -6,12 +6,14 @@ import AddCommentIcon from '@material-ui/icons/AddComment';
 import PersonIcon from '@material-ui/icons/Person';
 import { withStyles } from '@material-ui/core/styles';
 
-const NotifItem = React.forwardRef((props, ref) => {
+const NotifItem = ({ notification, close }) => {
+  const { type, createdAt, postId, currentUser } = notification;
+  const { userId, pdp, username } = currentUser;
   const handleClick = (e) => {
-    props.close(e);
+    close(e);
   };
   const setInfo = () => {
-    switch (props.type) {
+    switch (type) {
       case 'LIKE':
         return { action: 'Liked your post', icon: FavoriteIcon };
       case 'COMMENT':
@@ -32,7 +34,7 @@ const NotifItem = React.forwardRef((props, ref) => {
     },
   }))(setInfo().icon);
   return (
-    <Div onClick={handleClick} snackbar={props.snackbar}>
+    <Div onClick={handleClick}>
       <FlexDiv>
         <Badge
           overlap='circle'
@@ -41,16 +43,16 @@ const NotifItem = React.forwardRef((props, ref) => {
             horizontal: 'right',
           }}
           badgeContent={<SmallIcon />}>
-          <StyledAvatar src='/images/img1.jpeg' />
+          <StyledAvatar src={pdp} />
         </Badge>
         <Box>
-          <Name>Hamza Sajid</Name>
+          <Name>{username}</Name>
           <Action>{setInfo().action}</Action>
         </Box>
       </FlexDiv>
       <Time>2min</Time>
     </Div>
   );
-});
+};
 
 export default NotifItem;

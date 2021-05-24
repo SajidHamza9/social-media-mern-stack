@@ -15,9 +15,13 @@ import {
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
-const ConfirmModal = ({ open, handleClose, postId, type, commentId }) => {
+const ConfirmModal = ({ open, handleClose, remove }) => {
   const classes = useStyles();
 
+  const confirmHandler = () => {
+    remove();
+    handleClose();
+  };
   return (
     <div>
       <Modal
@@ -37,11 +41,11 @@ const ConfirmModal = ({ open, handleClose, postId, type, commentId }) => {
             <Body>
               <Text>Are you Sure?</Text>
               <Actions>
-                <Button>
+                <Button onClick={handleClose}>
                   <CloseIcon fontSize='inherit' />
                 </Button>
                 <Button contained>
-                  <CheckIcon fontSize='inherit' />
+                  <CheckIcon fontSize='inherit' onClick={confirmHandler} />
                 </Button>
               </Actions>
             </Body>

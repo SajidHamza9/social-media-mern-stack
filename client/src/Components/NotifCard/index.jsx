@@ -4,8 +4,10 @@ import NotifItem from '../NotifItem';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { useSelector } from 'react-redux';
 
 const NotifCard = ({ open, anchorEl, close }) => {
+  const { notifications } = useSelector((state) => state.notification);
   return (
     <Popper open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (
@@ -15,12 +17,9 @@ const NotifCard = ({ open, anchorEl, close }) => {
               <Header>
                 <Title>Notifications</Title>
               </Header>
-              <NotifItem type='LIKE' close={close} />
-              <NotifItem type='FOLLOW' close={close} />
-              <NotifItem type='COMMENT' close={close} />
-              <NotifItem type='LIKE' close={close} />
-              <NotifItem type='FOLLOW' close={close} />
-              <NotifItem type='COMMENT' close={close} />
+              {notifications.map((notif) => (
+                <NotifItem notification={notif} key={notif._id} close={close} />
+              ))}
             </Card>
           </Fade>
         </ClickAwayListener>

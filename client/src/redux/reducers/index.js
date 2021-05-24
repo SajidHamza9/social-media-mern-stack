@@ -5,11 +5,13 @@ import errorReducer from './errorReducer';
 import { loginReducer } from './loginReducer';
 import modalReducer from './modalReducer';
 import postReducer from './postReducer';
+import notificationReducer from './notificationReducer';
 
 export default combineReducers({
   auth: authReducer,
   errorsAuth: errorReducer,
   modal: modalReducer,
   post: postReducer,
+  notification: notificationReducer,
   loginReducer,
 });

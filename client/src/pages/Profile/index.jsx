@@ -62,6 +62,11 @@ const Profile = ({}) => {
                 name={p.username}
                 nbLikes={p.likes.length}
                 nbComments={p.comments.length}
+                postId={p._id}
+                userId={p.userId}
+                isLiked={p.isLiked}
+                time={p.createdAt}
+                likes={p.likes}
               />
             ))
           )}

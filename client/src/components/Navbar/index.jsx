@@ -20,14 +20,23 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
 import NotifCard from '../NotifCard';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+//import logout function action
+import { logout } from '../../redux/actions/authActions';
+import { useHistory } from 'react-router-dom';
+import { getNotif } from '../../redux/actions/notificationActions';
+
 const Navbar = () => {
   const [click, setClick] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const { currentUserId } = useSelector((state) => state.auth);
+  const { count } = useSelector((state) => state.notification);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
+    dispatch(getNotif());
   };
 
   const handleClose = (event) => {
@@ -37,21 +46,11 @@ const Navbar = () => {
     setOpen(false);
   };
 
-//import logout function action
-import { logout } from '../../redux/actions/authActions';
-import { useHistory } from 'react-router-dom';
-const Navbar = () => {
-  const [click, setClick] = useState(false);
-  const dispatch = useDispatch();
-  const history = useHistory();
-
   const handleLogout = () => {
-    console.log("logout");
+    console.log('logout');
     dispatch(logout());
-    history.push("/login");
-
-  }
-
+    history.push('/login');
+  };
 
   return (
     <>
@@ -85,7 +84,7 @@ const Navbar = () => {
             </NavItem>
             <NavItem onClick={handleToggle} ref={anchorRef}>
               <NavLink>
-                <Badge badgeContent={3} color='error'>
+                <Badge badgeContent={open ? 0 : count} color='error'>
                   <NotificationsIcon />
                 </Badge>
               </NavLink>
@@ -105,6 +104,6 @@ const Navbar = () => {
       </Nav>
     </>
   );
-}};
+};
 
 export default Navbar;

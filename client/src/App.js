@@ -1,9 +1,9 @@
 import { StylesProvider } from '@material-ui/core/styles';
 import {
+  Redirect,
   BrowserRouter as Router,
   Switch,
   Route,
-  useHistory,
 } from 'react-router-dom';
 import MessagesBtn from './components/MessagesBtn';
 import GlobalStyle from './styles/globalStyles';
@@ -20,59 +20,55 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import PostModal from './components/PostModal';
 import PrivateRoute from './components/PrivateRoute';
-import { loadUser } from "./redux/actions/authActions";
-import PhotosScreen from './pages/PhotosScreen';
+import { loadUser } from './redux/actions/authActions';
 import FriendsScreen from './pages/FriendsScreen';
+import { addNotif } from './redux/actions/notificationActions';
 function App() {
   const pathName = window.location.pathname;
-  const { isAuth} = useSelector((state) => state.auth);
+  const { isAuth } = useSelector((state) => state.auth);
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadUser());
-
     if (utils.user) {
       utils.socket.emit('identity', utils.user);
       utils.socket.on('notification', (data) => {
-        enqueueSnackbar(data.notification.type);
+        enqueueSnackbar(data.notification);
+        dispatch(addNotif(data.notification));
       });
     }
   }, []);
   return (
     <Router>
-            <StylesProvider injectFirst>
-              <GlobalStyle />
-              {pathName !== "/login" && <Navbar />}
-              <Switch>
-                {/* <Route path="/" exact component={Home} /> */}
-                {/* <Route path="/profile" component={Profile} /> */}
-                {/* <Route path="/login" component={Login} /> */}
-                {/* <Route path="/messages" component={Messages} />
+      <StylesProvider injectFirst>
+        <GlobalStyle />
+        {pathName !== '/login' && <Navbar />}
+        <Switch>
+          {/* <Route path="/" exact component={Home} /> */}
+          {/* <Route path="/profile" component={Profile} /> */}
+          {/* <Route path="/login" component={Login} /> */}
+          {/* <Route path="/messages" component={Messages} />
                 <Route path="/photos" component={PhotosScreen} />
                 <Route path="/friends" component={FriendsScreen} />
                 <Route path="/listFriends" component={Friends} />
                 <Route path="/Images" component={Images} /> */}
 
-                <PrivateRoute exact component={Home} path="/" />
-                <PrivateRoute exact component={Profile} path="/profile" />
-                <PrivateRoute exact component={Messages} path="/messages" />
-                <PrivateRoute exact component={PhotosScreen} path="/photos" />
-                <PrivateRoute exact component={Friends} path="/listFriends" />
-                <PrivateRoute exact component={FriendsScreen} path="/Friends" />
-                <Route exact path="/login">
-                   {isAuth ? <Redirect to="/" /> : <Login />} 
-                </Route>
-             
-              </Switch>
-              {pathName !== "/login" && pathName !== "/messages" && <MessagesBtn />}
-              <PostModal />
-            </StylesProvider>
-          </Router>
-
-  )}
-
-
-
+          <PrivateRoute exact component={Home} path='/' />
+          <PrivateRoute exact component={Profile} path='/profile/:id' />
+          <PrivateRoute exact component={Messages} path='/messages' />
+          <PrivateRoute exact component={PhotosScreen} path='/photos' />
+          <PrivateRoute exact component={Friends} path='/listFriends' />
+          <PrivateRoute exact component={FriendsScreen} path='/Friends' />
+          <Route exact path='/login'>
+            {isAuth ? <Redirect to='/' /> : <Login />}
+          </Route>
+        </Switch>
+        {pathName !== '/login' && pathName !== '/messages' && <MessagesBtn />}
+        <PostModal />
+      </StylesProvider>
+    </Router>
+  );
+}
 
 export default App;
