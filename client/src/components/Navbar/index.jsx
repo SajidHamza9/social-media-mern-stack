@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useRef } from 'react';
 import {
   Nav,
   NavbarContainer,
@@ -20,25 +19,42 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
-
+import NotifCard from '../NotifCard';
+import { useSelector, useDispatch } from 'react-redux';
 //import logout function action
 import { logout } from '../../redux/actions/authActions';
 import { useHistory } from 'react-router-dom';
+import { getNotif } from '../../redux/actions/notificationActions';
+
 const Navbar = () => {
   const [click, setClick] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+  const { currentUserId } = useSelector((state) => state.auth);
+  const { count } = useSelector((state) => state.notification);
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+    dispatch(getNotif());
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleLogout = () => {
-    console.log("logout");
+    console.log('logout');
     dispatch(logout());
-    history.push("/login");
-
-  }
-
+    history.push('/login');
+  };
 
   return (
     <>
+      <NotifCard open={open} anchorEl={anchorRef.current} close={handleClose} />
       <Nav>
         <NavbarContainer>
           <NavLogo to='/'>
@@ -50,28 +66,31 @@ const Navbar = () => {
             <SearchInput type='text' placeholder='Search...' />
           </SearchContainer>
 
-          <MobileIcon onClick={() => setClick(!click)}>
+          <MobileIcon
+            onClick={() => {
+              setClick(!click);
+            }}>
             {click ? (
               <CloseOutlinedIcon fontSize='inherit' />
             ) : (
               <MenuOutlinedIcon fontSize='inherit' />
             )}
           </MobileIcon>
-          <NavMenu onClick={() => setClick(!click)} click={click}>
-            <NavItem>
+          <NavMenu click={click}>
+            <NavItem onClick={() => setClick(!click)}>
               <NavLink to='/'>
                 <HomeIcon />
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink to='/'>
-                <Badge badgeContent={3} color='error'>
+            <NavItem onClick={handleToggle} ref={anchorRef}>
+              <NavLink>
+                <Badge badgeContent={open ? 0 : count} color='error'>
                   <NotificationsIcon />
                 </Badge>
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink to='/profile'>
+            <NavItem onClick={() => setClick(!click)}>
+              <NavLink to={`/profile/${currentUserId}`}>
                 <StyledAvatar alt='pdp' src='/images/img2.jpeg' />
               </NavLink>
             </NavItem>

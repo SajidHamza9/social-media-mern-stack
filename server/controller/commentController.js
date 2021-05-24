@@ -27,7 +27,7 @@ exports.addComment =  asyncHandler( async(req, res) => {
         comment,
         userId: currentUser._id,
         username: currentUser.username,
-        
+        pdp: currentUser.pdp   
     };
     post.comments.push(commentaire);
     await post.save();
@@ -52,46 +52,47 @@ exports.addComment =  asyncHandler( async(req, res) => {
     
 });
 
-exports.updateComment = asyncHandler(async(req, res) => {
-    const { idPost, idComment } = req.params;
-    const commentBody = req.body.comment;
-    // if(!mongoose.Types.ObjectId.isValid(idPost) || !mongoose.Types.ObjectId.isValid(idComment)) {
-    //     res.status(400);
-    //     throw new Error('Invalid params');
-    // }
+exports.updateComment = asyncHandler(async (req, res) => {
+  const { idPost, idComment } = req.params;
+  const commentBody = req.body.comment;
+  // if(!mongoose.Types.ObjectId.isValid(idPost) || !mongoose.Types.ObjectId.isValid(idComment)) {
+  //     res.status(400);
+  //     throw new Error('Invalid params');
+  // }
 
-    const post = await Post.findById(idPost);
-    
-    const index = post.comments.findIndex(comment => comment._id == idComment);
+  const post = await Post.findById(idPost);
 
-    //update comment
-    post.comments[index].comment = commentBody;
-    await post.save();
-    return res.status(200).json({msg: "updated true", comment: post});
+  const index = post.comments.findIndex((comment) => comment._id == idComment);
+
+  //update comment
+  post.comments[index].comment = commentBody;
+  await post.save();
+  return res.status(200).json({ msg: 'updated true', post: post });
 });
 
-exports.deleteComent = asyncHandler(async(req, res) => {
-    const { idPost, idComment } = req.params;
-    if(!mongoose.Types.ObjectId.isValid(idPost) || !mongoose.Types.ObjectId.isValid(idComment)) {
-        res.status(400);
-        throw new Error('Invalid params');
-    }
+exports.deleteComent = asyncHandler(async (req, res) => {
+  const { idPost, idComment } = req.params;
+  if (
+    !mongoose.Types.ObjectId.isValid(idPost) ||
+    !mongoose.Types.ObjectId.isValid(idComment)
+  ) {
+    res.status(400);
+    throw new Error('Invalid params');
+  }
 
-    const post = await Post.findById(idPost);
-    
-    const index = post.comments.findIndex(comment => comment._id == idComment);
+  const post = await Post.findById(idPost);
 
-    //delete comment
-    post.comments.splice(index, 1);
-    await post.save();
-    return res.status(200).json({msg: "deleted with success"});
+  const index = post.comments.findIndex((comment) => comment._id == idComment);
 
+  //delete comment
+  post.comments.splice(index, 1);
+  await post.save();
+  return res.status(200).json({ msg: 'deleted with success' });
 });
 
-exports.getComments = asyncHandler(async(req, res) => {
-    const {idPost} = req.params;
-    const post = await Post.findById(idPost);
-    const comments = post.comments;
-    return res.json({comments: comments});
-
-})
+exports.getComments = asyncHandler(async (req, res) => {
+  const { idPost } = req.params;
+  const post = await Post.findById(idPost);
+  const comments = post.comments;
+  return res.json({ comments: comments });
+});

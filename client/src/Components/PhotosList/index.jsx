@@ -4,6 +4,8 @@ import { Body, Image, ImageContainer } from './style';
 import { Container, Grid } from '@material-ui/core';
 import { photos } from '../../data/photos';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../redux/actions/modalActions';
 
 const useStyle = makeStyles({
   item: {
@@ -13,6 +15,7 @@ const useStyle = makeStyles({
   },
 });
 const PhotosList = () => {
+  const dispatch = useDispatch();
   const classes = useStyle();
   return (
     <Card style={{ marginBottom: '1rem' }}>
@@ -31,7 +34,7 @@ const PhotosList = () => {
                 md={4}
                 className={classes.item}>
                 <ImageContainer>
-                  <Image src={p.img} />
+                  <Image src={p.img} onClick={() => dispatch(openModal())} />
                 </ImageContainer>
               </Grid>
             ))}

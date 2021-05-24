@@ -11,7 +11,7 @@ export const Card = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   padding: 1rem;
 `;
 
@@ -19,12 +19,14 @@ export const Name = styled(Typography)`
   color: #000;
   font-weight: 700;
   font-size: 0.9rem;
-  margin-left: 15px;
+  margin-left: 10px;
+  cursor: pointer;
 `;
 
 export const StyledAvatar = styled(Avatar)`
   width: 40px;
   height: 40px;
+  cursor: pointer;
 `;
 
 export const Caption = styled(Typography)`
@@ -54,7 +56,7 @@ export const Image = styled.img`
 `;
 
 export const CardActions = styled.div`
-  padding: 1rem;
+  padding: 5px;
   display: flex;
   align-items: center;
 `;
@@ -62,7 +64,7 @@ export const CardActions = styled.div`
 export const Number = styled(Typography)`
   font-weight: 300;
   font-size: 15px;
-  margin-left: 10px;
+  margin-left: 3px;
   &:hover {
     text-decoration: underline;
   }
@@ -71,7 +73,7 @@ export const Number = styled(Typography)`
 export const Action = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 1.5rem;
+  margin-right: 1rem;
   color: #ab987a;
   cursor: pointer;
 `;
@@ -96,6 +98,12 @@ export const InputContainer = styled.div`
   align-items: center;
   border-top: 1px solid rgba(0, 0, 0, 0.11);
   border-bottom: 1px solid rgba(0, 0, 0, 0.11);
-
   padding: 0 1rem;
+`;
+
+export const Time = styled(Typography)`
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 300;
+  font-size: 12px;
+  margin-left: 10px;
 `;

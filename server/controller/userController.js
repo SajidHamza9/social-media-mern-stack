@@ -14,13 +14,36 @@ exports.getPosts = asyncHandler(async (req, res) => {
   if (user) {
     const followingIds = user.following.map((f) => f.userId);
     const ids = all ? [...followingIds, userId] : [userId];
-    console.log(typeof all, ids);
     const posts = await Post.find({
       userId: {
         $in: ids,
       },
+    }).sort({
+      createdAt: -1,
     });
-    res.json(posts);
+    const users = await User.find(
+      {
+        _id: {
+          $in: ids,
+        },
+      },
+      {
+        pdp: 1,
+        username: 1,
+      },
+    );
+    const postsList = posts.map((p) => {
+      const { pdp, username } = users.find(
+        (u) => u._id.toString() === p.userId.toString(),
+      );
+      const isLiked = !!p._doc.likes.find(
+        (l) => l.userId.toString() === req.user.id.toString(),
+      );
+
+      return { ...p._doc, pdp, username, isLiked };
+    });
+
+    res.json(postsList);
   } else {
     res.status(404);
     throw new Error('User not found');

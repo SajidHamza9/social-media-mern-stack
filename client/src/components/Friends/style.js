@@ -6,7 +6,7 @@ export const Card = styled.div`
   box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -moz-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
-  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 `;
 
 export const Header = styled.div`

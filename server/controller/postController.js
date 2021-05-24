@@ -1,7 +1,10 @@
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
-const mongoose = require('mongoose');
+const Notification = require('../models/Notifications');
+const { notifyPost, notifyUser } = require('../utils/sockets');
+const WebSockets = require('../utils/WebSockets');
+
 const { encode } = require('base64-arraybuffer');
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +13,7 @@ const path = require('path');
 // @access  Private
 
 exports.addLike = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
+  const userId = req.user.id;
   const post = await Post.findById(req.params.id);
 
   if (post) {
@@ -33,7 +36,22 @@ exports.addLike = asyncHandler(async (req, res) => {
     };
     post.likes.push(userData);
     await post.save();
-    res.status(201).json({ message: 'Like added' });
+    if (post.userId.toString() !== userId) {
+      const notification = new Notification({
+        type: 'LIKE',
+        targetUserId: post.userId,
+        currentUser: userData,
+        postId: req.params.id,
+      });
+      const notif = await notification.save();
+      notifyUser('notification', post.userId, { notification: notif });
+    }
+    notifyPost('like', {
+      userId: req.user.id,
+      postId: post._doc._id,
+      likes: post._doc.likes,
+    });
+    res.status(201).json({ message: 'Like added', post });
   } else {
     res.status(404);
     throw new Error('Post not found');
@@ -45,7 +63,7 @@ exports.addLike = asyncHandler(async (req, res) => {
 // @access  Private
 
 exports.removeLike = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
+  const userId = req.user.id;
   const post = await Post.findById(req.params.id);
 
   if (post) {
@@ -62,7 +80,18 @@ exports.removeLike = asyncHandler(async (req, res) => {
     if (index > -1) {
       post.likes.splice(index, 1);
       await post.save();
-      res.status(201).json({ message: 'Like removed' });
+      await Notification.deleteOne({
+        type: 'LIKE',
+        postId: req.params.id,
+        targetUserId: req.body.user,
+      });
+      notifyPost('like', {
+        userId: req.user.id,
+        postId: post._doc._id,
+        likes: post._doc.likes,
+      });
+
+      res.status(201).json({ message: 'Like removed', post });
     } else {
       res.status(404);
       throw new Error('Like not found');
@@ -117,8 +146,8 @@ exports.addPost = (req, res) => {
                         .catch(err => res.status(400).json({error: true, message: 'err'}));
           }).catch(err => res.status(400).json({error: true, message: err}))
         })
-        .catch(err => res.status(400).json({error: true, message: err}))
-}
+        .catch((err) => res.status(400).json({ error: true, message: err }));
+};
 
 // @route Put api/posts/:id
 // @desc  Update post
@@ -127,11 +156,13 @@ exports.updatePost = (req, res) => {
   const { caption } = req.body;
   const idPost = req.params.id;
   Post.findById(idPost)
-      .then(post => {
-        post.caption = caption;
-        post.save().then(updatedPost => res.status(200).json(updatedPost));
-      })
-      .catch(err => res.status(400).json({error: true, message: "post not found"}));
+    .then((post) => {
+      post.caption = caption;
+      post.save().then((updatedPost) => res.status(200).json(updatedPost));
+    })
+    .catch((err) =>
+      res.status(400).json({ error: true, message: 'post not found' }),
+    );
 };
 
 // @route delete api/posts/:id
@@ -139,22 +170,38 @@ exports.updatePost = (req, res) => {
 // @access Private
 exports.deletePost = (req, res) => {
   const idPost = req.params.id;
-  Post.deleteOne({_id: idPost})
-      .then(() => {
-        
-        User.findById(req.user.id)
-            .then(user => {
-              const index = user.posts.findIndex(post => post.postId == idPost);
-              if(index > -1) user.posts.splice(index, 1);
-              user.save().then(() => res.status(200).json({msg: "post deleted with success"}));
-            })
-            .catch(err => res.status(400).json({error: true, msg: err}))
-      })
-      .catch(err =>  res.status(400).json({error: true, message: "post not found"}))
-}
+  Post.deleteOne({ _id: idPost })
+    .then(() => {
+      User.findById(req.user.id)
+        .then((user) => {
+          const index = user.posts.findIndex((post) => post.postId == idPost);
+          if (index > -1) user.posts.splice(index, 1);
+          user
+            .save()
+            .then(() =>
+              res.status(200).json({ msg: 'post deleted with success' }),
+            );
+        })
+        .catch((err) => res.status(400).json({ error: true, msg: err }));
+    })
+    .catch((err) =>
+      res.status(400).json({ error: true, message: 'post not found' }),
+    );
+};
 
+// @route get /api/posts/:id
+// @desc  load post
+// @access Private
 
-
-
-
-
+exports.getPost = asyncHandler(async (req, res) => {
+  const postId = req.params.id;
+  let post = await Post.findById(postId);
+  if (post) {
+    const { pdp, username } = await User.findById(post.userId, 'pdp username');
+    post = { ...post._doc, pdp, username };
+    res.status(201).json(post);
+  } else {
+    res.status(404);
+    throw new Error('Post not found');
+  }
+});

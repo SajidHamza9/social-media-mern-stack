@@ -8,15 +8,19 @@ import {
   CardActions,
   Content,
   Image,
+  ImageContainer,
 } from './style';
 import SendIcon from '@material-ui/icons/Send';
 import ImageIcon from '@material-ui/icons/Image';
 import { IconButton } from '@material-ui/core';
+import { addPost } from '../../redux/actions/postActions';
+import { useDispatch } from 'react-redux';
 
-const AddPost = ({ addPost }) => {
+const AddPost = () => {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
   const ref = useRef();
+  const dispatch = useDispatch();
 
   return (
     <Card>
@@ -24,12 +28,17 @@ const AddPost = ({ addPost }) => {
         <StyledAvatar src='/images/img2.jpeg' />
         <Content>
           <Input
+            multiline
             placeholder='What’s happening?'
             type='text'
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
           />
-          {file ? <Image img={file} /> : null}
+          {file ? (
+            <ImageContainer>
+              <Image src={URL.createObjectURL(file)} />
+            </ImageContainer>
+          ) : null}
         </Content>
       </Header>
       <StyledDivider />
@@ -38,7 +47,12 @@ const AddPost = ({ addPost }) => {
           ref={ref}
           style={{ display: 'none' }}
           type='file'
-          onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))}
+          accept='image/*'
+          name='image'
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            e.target.value = null;
+          }}
         />
         <IconButton onClick={() => ref.current.click()}>
           <ImageIcon style={{ color: ' #ab987a' }} />
@@ -47,17 +61,13 @@ const AddPost = ({ addPost }) => {
           style={{ color: ' #ab987a' }}
           onClick={() => {
             if (caption || file) {
-              addPost({
-                id: Math.random() * 1000,
-                name: 'Hamza Sajid',
-                pdp: '/images/img3.jpeg',
-                image: file,
-                caption: caption,
-              });
+              const formData = new FormData();
+              formData.append('caption', caption);
+              formData.append('image', file);
+              setCaption('');
+              setFile(null);
+              dispatch(addPost(formData));
             }
-
-            setCaption('');
-            setFile(null);
           }}>
           <SendIcon />
         </IconButton>
