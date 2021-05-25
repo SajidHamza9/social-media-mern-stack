@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Post = require("../models/Posts");
 const User = require("../models/User");
 exports.getFollowers = asyncHandler(async (req, res) => {
-  User.findById({ _id: req.params.id }, async (err, data) => {
+  User.findById({ _id: req.user.id }, async (err, data) => {
     if (err) {
       await res.status(500).json({
         message: "error",
@@ -22,7 +22,7 @@ exports.getFollowers = asyncHandler(async (req, res) => {
   });
 });
 exports.getFollowing = asyncHandler(async (req, res) => {
-  User.findById({ _id: req.params.id }, async (err, data) => {
+  User.findById({ _id: req.user.id }, async (err, data) => {
     if (err) {
       await res.status(500).json({
         message: "error",
@@ -45,12 +45,12 @@ exports.deleteFollowing = asyncHandler(async (req, res) => {
   User.findById({ _id: req.body.id }, async (err, data) => {
     if (err) {
       await res.status(404).json({
-        message: `Cannot find user with this ID : ${req.params.id}`,
+        message: `Cannot find user with this ID : ${req.body.id}`,
         err: err,
       });
     } else {
       User.findByIdAndUpdate(
-        { _id: req.params.id },
+        { _id: req.user.id },
         {
           $pull: {
             following: {
@@ -62,7 +62,7 @@ exports.deleteFollowing = asyncHandler(async (req, res) => {
           if (err) {
             await res
               .status(404)
-              .send(`Cannot find follower with this ID : ${req.body.id}`);
+              .send(`Cannot find follower with this ID : ${req.user.id}`);
           } else {
             res.status(201).json({
               message: "friend deleted  to the list of following",
@@ -75,7 +75,7 @@ exports.deleteFollowing = asyncHandler(async (req, res) => {
         {
           $pull: {
             followers: {
-              userId: req.params.id,
+              userId: req.user.id,
             },
           },
         },
@@ -83,7 +83,7 @@ exports.deleteFollowing = asyncHandler(async (req, res) => {
           if (err) {
             await res
               .status(404)
-              .send(`Cannot find follower with this ID : ${req.params.id}`);
+              .send(`Cannot find follower with this ID : ${req.body.id}`);
           } else {
             res.status(201).json({
               message: "friend deleted  to the list of followers",
@@ -98,12 +98,12 @@ exports.addFollowing = asyncHandler(async (req, res) => {
   User.findById({ _id: req.body.id }, async (err, data) => {
     if (err) {
       await res.status(404).json({
-        message: `Cannot find user with this ID : ${req.params.id}`,
+        message: `Cannot find user with this ID : ${req.body.id}`,
         err: err,
       });
     } else {
       User.findByIdAndUpdate(
-        { _id: req.params.id },
+        { _id: req.user.id },
         {
           $push: {
             following: {
@@ -117,14 +117,14 @@ exports.addFollowing = asyncHandler(async (req, res) => {
           if (err) {
             await res
               .status(404)
-              .send(`Cannot find follower with this ID : ${req.params.id}`);
+              .send(`Cannot find follower with this ID : ${req.user.id}`);
           } else {
             User.findByIdAndUpdate(
               { _id: req.body.id },
               {
                 $push: {
                   followers: {
-                    userId: req.params.id,
+                    userId: req.user.id,
                     username: data1.username,
                     pdp: data1.pdp,
                   },
@@ -135,7 +135,7 @@ exports.addFollowing = asyncHandler(async (req, res) => {
                   await res
                     .status(404)
                     .send(
-                      `Cannot find follower with this ID : ${req.params.id}`
+                      `Cannot find follower with this ID : ${req.body.id}`
                     );
                 } else {
                   res.status(201).json({

@@ -50,6 +50,7 @@ const Navbar = () => {
     console.log('logout');
     dispatch(logout());
     history.push('/login');
+    
   };
 
   return (

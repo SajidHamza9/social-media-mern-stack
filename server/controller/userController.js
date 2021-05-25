@@ -2,7 +2,7 @@ const { json } = require('express');
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
-
+const mongoose = require('mongoose');
 // @desc    get posts
 // @route   GET /users/id/posts?all=true
 // @access  Private
@@ -56,10 +56,25 @@ exports.getPosts = asyncHandler(async (req, res) => {
 
 exports.getUserInfo = asyncHandler(async (req, res) => {
   const userId = req.params.id;
+  const currentUser = await User.findById(req.user.id);
   const user = await User.findById(userId).select(
     '-password -posts -__v -createdAt -updatedAt',
   );
   if (user) {
+    //traitement following and followers
+    user.following.map(fl => {
+       const found = currentUser.following.find(cf => cf.userId.toString() === fl.userId.toString());
+       found ? fl.isFollow = true : fl.isFollow = false;
+       return fl;
+    });
+    user.followers.map(fl => {
+      const found = currentUser.following.find(cf => cf.userId.toString() === fl.userId.toString());
+      found ? fl.isFollow = true : fl.isFollow = false;
+      return fl;
+    });
+    //found follow
+    const found = currentUser.following.find(fl => fl.userId == userId);
+    user._doc.isFollow = found ? true : false;
     res.json(user);
   } else {
     res.status(404);
@@ -116,6 +131,27 @@ exports.removeUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
+exports.getUsers = asyncHandler(async (req, res) => {
+  console.log("get");
+  const q = req.query.q ? req.query.q : '';
+
+  const users = await User.find({username: {$regex: q, $options: 'i'} }, 'username pdp').limit(5).exec();
+  res.status(200).json(users);
+});
+
+exports.getSuggestion = asyncHandler(async(req, res) => {
+  const currentUser = await User.findById(req.user.id);
+
+  const map = currentUser.following.map(fl => mongoose.Types.ObjectId(fl.userId));
+  console.log(map);
+  const toto = await User.aggregate([
+    {$match: {_id: {$nin: map}}},
+    {$sample: {size: 10}},
+    { $project : { _id: 1, username: 1 } } 
+  ]);
+    res.status(200).json(toto);
+})
 
 // exports.updateUser = asyncHandler(async(req, res) => {
 //     const {username, bio, email, pdp}
