@@ -9,13 +9,7 @@ const mongoose = require('mongoose');
 // @access Private
 exports.addComment =  asyncHandler( async(req, res) => {
     const id = req.params.id;
-    // if(!mongoose.Types.ObjectId.isValid(id)){
-    //     res.status(400);
-    //     throw new Error('Params Invalid');
-    // }
-       
     const { comment } = req.body;
-    //find current user
     const currentUser = await User.findById(req.user.id);
     
     const post = await Post.findById(id);
@@ -72,13 +66,13 @@ exports.updateComment = asyncHandler(async (req, res) => {
 
 exports.deleteComent = asyncHandler(async (req, res) => {
   const { idPost, idComment } = req.params;
-  if (
-    !mongoose.Types.ObjectId.isValid(idPost) ||
-    !mongoose.Types.ObjectId.isValid(idComment)
-  ) {
-    res.status(400);
-    throw new Error('Invalid params');
-  }
+  // if (
+  //   !mongoose.Types.ObjectId.isValid(idPost) ||
+  //   !mongoose.Types.ObjectId.isValid(idComment)
+  // ) {
+  //   res.status(400);
+  //   throw new Error('Invalid params');
+  // }
 
   const post = await Post.findById(idPost);
 

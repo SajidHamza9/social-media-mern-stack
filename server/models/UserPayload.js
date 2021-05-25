@@ -15,6 +15,9 @@ module.exports = UserShema = new Schema(
     pdp: {
       type: String,
     },
+    isFollow: {
+      type: Boolean
+    }
   },
   { _id: false },
 );

@@ -7,7 +7,7 @@ import {
   LOGING_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
-  IS_AUTH,
+  IS_AUTH
 } from "../actions/types";
 const initialState = {
     token: localStorage.getItem('token'),
@@ -59,6 +59,16 @@ export default function(state = initialState, action) {
             }
         case IS_AUTH:
             return state.isAuth;
+        case ADD_DELETE_FOLLOW:
+            return {
+                ...state,
+                user: action.payload
+            }
+        case ADD_DELETE_POST:
+            return {
+                ...state,
+                user: action.payload
+            }
 
     default:
       return state;
