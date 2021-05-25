@@ -9,13 +9,13 @@ const Messages = () => {
   // if i click on a connected person
   const location = useLocation();
   const { pers } = location;
-  cons[(updateSidebar, setUpdateSidebar)] = useState(false);
   const [person, setPerson] = useState(pers);
+  // cons[(updateSidebar, setUpdateSidebar)] = useState(false);
   const selectConv = (user, convId) => {
     user.convId = convId;
     setPerson(user);
   };
-  const orderSidebar = () => {};
+  // const orderSidebar = () => {};
   console.log("conv opened with this person :");
   console.log(person);
   return (
