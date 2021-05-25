@@ -10,9 +10,12 @@ import {
   Button,
 } from './style';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { getUserId } from '../../redux/actions/userAcions';
+import { useHistory } from 'react-router-dom';
 const InfoCard = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, currentUserId } = useSelector((state) => state.auth);
+  const history = useHistory();
+  const dispatch = useDispatch();
   return (
     <Card>
       <Header>
@@ -36,7 +39,13 @@ const InfoCard = () => {
           <Bold>{user?.postsCount}</Bold>
         </Item>
         <Item>
-          <Button>View Profile</Button>
+          <Button
+            onClick={() => {
+              dispatch(getUserId(currentUserId));
+              history.push('/profile');
+            }}>
+            View Profile
+          </Button>
         </Item>
       </StyledList>
     </Card>

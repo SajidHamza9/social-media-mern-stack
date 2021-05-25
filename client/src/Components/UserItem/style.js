@@ -18,6 +18,7 @@ export const Name = styled(Typography)`
   font-weight: 700;
   font-size: 0.9rem;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
 export const PrimaryButton = styled(Btn)`
@@ -50,4 +51,5 @@ export const OutlinedButton = styled(Btn)`
 export const StyledAvatar = styled(Avatar)`
   width: 40px;
   height: 40px;
+  cursor: pointer;
 `;

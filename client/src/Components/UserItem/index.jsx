@@ -7,16 +7,24 @@ import {
   OutlinedButton,
   PrimaryButton,
 } from './style';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserId } from '../../redux/actions/userAcions';
+import { useHistory } from 'react-router-dom';
 
 const UserItem = ({ img, name, status, userId }) => {
   const [isFollowed, setIsFollowed] = useState(status);
   const { currentUserId } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const showProfile = () => {
+    dispatch(getUserId(userId));
+    history.push('/profile');
+  };
   return (
     <Div>
       <FlexDiv>
-        <StyledAvatar src={img} />
-        <Name>{name}</Name>
+        <StyledAvatar onClick={showProfile} src={img} />
+        <Name onClick={showProfile}>{name}</Name>
       </FlexDiv>
       {currentUserId !== userId ? (
         isFollowed ? (

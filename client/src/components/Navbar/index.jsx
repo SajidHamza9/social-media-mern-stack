@@ -23,6 +23,7 @@ import { logout } from '../../redux/actions/authActions';
 import { useHistory } from 'react-router-dom';
 import { getNotif } from '../../redux/actions/notificationActions';
 import Search from '../Search';
+import { getUserId } from '../../redux/actions/userAcions';
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
@@ -85,7 +86,9 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem onClick={() => setClick(!click)}>
-              <NavLink to={`/profile/${currentUserId}`}>
+              <NavLink
+                to={'/profile'}
+                onClick={() => dispatch(getUserId(currentUserId))}>
                 <StyledAvatar alt='pdp' src='/images/img2.jpeg' />
               </NavLink>
             </NavItem>

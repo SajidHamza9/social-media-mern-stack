@@ -3,8 +3,18 @@ import { Div, FlexDiv, StyledAvatar, Name } from '../UserItem/style';
 import { withStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Badge } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getUserId } from '../../redux/actions/userAcions';
 
-const LikeItem = ({ pdp, name, userId, display }) => {
+const LikeItem = ({ pdp, name, userId, display, close }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const showProfile = (e) => {
+    dispatch(getUserId(userId));
+    close && close(e);
+    history.push('/profile');
+  };
   const SmallIcon = withStyles((theme) => ({
     root: {
       display: `${display ? 'block' : 'none'}`,
@@ -27,9 +37,9 @@ const LikeItem = ({ pdp, name, userId, display }) => {
             horizontal: 'right',
           }}
           badgeContent={<SmallIcon />}>
-          <StyledAvatar src={pdp} />
+          <StyledAvatar src={pdp} onClick={showProfile} />
         </Badge>
-        <Name>{name}</Name>
+        <Name onClick={showProfile}>{name}</Name>
       </FlexDiv>
     </Div>
   );

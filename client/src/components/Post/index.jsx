@@ -39,7 +39,7 @@ import {
   updateCommentsSocket,
 } from '../../redux/actions/postActions';
 import utils from '../../utils/socket';
-import { getUser } from '../../redux/actions/userAcions';
+import { getUserId } from '../../redux/actions/userAcions';
 
 const Post = ({
   time,
@@ -101,7 +101,7 @@ const Post = ({
 
   const showProfile = () => {
     dispatch(closeModal());
-    dispatch(getUser(userId));
+    dispatch(getUserId(userId));
     history.push(`/profile`);
   };
 

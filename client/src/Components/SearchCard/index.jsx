@@ -19,6 +19,7 @@ const SearchCard = ({ open, anchorEl, close, users }) => {
                   name={user.username}
                   key={user._id}
                   userId={user._id}
+                  close={close}
                 />
               ))}
             </Card>

@@ -1,7 +1,7 @@
 import { GET_USER_PROFILE, GET_USER_PROFILE_SUCCESS } from '../actions/types';
 
 const initialState = {
-  userId: null,
+  userId: localStorage.getItem('userProdileId'),
   username: null,
   pdp: null,
   followers: null,
@@ -12,9 +12,10 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_USER_PROFILE:
+      localStorage.setItem('userProdileId', action.payload.id);
       return {
         ...state,
-        userId: action.payload._id,
+        userId: action.payload.id,
       };
     case GET_USER_PROFILE_SUCCESS:
       return {

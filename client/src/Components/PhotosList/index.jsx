@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../redux/actions/modalActions';
 import { loadProfilePosts } from '../../redux/actions/postActions.js';
+import { getUserProfile } from '../../redux/actions/userAcions';
 
 const useStyle = makeStyles({
   item: {
@@ -18,11 +19,12 @@ const useStyle = makeStyles({
 const PhotosList = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { currentUserId } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.userProfile);
   const postsWithImage = posts.filter((post) => !!post.image);
   const classes = useStyle();
   useEffect(() => {
-    dispatch(loadProfilePosts(currentUserId));
+    dispatch(getUserProfile(userId));
+    dispatch(loadProfilePosts(userId));
   }, []);
   return (
     <Card style={{ marginBottom: '1rem' }}>

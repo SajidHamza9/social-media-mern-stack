@@ -13,6 +13,7 @@ import { Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '../../redux/actions/modalActions';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   img: {
     [theme.breakpoints.down('md')]: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Photos = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const { posts } = useSelector((state) => state.post);
   const postsWithImage = posts.filter((post) => !!post.image).slice(0, 4);
@@ -36,7 +38,7 @@ const Photos = () => {
     <Card>
       <Header>
         <Title>Photos</Title>
-        <Button href='/photos'>View All</Button>
+        <Button onClick={() => history.push('/photos')}>View All</Button>
       </Header>
       <Body>
         <Grid container>

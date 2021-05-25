@@ -8,15 +8,20 @@ import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../redux/actions/modalActions';
+import { getUserId } from '../../redux/actions/userAcions';
+import { useHistory } from 'react-router-dom';
 
 const NotifItem = ({ notification, close }) => {
   const { type, createdAt, postId, currentUser } = notification;
   const { userId, pdp, username } = currentUser;
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleClick = (e) => {
     close(e);
     if (type === 'FOLLOW') {
+      dispatch(getUserId(userId));
+      history.push('/profile');
     } else if (type === 'LIKE' || type === 'COMMENT') {
       dispatch(openModal(postId));
     }

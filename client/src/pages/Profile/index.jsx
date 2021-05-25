@@ -7,7 +7,6 @@ import Photos from '../../components/Photos';
 import EditIcon from '@material-ui/icons/Edit';
 import Friends from '../../components/Friends';
 import { makeStyles } from '@material-ui/core/styles';
-import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import SkeletonPost from '../../components/SkeletonPost';
 import { loadProfilePosts } from '../../redux/actions/postActions';
@@ -16,6 +15,7 @@ import { PrimarydButton, ButtonWrapper, OutlinedButton } from './style';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import { getUserProfile } from '../../redux/actions/userAcions';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -37,7 +37,7 @@ const Profile = ({}) => {
   const { posts, loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { userId, username, pdp, followers, following, isFollow } = useSelector(
+  const { userId, followers, following, isFollow } = useSelector(
     (state) => state.userProfile,
   );
   const [followed, setFollowed] = useState(isFollow);
@@ -48,15 +48,13 @@ const Profile = ({}) => {
   };
 
   useEffect(() => {
-    if (userId) {
-      console.log(`UserId: ${userId}`);
-      dispatch(loadProfilePosts(userId));
-    }
+    dispatch(getUserProfile(userId));
+    dispatch(loadProfilePosts(userId));
   }, [userId]);
 
   return (
     <Container maxWidth='lg'>
-      <HeaderProfile username={username} pdp={pdp} />
+      <HeaderProfile />
       <Grid container spacing={3}>
         <Grid item md={6} xs={12} lg={3} className={classes.sticky}>
           {currentUserId.toString() === userId?.toString() ? (

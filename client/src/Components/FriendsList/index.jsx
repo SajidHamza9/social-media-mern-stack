@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Header, Title } from '../Friends/style';
 import { SearchContainer, SearchInput, Item } from './style';
 import { Body } from '../PhotosList/style';
@@ -19,6 +19,7 @@ const FriendsList = ({ list, title }) => {
   const classes = useStyle();
   const [name, setName] = useState('');
   const [items, setItems] = useState(friends);
+
   const searchHandler = (e) => {
     setName(e.target.value);
     setItems(

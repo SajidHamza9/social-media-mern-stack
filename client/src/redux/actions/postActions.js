@@ -14,6 +14,7 @@ import {
   ADD_LIKE,
   ADD_LIKE_SUCCESS,
   UPDATE_LIKES_SOCKET,
+  VIDER_POSTS,
 } from './types';
 import tokenConfig from '../helpers/tokenConfig';
 import axios from 'axios';

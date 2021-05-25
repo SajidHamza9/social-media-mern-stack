@@ -7,6 +7,9 @@ import EditPost from '../EditPost';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateComment, deleteComment } from '../../redux/actions/postActions';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+import { getUserId } from '../../redux/actions/userAcions';
+import { closeModal } from '../../redux/actions/modalActions';
 
 const CommentItem = ({
   pdp,
@@ -22,7 +25,13 @@ const CommentItem = ({
   const [showEdit, setShowEdit] = useState(false);
   const { currentUserId } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [commentaire, setCommentaire] = useState(comment);
+  const showProfile = () => {
+    dispatch(getUserId(userId));
+    dispatch(closeModal());
+    history.push('/profile');
+  };
 
   const editComment = (comment) => {
     dispatch(updateComment(postId, commentId, comment));
@@ -55,10 +64,10 @@ const CommentItem = ({
 
   return (
     <Wrapper>
-      <StyledAvatar src={pdp} />
+      <StyledAvatar onClick={showProfile} src={pdp} />
       <RightSide>
         <Box display='flex' justifyContent='space-between'>
-          <Name>{name}</Name>
+          <Name onClick={showProfile}>{name}</Name>
           <Box display='flex' alignItems='center'>
             <Time>{moment(time).fromNow()}</Time>
             {userId.toString() === currentUserId.toString() && (

@@ -4,15 +4,18 @@ import axios from 'axios';
 import { returnErrors } from '../actions/errorsActions';
 import tokenConfig from '../helpers/tokenConfig';
 
-export const getUser = (userId) => (dispatch, getState) => {
-  // config headers
-  const configHeader = tokenConfig(getState);
-  dispatch({
+export const getUserId = (id) => {
+  return {
     type: GET_USER_PROFILE,
     payload: {
-      _id: userId,
+      id,
     },
-  });
+  };
+};
+export const getUserProfile = (userId) => (dispatch, getState) => {
+  // config headers
+  const configHeader = tokenConfig(getState);
+
   axios
     .get(`/api/users/${userId}`, configHeader)
     .then((res) => {
