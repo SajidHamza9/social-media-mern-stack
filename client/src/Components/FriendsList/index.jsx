@@ -47,10 +47,15 @@ const FriendsList = ({ list, title }) => {
       <Body>
         <Container maxWidth='md'>
           <Grid container spacing={5}>
-            {items.map((f) => (
+            {list?.map((f) => (
               <Grid item xs={12} sm={6} key={f.id} className={classes.item}>
                 <Item>
-                  <UserItem img={f.pdp} name={f.name} />
+                  <UserItem
+                    img={f.pdp}
+                    name={f.username}
+                    userId={f.userId}
+                    status={f.isFollow}
+                  />
                 </Item>
               </Grid>
             ))}

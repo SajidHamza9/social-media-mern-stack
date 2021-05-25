@@ -2,12 +2,12 @@ import React from 'react';
 import { Header, StyledAvatar } from './style';
 import { Bold, Light } from '../InfoCard/style.js';
 
-const HeaderProfile = () => {
+const HeaderProfile = ({ username, pdp, bio }) => {
   return (
     <Header>
       <StyledAvatar src='/images/img2.jpeg' />
-      <Bold>Hamza Sajid</Bold>
-      <Light>Bio</Light>
+      <Bold>{username}</Bold>
+      <Light>{bio}</Light>
     </Header>
   );
 };

@@ -9,8 +9,10 @@ import {
   Light,
   Button,
 } from './style';
+import { useSelector, useDispatch } from 'react-redux';
 
 const InfoCard = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <Card>
       <Header>
@@ -18,20 +20,20 @@ const InfoCard = () => {
       </Header>
       <StyledList>
         <Item>
-          <Bold>Hamza Sajid</Bold>
-          <Light>Bio</Light>
+          <Bold>{user?.username}</Bold>
+          <Light>{user?.bio} </Light>
         </Item>
         <Item>
           <Light>Following</Light>
-          <Bold>100</Bold>
+          <Bold>{user?.followingCount}</Bold>
         </Item>
         <Item>
           <Light>Followers</Light>
-          <Bold>25</Bold>
+          <Bold>{user?.followersCount} </Bold>
         </Item>
         <Item>
           <Light>Posts</Light>
-          <Bold>12</Bold>
+          <Bold>{user?.postsCount}</Bold>
         </Item>
         <Item>
           <Button>View Profile</Button>

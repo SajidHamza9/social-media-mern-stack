@@ -14,6 +14,7 @@ export const IS_AUTH = 'IS_AUTH';
 
 //user Profile
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
+export const GET_USER_PROFILE_SUCCESS = 'GET_USER_PROFILE_SUCCESS';
 
 export const GET_LOGGED_IN = 'GET_LOGGED_IN';
 export const REQUEST_LOGGED_IN_SUCCESS = 'REQUEST_LOGGED_IN_SUCCESS';

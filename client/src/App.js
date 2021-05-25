@@ -53,7 +53,7 @@ function App() {
                  */}
 
           <PrivateRoute exact component={Home} path='/' />
-          <PrivateRoute exact component={Profile} path='/profile/:id' />
+          <PrivateRoute exact component={Profile} path='/profile' />
           <PrivateRoute exact component={Messages} path='/messages' />
           <PrivateRoute exact component={PhotosScreen} path='/photos' />
           <PrivateRoute exact component={FollowersScreen} path='/followers' />

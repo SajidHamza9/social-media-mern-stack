@@ -34,49 +34,58 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = ({}) => {
   const classes = useStyles();
-  const { id } = useParams();
   const { posts, loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [followed, setFollowed] = useState(false);
+  const { userId, username, pdp, followers, following, isFollow } = useSelector(
+    (state) => state.userProfile,
+  );
+  const [followed, setFollowed] = useState(isFollow);
+  const { currentUserId } = useSelector((state) => state.auth);
 
   const handleClose = () => {
     setOpen(!open);
   };
 
   useEffect(() => {
-    dispatch(loadProfilePosts(id));
-  }, []);
+    if (userId) {
+      console.log(`UserId: ${userId}`);
+      dispatch(loadProfilePosts(userId));
+    }
+  }, [userId]);
 
   return (
     <Container maxWidth='lg'>
-      <HeaderProfile />
+      <HeaderProfile username={username} pdp={pdp} />
       <Grid container spacing={3}>
         <Grid item md={6} xs={12} lg={3} className={classes.sticky}>
-          <PrimarydButton
-            startIcon={<EditIcon />}
-            onClick={() => setOpen(!open)}
-            primary>
-            Edit Profile
-          </PrimarydButton>
-          {/* <ButtonWrapper>
-            {followed ? (
-              <OutlinedButton
-                onClick={() => setFollowed(!followed)}
-                startIcon={<PersonAddDisabledIcon />}>
-                Unfollow
-              </OutlinedButton>
-            ) : (
-              <OutlinedButton
-                onClick={() => setFollowed(!followed)}
-                startIcon={<PersonAddIcon />}>
-                Follow
-              </OutlinedButton>
-            )}
-            <PrimarydButton startIcon={<ChatBubbleIcon />}>
-              Message
+          {currentUserId.toString() === userId?.toString() ? (
+            <PrimarydButton
+              startIcon={<EditIcon />}
+              onClick={() => setOpen(!open)}
+              primary>
+              Edit Profile
             </PrimarydButton>
-          </ButtonWrapper> */}
+          ) : (
+            <ButtonWrapper>
+              {followed ? (
+                <OutlinedButton
+                  onClick={() => setFollowed(!followed)}
+                  startIcon={<PersonAddDisabledIcon />}>
+                  Unfollow
+                </OutlinedButton>
+              ) : (
+                <OutlinedButton
+                  onClick={() => setFollowed(!followed)}
+                  startIcon={<PersonAddIcon />}>
+                  Follow
+                </OutlinedButton>
+              )}
+              <PrimarydButton startIcon={<ChatBubbleIcon />}>
+                Message
+              </PrimarydButton>
+            </ButtonWrapper>
+          )}
           <Photos />
         </Grid>
         <Grid item md={12} lg={6} className={classes.last}>
@@ -106,8 +115,16 @@ const Profile = ({}) => {
           )}
         </Grid>
         <Grid item md={6} xs={12} lg={3} className={classes.sticky}>
-          <Friends title='Following' to='/following' />
-          <Friends title='Followers' to='/followers' />
+          <Friends
+            title='Following'
+            to='/following'
+            list={following?.slice(0, 3)}
+          />
+          <Friends
+            title='Followers'
+            to='/followers'
+            list={followers?.slice(0, 3)}
+          />
         </Grid>
       </Grid>
       <EditProfileModal open={open} handleClose={handleClose} />

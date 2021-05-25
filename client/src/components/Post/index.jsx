@@ -39,6 +39,7 @@ import {
   updateCommentsSocket,
 } from '../../redux/actions/postActions';
 import utils from '../../utils/socket';
+import { getUser } from '../../redux/actions/userAcions';
 
 const Post = ({
   time,
@@ -100,7 +101,8 @@ const Post = ({
 
   const showProfile = () => {
     dispatch(closeModal());
-    history.push(`/profile/${userId}`);
+    dispatch(getUser(userId));
+    history.push(`/profile`);
   };
 
   const handleClick = (event) => {
