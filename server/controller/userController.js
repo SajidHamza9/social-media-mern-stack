@@ -82,18 +82,155 @@ exports.getUserInfo = asyncHandler(async (req, res) => {
   }
 });
 
-// exports.updateUser = asyncHandler(async (req, res) => {
-//     const userId = req.params.id;
-//     const {username, bio, pdp} = req.body;
-//     const user = await User.findById(userId, '_id');
+exports.updateUser = asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+    const {username, bio} = req.body;
+    if(!username || username === '' || !bio || bio === '')
+        return res.status(400).json({error: "fileds cannot be empty"});
+    var pdp = null;
+    const dirname = (__dirname).replace("\\server\\controller", "");
+    if(req.file) {
+        const base64String = fs.readFileSync(path.join(dirname + '/uploads/' + req.file.filename));
+        pdp = {
+          data: encode(base64String),
+          contentType: req.file.mimetype
+        }
 
-//     if (user) {
-//       res.json(user);
-//     } else {
-//       res.status(404);
-//       throw new Error('User not found');
-//     }
-//   });
+        //delete file
+        fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
+          if(err) throw new Error(err);
+        })
+    }
+  //update user
+  const currentUser = await User.findById(req.user.id);
+  currentUser.username = username;
+  currentUser.bio = bio;
+  currentUser.pdp = pdp;
+  await currentUser.save();
+
+  
+  const otherUsers = await User.find( { _id: { $ne: req.user.id } }, "username following followers").exec();
+  otherUsers.forEach(asyncHandler(async (user) => {
+    //update followers
+    const find1 = user.followers.find(fl => fl.userId == req.user.id);
+    if(find1){
+      console.log(user);
+      await User.findByIdAndUpdate(
+        {_id: user._id},
+        {
+          $pull: {
+            followers: {
+              userId: req.user.id,
+            },
+          }
+        }
+      );
+      await User.findByIdAndUpdate(
+        { _id: user._id },
+        {
+          $push: {
+            followers: {
+              userId: req.user.id,
+              username,
+              pdp
+            },
+          },
+        },
+      )
+     }
+
+    //update following
+    const find2 = user.following.find(fl => fl.userId == req.user.id);
+    if(find2){
+      await User.findByIdAndUpdate(
+        {_id: user._id},
+        {
+          $pull: {
+            following: {
+              userId: req.user.id,
+            },
+          }
+        }
+      );
+      await User.findByIdAndUpdate(
+        { _id: user._id },
+        {
+          $push: {
+            following: {
+              userId: req.user.id,
+              username,
+              pdp
+            },
+          },
+        },
+      )
+     }
+      
+  }));
+
+  //update comment && likes
+  const posts = await Post.find({});
+  posts.forEach(asyncHandler( async(post) => {
+    //update comments
+    const find1 = post.comments.find(cm => cm.userId == req.user.id);
+    if(find1) {
+      await Post.findByIdAndUpdate(
+        {_id: post._id},
+        {
+          $pull: {
+            comments: {
+              userId: req.user.id,
+            },
+          }
+        }
+      );
+      await Post.findByIdAndUpdate(
+        { _id: post._id },
+        {
+          $push: {
+            comments: {
+              userId: req.user.id,
+              username,
+              pdp
+            },
+          },
+        },
+      )
+    }
+    //update likes
+    const find2 = post.likes.find(lk => lk.userId == req.user.id);
+    if(find1) {
+      await Post.findByIdAndUpdate(
+        {_id: post._id},
+        {
+          $pull: {
+            likes: {
+              userId: req.user.id,
+            },
+          }
+        }
+      );
+      await Post.findByIdAndUpdate(
+        { _id: post._id },
+        {
+          $push: {
+            likes: {
+              userId: req.user.id,
+              username,
+              pdp
+            },
+          },
+        },
+      )
+    }
+  }));
+
+  res.status(200).json({message: "user updated with success"});
+
+  //return res.status.json({message: "user updated with success"});
+
+
+  });
 
 // @desc    remove account
 // @route   DELETE /users/id
