@@ -42,7 +42,7 @@ exports.getFollowing = asyncHandler(async (req, res) => {
   });
 });
 exports.deleteFollowing = asyncHandler(async (req, res) => {
-  User.findById({ _id: req.body.id }, async (err, data) => {
+  User.findById({ _id: req.params.id }, async (err, data) => {
     if (err) {
       await res.status(404).json({
         message: `Cannot find user with this ID : ${req.body.id}`,
@@ -54,7 +54,7 @@ exports.deleteFollowing = asyncHandler(async (req, res) => {
         {
           $pull: {
             following: {
-              userId: req.body.id,
+              userId: req.params.id,
             },
           },
         },

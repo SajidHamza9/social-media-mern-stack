@@ -7,9 +7,7 @@ import {
   LOGING_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
-  IS_AUTH,
-  ADD_FOLLOW,
-  ADD_POST
+  IS_AUTH
 } from "../actions/types";
 const initialState = {
     token: localStorage.getItem('token'),
