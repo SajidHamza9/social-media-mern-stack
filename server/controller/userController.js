@@ -133,10 +133,9 @@ exports.removeUser = asyncHandler(async (req, res) => {
 });
 
 exports.getUsers = asyncHandler(async (req, res) => {
-  console.log("get");
   const q = req.query.q ? req.query.q : '';
 
-  const users = await User.find({username: {$regex: q, $options: 'i'} }, 'username pdp').limit(5).exec();
+  const users = await User.find({username: {$regex: q, $options: 'i'} }, 'username pdp').exec();
   res.status(200).json(users);
 });
 
@@ -148,7 +147,7 @@ exports.getSuggestion = asyncHandler(async(req, res) => {
   const toto = await User.aggregate([
     {$match: {_id: {$nin: map}}},
     {$sample: {size: 10}},
-    { $project : { _id: 1, username: 1 } } 
+    {$project : { _id: 1, username: 1, pdp: 1 }} 
   ]);
     res.status(200).json(toto);
 })
