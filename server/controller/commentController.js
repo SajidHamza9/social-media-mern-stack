@@ -66,13 +66,13 @@ exports.updateComment = asyncHandler(async (req, res) => {
 
 exports.deleteComent = asyncHandler(async (req, res) => {
   const { idPost, idComment } = req.params;
-  if (
-    !mongoose.Types.ObjectId.isValid(idPost) ||
-    !mongoose.Types.ObjectId.isValid(idComment)
-  ) {
-    res.status(400);
-    throw new Error('Invalid params');
-  }
+  // if (
+  //   !mongoose.Types.ObjectId.isValid(idPost) ||
+  //   !mongoose.Types.ObjectId.isValid(idComment)
+  // ) {
+  //   res.status(400);
+  //   throw new Error('Invalid params');
+  // }
 
   const post = await Post.findById(idPost);
 
