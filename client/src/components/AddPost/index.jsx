@@ -60,7 +60,7 @@ const AddPost = () => {
         <IconButton
           style={{ color: ' #ab987a' }}
           onClick={() => {
-            if (caption || file) {
+            if (caption.split || file) {
               const formData = new FormData();
               formData.append('caption', caption);
               formData.append('image', file);

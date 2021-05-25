@@ -36,6 +36,7 @@ import {
   addLike,
   removeLike,
   updateLikesSocket,
+  updateCommentsSocket,
 } from '../../redux/actions/postActions';
 import utils from '../../utils/socket';
 
@@ -67,12 +68,23 @@ const Post = ({
   const { currentUserId } = useSelector((state) => state.auth);
   const [likeModal, setLikeModal] = useState(false);
   useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
+  useEffect(() => {
     utils.socket.on('like', (data) => {
       if (
-        data.postId.toString() === postId.toString() &&
-        data.userId.toString() !== currentUserId.toString()
+        data.postId?.toString() === postId.toString() &&
+        data.userId?.toString() !== currentUserId.toString()
       ) {
         dispatch(updateLikesSocket(data.postId, data.likes));
+      }
+    });
+    utils.socket.on('comment', (data) => {
+      if (
+        data.postId?.toString() === postId.toString() &&
+        data.userId?.toString() !== currentUserId.toString()
+      ) {
+        dispatch(updateCommentsSocket(data.postId, data.comments));
       }
     });
   }, []);

@@ -3,9 +3,9 @@ import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import { Div, Name } from './style';
-import { useHistory } from "react-router-dom";
-import axios from 'axios'
-import utils from '../../utils/socket'
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import utils from '../../utils/socket';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -36,20 +36,20 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const ContactItem = ({_id, pdp, username, status }) => {
-  const pers={_id, pdp, username, status };
+const ContactItem = ({ _id, pdp, username, status }) => {
+  const pers = { _id, pdp, username, status };
   const history = useHistory();
-  const handleClick=async()=>{
-    const {data}=await axios.get(`/conversations/${_id}/${utils.user}`)
+  const handleClick = async () => {
+    const { data } = await axios.get(`/conversations/${_id}/${utils.user}`);
     console.log('get conv with clicked person');
-    pers.convId=data._id
-   data && history.push({
-  pathname: '/Messages',
-  pers
-})
-  }
+    pers.convId = data._id;
+    data &&
+      history.push({
+        pathname: '/Messages',
+        pers,
+      });
+  };
   return (
-    
     <Div onClick={handleClick}>
       <StyledBadge
         overlap='circle'

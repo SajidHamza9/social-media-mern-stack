@@ -4,9 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Badge } from '@material-ui/core';
 
-const LikeItem = ({ pdp, name, userId }) => {
+const LikeItem = ({ pdp, name, userId, display }) => {
   const SmallIcon = withStyles((theme) => ({
     root: {
+      display: `${display ? 'block' : 'none'}`,
       width: 17,
       height: 17,
       color: '#FFF',

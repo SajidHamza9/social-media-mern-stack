@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import HeaderProfile from '../../components/HeaderProfile';
 import Post from '../../components/Post';
 import Photos from '../../components/Photos';
-import Button from '../../components/Button';
 // import { posts } from '../../data/home';
 import EditIcon from '@material-ui/icons/Edit';
 import Friends from '../../components/Friends';
@@ -12,6 +11,8 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import SkeletonPost from '../../components/SkeletonPost';
 import { loadProfilePosts } from '../../redux/actions/postActions';
+import EditProfileModal from '../../components/EditProfileModal';
+import { PrimarydButton } from './style';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
@@ -29,6 +30,11 @@ const Profile = ({}) => {
   const { id } = useParams();
   const { posts, loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
     dispatch(loadProfilePosts(id));
@@ -39,9 +45,12 @@ const Profile = ({}) => {
       <HeaderProfile />
       <Grid container spacing={3}>
         <Grid item sm={4} xs={12} className={classes.sticky}>
-          <Button icon={<EditIcon />} primary>
+          <PrimarydButton
+            icon={<EditIcon />}
+            onClick={() => setOpen(!open)}
+            primary>
             Edit Profile
-          </Button>
+          </PrimarydButton>
           <Photos />
           <Friends />
         </Grid>
@@ -72,6 +81,7 @@ const Profile = ({}) => {
           )}
         </Grid>
       </Grid>
+      <EditProfileModal open={open} handleClose={handleClose} />
     </Container>
   );
 };

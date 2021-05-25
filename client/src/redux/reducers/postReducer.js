@@ -2,6 +2,7 @@ import {
   GET_POSTS_LOADING,
   GET_POSTS_SUCCESS,
   ADD_POST,
+  ADD_POST_SUCCESS,
   DELETE_POST,
   UPDATE_POST,
   ADD_COMMENT,
@@ -25,7 +26,13 @@ const postReducer = (state = { posts: [] }, action) => {
     case ADD_POST:
       return {
         ...state,
-        posts: [...state.posts, action.payload.post],
+        loadingAddPost: true,
+      };
+    case ADD_POST_SUCCESS:
+      return {
+        ...state,
+        posts: [action.payload.post, ...state.posts],
+        loadingAddPost: false,
       };
     case DELETE_POST:
       return { ...state, posts: action.payload.posts };

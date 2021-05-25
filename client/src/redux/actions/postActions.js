@@ -2,6 +2,7 @@ import {
   GET_POSTS_LOADING,
   GET_POSTS_SUCCESS,
   ADD_POST,
+  ADD_POST_SUCCESS,
   DELETE_POST,
   UPDATE_POST,
   ADD_COMMENT,
@@ -16,6 +17,7 @@ import {
 } from './types';
 import tokenConfig from '../helpers/tokenConfig';
 import axios from 'axios';
+import moment from 'moment';
 
 export const loadHomePosts = (userId) => async (dispatch, getState) => {
   dispatch({ type: GET_POSTS_LOADING });
@@ -57,11 +59,14 @@ export const loadProfilePosts = (userId) => async (dispatch, getState) => {
 
 export const addPost = (post) => async (dispatch, getState) => {
   const configHeader = tokenConfig(getState);
+  dispatch({
+    type: ADD_POST,
+  });
   try {
     const { data } = await axios.post(`/api/posts`, post, configHeader);
     console.log(data);
     dispatch({
-      type: ADD_POST,
+      type: ADD_POST_SUCCESS,
       payload: {
         post: data,
       },
@@ -130,7 +135,9 @@ export const addComment = (postId, comment) => async (dispatch, getState) => {
     const index = posts.findIndex(
       (p) => p._id.toString() === postId.toString(),
     );
-    posts[index].comments = comments;
+    posts[index].comments = comments.sort((c1, c2) => {
+      return moment(c2.createdAt).diff(c1.createdAt);
+    });
     dispatch({
       type: ADD_COMMENT_SUCCESS,
       payload: {
@@ -260,6 +267,21 @@ export const updateLikesSocket =
       (p) => p._id.toString() === postId.toString(),
     );
     posts[index].likes = likes;
+    dispatch({
+      type: UPDATE_LIKES_SOCKET,
+      payload: {
+        posts,
+      },
+    });
+  };
+
+export const updateCommentsSocket =
+  (postId, comments) => async (dispatch, getState) => {
+    const posts = getState().post.posts;
+    const index = posts.findIndex(
+      (p) => p._id.toString() === postId.toString(),
+    );
+    posts[index].comments = comments;
     dispatch({
       type: UPDATE_LIKES_SOCKET,
       payload: {

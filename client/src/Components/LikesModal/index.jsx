@@ -4,7 +4,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useStyles, Card, Header, Title } from '../ConfirmModal/style';
 import { Body } from './style';
-import LikeItem from '../LikeItem';
+import SimpleUserItem from '../SimpleUserItem';
 
 const LikesModal = ({ open, handleClose, likes }) => {
   const classes = useStyles();
@@ -26,7 +26,8 @@ const LikesModal = ({ open, handleClose, likes }) => {
             </Header>
             <Body>
               {likes.map((like) => (
-                <LikeItem
+                <SimpleUserItem
+                  display
                   key={like.userId}
                   name={like.username}
                   pdp={like.pdp}

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const NotifCard = ({ open, anchorEl, close }) => {
   const { notifications } = useSelector((state) => state.notification);
   return (
-    <Popper open={open} anchorEl={anchorEl} transition>
+    <Popper style={{ zIndex: 1000 }} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (
         <ClickAwayListener onClickAway={close}>
           <Fade {...TransitionProps} timeout={350}>

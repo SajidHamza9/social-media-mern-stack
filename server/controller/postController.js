@@ -3,7 +3,6 @@ const Post = require('../models/Posts');
 const User = require('../models/User');
 const Notification = require('../models/Notifications');
 const { notifyPost, notifyUser } = require('../utils/sockets');
-const WebSockets = require('../utils/WebSockets');
 
 const { encode } = require('base64-arraybuffer');
 const fs = require('fs');
@@ -108,45 +107,54 @@ exports.removeLike = asyncHandler(async (req, res) => {
 exports.addPost = (req, res) => {
   const { caption } = req.body;
   //some validation
-  if(!req.file && !caption )
-      return res.status(400).json({message: "2 fields cannot be empty"});
+  if (!req.file && !caption)
+    return res.status(400).json({ message: '2 fields cannot be empty' });
 
-    var image = null;
-    const dirname = (__dirname).replace("\\server\\controller", "");
-    if(req.file) {
-      const base64String = fs.readFileSync(path.join(dirname + '/uploads/' + req.file.filename));
-      image = {
-        data: encode(base64String),
-        contentType: req.file.mimetype
-      }
+  var image = null;
+  const dirname = __dirname.replace('\\server\\controller', '');
+  if (req.file) {
+    const base64String = fs.readFileSync(
+      path.join(dirname + '/uploads/' + req.file.filename),
+    );
+    image = {
+      data: encode(base64String),
+      contentType: req.file.mimetype,
+    };
 
-        //delete file
+    //delete file
     fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
-      if(err) throw new Error(err);
-  })
-    }
-  
-    User.findById(req.user.id)
-        .then(user => {
-          const newPost = new Post({
-            userId: user._id,
-            image,
-            caption
-          });
-          newPost.save().then(post => {
-            const postId = {
-              postId: post._id
-            };
-            user.posts.push(postId);
-            post._doc.username = user.username;
-            post._doc.pdp = user.pdp;
-            console.log(post);
-           // post["username"] = user.pdp;
-            user.save().then(() => res.status(201).json(post))
-                        .catch(err => res.status(400).json({error: true, message: 'err'}));
-          }).catch(err => res.status(400).json({error: true, message: err}))
+      if (err) throw new Error(err);
+    });
+  }
+
+  User.findById(req.user.id)
+    .then((user) => {
+      const newPost = new Post({
+        userId: user._id,
+        image,
+        caption,
+      });
+      newPost
+        .save()
+        .then((post) => {
+          const postId = {
+            postId: post._id,
+          };
+          user.posts.push(postId);
+          post._doc.username = user.username;
+          post._doc.pdp = user.pdp;
+
+          // post["username"] = user.pdp;
+          user
+            .save()
+            .then(() => res.status(201).json(post))
+            .catch((err) =>
+              res.status(400).json({ error: true, message: 'err' }),
+            );
         })
         .catch((err) => res.status(400).json({ error: true, message: err }));
+    })
+    .catch((err) => res.status(400).json({ error: true, message: err }));
 };
 
 // @route Put api/posts/:id
