@@ -9,11 +9,14 @@ import {
   CLEAR_ERRORS,
   LOGOUT_SUCCESS,
   IS_AUTH,
-} from "./types";
-import { returnErrors } from "./errorsActions";
-import { history } from "../helpers/history";
-import axios from "axios";
-import { Redirect } from "react-router";
+  ADD_DELETE_FOLLOW,
+  ADD_FOLLOW,
+  DELETE_FOLLOW,
+} from './types';
+import { returnErrors } from './errorsActions';
+import { history } from '../helpers/history';
+import axios from 'axios';
+import { Redirect } from 'react-router';
 export const loadUser = () => (dispatch, getState) => {
   // loading user
   dispatch({ type: USER_LOADING });
@@ -34,7 +37,7 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch({ type: AUTH_ERROR });
     });
 
-    console.log("load user");
+  console.log('load user');
 };
 
 // register User
@@ -56,9 +59,10 @@ export const register = (user) => (dispatch) => {
 
 //login
 export const login = (user) => (dispatch) => {
-  console.log("inside logien");
-  
-  axios.post("/api/users/login", user)
+  console.log('inside logien');
+
+  axios
+    .post('/api/users/login', user)
     .then((res) => {
       console.log('THEN');
       dispatch({
@@ -67,9 +71,7 @@ export const login = (user) => (dispatch) => {
       });
       dispatch({ type: CLEAR_ERRORS });
 
-      
-
-      history.push("/");
+      history.push('/');
       window.location.reload();
     })
     .catch((err) => {
@@ -84,14 +86,14 @@ export const logout = () => (dispatch, getState) => {
   const configHeader = tokenConfig(getState);
   //send request to server
   axios
-    .get("/api/users/logout", configHeader)
+    .get('/api/users/logout', configHeader)
     .then((res) => {
       dispatch({ type: LOGOUT_SUCCESS });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
-    })
-}
+    });
+};
 
 export const tokenConfig = (getState) => {
   const token = getState().auth.token;
@@ -108,4 +110,18 @@ export const tokenConfig = (getState) => {
 
 export const isAuth = () => (dispatch) => {
   dispatch({ type: IS_AUTH });
+};
+
+export const addDeleteFollow = (type) => (dispatch, getState) => {
+  switch (type) {
+    case ADD_FOLLOW:
+      let user = getState().auth.user;
+      user.followingCount += 1;
+      return dispatch({ type: ADD_DELETE_FOLLOW, payload: user });
+
+    case DELETE_FOLLOW:
+      let _user = getState().auth.user;
+      _user.followingCount -= 1;
+      return dispatch({ type: ADD_DELETE_FOLLOW, payload: _user });
+  }
 };

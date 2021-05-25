@@ -10,15 +10,63 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserId } from '../../redux/actions/userAcions';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const UserItem = ({ img, name, status, userId }) => {
   const [isFollowed, setIsFollowed] = useState(status);
-  const { currentUserId } = useSelector((state) => state.auth);
+  const { currentUserId, token } = useSelector((state) => state.auth);
+  const [disable, setDisable] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const showProfile = () => {
     dispatch(getUserId(userId));
     history.push('/profile');
+  };
+  const follow = async () => {
+    //config headers
+    setIsFollowed(!isFollowed);
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+
+    if (token) config.headers['auth-token'] = token;
+    console.log(token);
+    try {
+      setDisable(true);
+      await axios.post('/api/users/following', { id: userId }, config);
+      setDisable(false);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  const unfollow = async () => {
+    //config headers
+    setIsFollowed(!isFollowed);
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+
+    if (token) config.headers['auth-token'] = token;
+    console.log(config);
+
+    try {
+      setDisable(true);
+      await axios.delete('/api/users/following', {
+        headers: {
+          Authorization: config,
+        },
+        data: {
+          id: userId,
+        },
+      });
+      setDisable(false);
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
   return (
     <Div>
@@ -28,11 +76,11 @@ const UserItem = ({ img, name, status, userId }) => {
       </FlexDiv>
       {currentUserId !== userId ? (
         isFollowed ? (
-          <OutlinedButton onClick={() => setIsFollowed(!isFollowed)}>
+          <OutlinedButton disabled={disable} onClick={unfollow}>
             Unfollow
           </OutlinedButton>
         ) : (
-          <PrimaryButton onClick={() => setIsFollowed(!isFollowed)}>
+          <PrimaryButton disabled={disable} onClick={follow}>
             Follow
           </PrimaryButton>
         )

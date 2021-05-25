@@ -10,7 +10,7 @@ const FollowingScreen = () => {
 
   useEffect(() => {
     dispatch(getUserProfile(userId));
-  });
+  }, []);
 
   return (
     <Container maxWidth='md'>
