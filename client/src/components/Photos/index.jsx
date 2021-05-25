@@ -12,8 +12,21 @@ import { Grid } from '@material-ui/core';
 // import { photos } from '../../data/profile';
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '../../redux/actions/modalActions';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+  img: {
+    [theme.breakpoints.down('md')]: {
+      height: '204px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      height: '120px',
+    },
+  },
+}));
 
 const Photos = () => {
+  const classes = useStyles();
+
   const { posts } = useSelector((state) => state.post);
   const postsWithImage = posts.filter((post) => !!post.image).slice(0, 4);
   const dispatch = useDispatch();
@@ -30,7 +43,7 @@ const Photos = () => {
           {postsWithImage.map((p) => {
             return (
               <Grid item key={p.id} xs={6}>
-                <ImageContainer>
+                <ImageContainer className={classes.img}>
                   <Image
                     onClick={() => dispatch(openModal(p._id))}
                     src={`data:${p.image.contentType};base64, ${p.image.data}`}

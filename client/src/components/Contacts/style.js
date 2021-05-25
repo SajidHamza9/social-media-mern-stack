@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Typography } from "@material-ui/core";
+import styled from 'styled-components';
+import { Typography } from '@material-ui/core';
 
 export const Card = styled.div`
   background-color: #fff;
@@ -7,8 +7,6 @@ export const Card = styled.div`
   -webkit-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -moz-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   height: 70vh;
-  width: 90%;
-  float: right;
 `;
 
 export const Header = styled.div`

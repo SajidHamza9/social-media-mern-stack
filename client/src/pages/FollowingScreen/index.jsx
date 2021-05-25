@@ -3,13 +3,13 @@ import { Container } from '@material-ui/core';
 import HeaderProfile from '../../components/HeaderProfile';
 import FriendsList from '../../components/FriendsList';
 
-const FriendsScreen = () => {
+const FollowingScreen = () => {
   return (
     <Container maxWidth='md'>
       <HeaderProfile />
-      <FriendsList />
+      <FriendsList title='Following' />
     </Container>
   );
 };
 
-export default FriendsScreen;
+export default FollowingScreen;

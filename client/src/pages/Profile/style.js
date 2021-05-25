@@ -12,3 +12,22 @@ export const PrimarydButton = styled(Button)`
     background-color: #0f1626;
   }
 `;
+
+export const OutlinedButton = styled(Button)`
+  color: #0f1626;
+  background-color: transparent;
+  border: 3px solid #0f1626;
+  font-weight: 700;
+  border-radius: 6px;
+  width: 100%;
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+`;

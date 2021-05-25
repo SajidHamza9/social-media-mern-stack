@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 
 const Search = () => {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
   const anchorRef = useRef(null);
   const token = useSelector((state) => state.auth.token);
@@ -22,7 +21,6 @@ const Search = () => {
   };
   const search = async (e) => {
     //config headers
-    setName(e.target.value);
     const config = {
       headers: {
         'Content-type': 'application/json',
@@ -37,7 +35,6 @@ const Search = () => {
         config,
       );
       setUsers(data);
-      // console.log(users);
     } catch (error) {}
   };
   return (
@@ -49,7 +46,6 @@ const Search = () => {
           ref={anchorRef}
           type='text'
           placeholder='Search...'
-          value={name}
           onChange={search}
         />
       </SearchContainer>

@@ -7,7 +7,6 @@ export const Card = styled.div`
   -webkit-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -moz-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   margin-top: 0.5rem;
-  margin-bottom: 1rem;
 `;
 
 export const Header = styled.div`
@@ -39,7 +38,7 @@ export const Body = styled.div`
 `;
 
 export const ImageContainer = styled.div`
-  height: 100px;
+  /* height: 100px; */
   margin: 0.5rem;
 `;
 

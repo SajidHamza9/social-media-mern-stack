@@ -15,7 +15,7 @@ const useStyle = makeStyles({
     alignItems: 'center',
   },
 });
-const FriendsList = () => {
+const FriendsList = ({ list, title }) => {
   const classes = useStyle();
   const [name, setName] = useState('');
   const [items, setItems] = useState(friends);
@@ -33,7 +33,7 @@ const FriendsList = () => {
   return (
     <Card style={{ marginBottom: '1rem' }}>
       <Header style={{ justifyContent: 'space-between' }}>
-        <Title>Following</Title>
+        <Title>{title}</Title>
         <SearchContainer>
           <SearchIcon />
           <SearchInput

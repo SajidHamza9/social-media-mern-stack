@@ -13,7 +13,8 @@ import Profile from './pages/Profile';
 import Login from './pages/login/Login';
 import Messages from './pages/messages/Messages';
 import PhotosScreen from './pages/PhotosScreen';
-import Friends from './components/ListFriends/Friends';
+import FollowersScreen from './pages/FollowersScreen';
+import FollowingScreen from './pages/FollowingScreen';
 import { useEffect } from 'react';
 import utils from './utils/socket';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,7 +22,6 @@ import { useSnackbar } from 'notistack';
 import PostModal from './components/PostModal';
 import PrivateRoute from './components/PrivateRoute';
 import { loadUser } from './redux/actions/authActions';
-import FriendsScreen from './pages/FriendsScreen';
 import { addNotif } from './redux/actions/notificationActions';
 function App() {
   const pathName = window.location.pathname;
@@ -50,16 +50,14 @@ function App() {
           {/* <Route path="/login" component={Login} /> */}
           {/* <Route path="/messages" component={Messages} />
                 <Route path="/photos" component={PhotosScreen} />
-                <Route path="/friends" component={FriendsScreen} />
-                <Route path="/listFriends" component={Friends} />
-                <Route path="/Images" component={Images} /> */}
+                 */}
 
           <PrivateRoute exact component={Home} path='/' />
           <PrivateRoute exact component={Profile} path='/profile/:id' />
           <PrivateRoute exact component={Messages} path='/messages' />
           <PrivateRoute exact component={PhotosScreen} path='/photos' />
-          <PrivateRoute exact component={Friends} path='/listFriends' />
-          <PrivateRoute exact component={FriendsScreen} path='/Friends' />
+          <PrivateRoute exact component={FollowersScreen} path='/followers' />
+          <PrivateRoute exact component={FollowingScreen} path='/following' />
           <Route exact path='/login'>
             {isAuth ? <Redirect to='/' /> : <Login />}
           </Route>

@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Div, Name, StyledAvatar, FlexDiv } from './style';
+import {
+  Div,
+  Name,
+  StyledAvatar,
+  FlexDiv,
+  OutlinedButton,
+  PrimaryButton,
+} from './style';
 
 const UserItem = ({ img, name, status }) => {
   const [isFollowed, setIsFollowed] = useState(false);
@@ -10,11 +17,13 @@ const UserItem = ({ img, name, status }) => {
         <Name>{name}</Name>
       </FlexDiv>
       {isFollowed ? (
-        <Button onClick={() => setIsFollowed(!isFollowed)}>Unfollow</Button>
+        <OutlinedButton onClick={() => setIsFollowed(!isFollowed)}>
+          Unfollow
+        </OutlinedButton>
       ) : (
-        <Button onClick={() => setIsFollowed(!isFollowed)} contained>
+        <PrimaryButton onClick={() => setIsFollowed(!isFollowed)}>
           Follow
-        </Button>
+        </PrimaryButton>
       )}
     </Div>
   );

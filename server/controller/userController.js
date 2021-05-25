@@ -134,8 +134,9 @@ exports.removeUser = asyncHandler(async (req, res) => {
 
 exports.getUsers = asyncHandler(async (req, res) => {
   const q = req.query.q ? req.query.q : '';
-
-  const users = await User.find({username: {$regex: q, $options: 'i'} }, 'username pdp').exec();
+  var users = [];
+  if(q != '')
+    users = await User.find({username: {$regex: q.toLowerCase(), $options: 'i'} }, 'username pdp').exec();
   res.status(200).json(users);
 });
 

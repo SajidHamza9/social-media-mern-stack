@@ -12,15 +12,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import SkeletonPost from '../../components/SkeletonPost';
 import { loadProfilePosts } from '../../redux/actions/postActions';
 import EditProfileModal from '../../components/EditProfileModal';
-import { PrimarydButton } from './style';
-
+import { PrimarydButton, ButtonWrapper, OutlinedButton } from './style';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
     height: 'fit-content',
     top: '70px',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       position: 'static',
+    },
+  },
+  last: {
+    [theme.breakpoints.down('md')]: {
+      order: 3,
     },
   },
 }));
@@ -31,6 +38,7 @@ const Profile = ({}) => {
   const { posts, loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [followed, setFollowed] = useState(false);
 
   const handleClose = () => {
     setOpen(!open);
@@ -41,20 +49,37 @@ const Profile = ({}) => {
   }, []);
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='lg'>
       <HeaderProfile />
       <Grid container spacing={3}>
-        <Grid item sm={4} xs={12} className={classes.sticky}>
+        <Grid item md={6} xs={12} lg={3} className={classes.sticky}>
           <PrimarydButton
-            icon={<EditIcon />}
+            startIcon={<EditIcon />}
             onClick={() => setOpen(!open)}
             primary>
             Edit Profile
           </PrimarydButton>
+          {/* <ButtonWrapper>
+            {followed ? (
+              <OutlinedButton
+                onClick={() => setFollowed(!followed)}
+                startIcon={<PersonAddDisabledIcon />}>
+                Unfollow
+              </OutlinedButton>
+            ) : (
+              <OutlinedButton
+                onClick={() => setFollowed(!followed)}
+                startIcon={<PersonAddIcon />}>
+                Follow
+              </OutlinedButton>
+            )}
+            <PrimarydButton startIcon={<ChatBubbleIcon />}>
+              Message
+            </PrimarydButton>
+          </ButtonWrapper> */}
           <Photos />
-          <Friends />
         </Grid>
-        <Grid item sm={8} xs={12}>
+        <Grid item md={12} lg={6} className={classes.last}>
           {loading ? (
             <div>
               <SkeletonPost />
@@ -79,6 +104,10 @@ const Profile = ({}) => {
               />
             ))
           )}
+        </Grid>
+        <Grid item md={6} xs={12} lg={3} className={classes.sticky}>
+          <Friends title='Following' to='/following' />
+          <Friends title='Followers' to='/followers' />
         </Grid>
       </Grid>
       <EditProfileModal open={open} handleClose={handleClose} />

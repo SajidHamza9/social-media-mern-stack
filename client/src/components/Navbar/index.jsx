@@ -48,7 +48,6 @@ const Navbar = () => {
     console.log('logout');
     dispatch(logout());
     history.push('/login');
-    
   };
 
   return (
@@ -79,7 +78,7 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem onClick={handleToggle} ref={anchorRef}>
-              <NavLink>
+              <NavLink to=''>
                 <Badge badgeContent={open ? 0 : count} color='error'>
                   <NotificationsIcon />
                 </Badge>
