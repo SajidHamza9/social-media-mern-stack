@@ -3,7 +3,6 @@ const User = require('../models/User');
 const Notification = require('../models/Notifications');
 const asyncHandler = require('express-async-handler');
 const mongoose = require('mongoose');
-const { notifyPost, notifyUser } = require('../utils/sockets');
 
 // @route Post api/posts/:id/comments
 // @desc  Add comment to post
@@ -11,24 +10,6 @@ const { notifyPost, notifyUser } = require('../utils/sockets');
 exports.addComment = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const { comment } = req.body;
-  const currentUser = await User.findById(req.user.id);
-
-  const post = await Post.findById(id);
-  if (!post) {
-    res.status(400);
-    throw new Error('Post not Found');
-  }
-  const commentaire = {
-    comment,
-    userId: currentUser._id,
-    username: currentUser.username,
-    pdp: currentUser.pdp,
-  };
-  post.comments.push(commentaire);
-  await post.save();
-
-  const { comment } = req.body;
-  //find current user
   const currentUser = await User.findById(req.user.id);
 
   const post = await Post.findById(id);
@@ -60,14 +41,7 @@ exports.addComment = asyncHandler(async (req, res) => {
 
   const notif = await newNotification.save();
   console.log(`notif: ${notif}`);
-  if (post.userId.toString() !== req.user.id) {
-    notifyUser('notification', post.userId, { notification: notif });
-  }
-  notifyPost('comment', {
-    userId: req.user.id,
-    postId: post._doc._id,
-    comments: post._doc.comments,
-  });
+
   return res.status(201).json(post);
 });
 
@@ -91,13 +65,6 @@ exports.updateComment = asyncHandler(async (req, res) => {
 
 exports.deleteComent = asyncHandler(async (req, res) => {
   const { idPost, idComment } = req.params;
-  if (
-    !mongoose.Types.ObjectId.isValid(idPost) ||
-    !mongoose.Types.ObjectId.isValid(idComment)
-  ) {
-    res.status(400);
-    throw new Error('Invalid params');
-  }
 
   const post = await Post.findById(idPost);
 
@@ -106,11 +73,6 @@ exports.deleteComent = asyncHandler(async (req, res) => {
   //delete comment
   post.comments.splice(index, 1);
   await post.save();
-  notifyPost('comment', {
-    userId: req.user.id,
-    postId: post._doc._id,
-    comments: post._doc.comments,
-  });
   return res.status(200).json({ msg: 'deleted with success' });
 });
 

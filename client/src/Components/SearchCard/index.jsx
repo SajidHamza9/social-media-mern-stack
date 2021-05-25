@@ -5,22 +5,22 @@ import Fade from '@material-ui/core/Fade';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import SimpleUserItem from '../SimpleUserItem';
 
-const SearchCard = ({ open, anchorEl, close }) => {
+const SearchCard = ({ open, anchorEl, close, users }) => {
+  console.log(users);
   return (
     <Popper style={{ zIndex: 1000 }} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (
         <ClickAwayListener onClickAway={close}>
           <Fade {...TransitionProps} timeout={350}>
             <Card>
-              <SimpleUserItem pdp='/images/img3.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img1.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img4.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img3.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img1.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img4.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img3.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img1.jpeg' name='Hamza Sajid' />
-              <SimpleUserItem pdp='/images/img4.jpeg' name='Hamza Sajid' />
+              {users.map((user) => (
+                <SimpleUserItem
+                  pdp={user.pdp}
+                  name={user.username}
+                  key={user._id}
+                  userId={user._id}
+                />
+              ))}
             </Card>
           </Fade>
         </ClickAwayListener>
