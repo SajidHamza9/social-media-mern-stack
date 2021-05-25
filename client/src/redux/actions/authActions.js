@@ -40,7 +40,7 @@ export const loadUser = () => (dispatch, getState) => {
 // register User
 export const register = (user) => (dispatch) => {
   axios
-    .post('/api/users', user)
+    .post('/api/users/register', user)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,

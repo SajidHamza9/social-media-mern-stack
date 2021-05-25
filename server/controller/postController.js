@@ -176,26 +176,53 @@ exports.updatePost = (req, res) => {
 // @route delete api/posts/:id
 // @desc  delete post
 // @access Private
-exports.deletePost = (req, res) => {
-  const idPost = req.params.id;
-  Post.deleteOne({ _id: idPost })
-    .then(() => {
-      User.findById(req.user.id)
-        .then((user) => {
-          const index = user.posts.findIndex((post) => post.postId == idPost);
-          if (index > -1) user.posts.splice(index, 1);
-          user
-            .save()
-            .then(() =>
-              res.status(200).json({ msg: 'post deleted with success' }),
-            );
-        })
-        .catch((err) => res.status(400).json({ error: true, msg: err }));
-    })
-    .catch((err) =>
-      res.status(400).json({ error: true, message: 'post not found' }),
-    );
-};
+exports.deletePost = asyncHandler(async (req, res) => {
+  const postId = req.params.id;
+
+  //delete Post 
+  const post = await Post.findById({_id: postId});
+  if(!post)
+    return res.status(400).json({message: "post not found"});
+  await post.remove();
+  const user = await User.findById(req.user.id);
+  if(!user) {
+    res.status(400);
+    throw new Error("problems with this user");
+  }
+  //update User
+  const index = user.posts.findIndex((post) => post.postId == postId);
+  if(index > -1){
+    user.posts.splice(index, 1);
+    await user.save();
+  } 
+
+  //delete notification
+  await Notification.deleteMany({postId});
+  return res.status(200).json({message: "Post deleted with success"});
+  
+
+
+  // Post.deleteOne({ _id: idPost })
+  //   .then(() => {
+      
+  //     //delete Notification
+
+  //     User.findById(req.user.id)
+  //       .then((user) => {
+  //         const index = user.posts.findIndex((post) => post.postId == idPost);
+  //         if (index > -1) user.posts.splice(index, 1);
+          
+  //         user.save()
+  //             .then(() =>
+  //             res.status(200).json({ msg: 'post deleted with success' }),
+  //           );
+  //       })
+  //       .catch((err) => res.status(400).json({ error: true, msg: err }));
+  //   })
+  //   .catch((err) =>
+  //     res.status(400).json({ error: true, message: 'post not found' }),
+  //   );
+});
 
 // @route get /api/posts/:id
 // @desc  load post
