@@ -12,7 +12,7 @@ const DiscutionCard = ({ onClick, cnv }) => {
     const getUser = async () => {
       const otherUserId = members.find((member) => member !== utils?.user);
       const { data } = await axios(`/api/users/${otherUserId}`);
-      console.log("get one sidebar's user");
+      // console.log("get one sidebar's user");
       setUser(data);
     };
     getUser();
@@ -24,7 +24,7 @@ const DiscutionCard = ({ onClick, cnv }) => {
       <Avatar src={user.pdp} />
       <div className="disc-info">
         <h2>{user.username}</h2>
-        {/* <p>{cnv.updatedAt}</p> */}
+        <p>{cnv.lastMessage?.substring(0, 8)}</p>
       </div>
 
       <p>{moment(updatedAt).fromNow(true)}</p>

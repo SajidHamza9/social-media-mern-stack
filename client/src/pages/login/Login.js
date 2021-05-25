@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import SignInOrUp from "../../components/loginConponents/SignInOrUp";
 import "./login.css";
@@ -6,18 +6,17 @@ import "./login.css";
 //#####################
 
 import { register, login } from "../../redux/actions/authActions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { useHistory } from "react-router-dom";
 //##################
 
 const Login = () => {
-  const auth = useSelector((state) => state.auth);
-  const errorsAuth = useSelector((state) => state.errorsAuth);
+  // const auth = useSelector((state) => state.auth);
+  // const errorsAuth = useSelector((state) => state.errorsAuth);
 
-  const history = useHistory();
+  // const history = useHistory();
   const dispath = useDispatch();
-  
+
   const [isLogin, setisLogin] = useState(true);
   const [user, setUser] = useState({
     username: "",

@@ -75,7 +75,7 @@ const Post = ({
         dispatch(updateLikesSocket(data.postId, data.likes));
       }
     });
-  }, []);
+  }, [currentUserId,dispatch,postId]);
 
   const removePost = () => {
     dispatch(deletePost(postId));

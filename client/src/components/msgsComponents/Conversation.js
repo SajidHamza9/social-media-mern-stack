@@ -5,49 +5,43 @@ import Msg from "./Msg";
 import SendIcon from "@material-ui/icons/Send";
 import { useState } from "react";
 import utils from "../../utils/socket";
-import axios from "axios";
-import Badge from "@material-ui/core/Badge";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getMessages,
+  sendMessage,
+  updateMsgs,
+} from "../../redux/actions/chatActions";
+import Loading from "../Spinner/Loading";
 
-const Conversation = ({ _id, username, pdp, status, convId }) => {
+const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
   const [message, setMessage] = useState("");
-  const [msgs, setMsgs] = useState([]);
-  const [newOne, setNewOne] = useState(null);
-  const sendMessage = async () => {
-    await axios.post(`/messages`, {
-      conversationId: convId,
-      sender: utils.user,
-      text: message,
-    });
-    console.log("save message");
-    setMsgs([...msgs, { text: message, sender: utils.user }]);
-    utils.socket.emit("message", {
-      sender: utils.user,
-      receiver: _id,
-      text: message,
-    });
+  const dispatch = useDispatch();
+  const { messages, loading, error } = useSelector(
+    (state) => state.messagesReducer
+  );
+  const sendNewMessage = () => {
+    dispatch(sendMessage(convId, message, _id));
+    orderSidebar();
     setMessage("");
   };
 
   // getMessages
   useEffect(() => {
-    const getMessages = async () => {
-      const { data } = await axios.get(`/messages/${convId}`);
-      console.log("get all msgs");
-      setMsgs(data);
-    };
-    getMessages();
-  }, []);
+    dispatch(getMessages(convId));
+  }, [dispatch, convId]);
+
+  const msgReceived = (payload) => {
+    if (_id === payload.message.sender) {
+      dispatch(updateMsgs(payload.message));
+    }
+  };
 
   useEffect(() => {
     utils.socket.on("message", (payload) => {
-      console.log("get message from socket");
-      setNewOne(payload.message);
+      msgReceived(payload);
+      orderSidebar();
     });
   }, []);
-  useEffect(() => {
-    newOne && setMsgs([...msgs, newOne]);
-    setNewOne(null);
-  }, [newOne]);
 
   return (
     <div className="conversation">
@@ -59,14 +53,18 @@ const Conversation = ({ _id, username, pdp, status, convId }) => {
         <p>{status === true ? "Online" : "Offline"}</p>
       </div>
       <ScrollableFeed className="conversation-msgs">
-        {msgs?.map((mg, i) => (
-          <Msg
-            key={mg._id || i}
-            image={pdp}
-            msg={mg.text}
-            sended={mg.sender === utils.user}
-          />
-        ))}
+        {loading ? (
+          <Loading />
+        ) : (
+          messages?.map((mg, i) => (
+            <Msg
+              key={mg._id || i}
+              image={pdp}
+              msg={mg.text}
+              sended={mg.sender === utils.user}
+            />
+          ))
+        )}
       </ScrollableFeed>
       <div className="conversation-send">
         <textarea
@@ -76,7 +74,7 @@ const Conversation = ({ _id, username, pdp, status, convId }) => {
           rows="1"
           placeholder="write your message"
         />
-        <IconButton onClick={sendMessage}>
+        <IconButton onClick={sendNewMessage}>
           <SendIcon />
         </IconButton>
       </div>

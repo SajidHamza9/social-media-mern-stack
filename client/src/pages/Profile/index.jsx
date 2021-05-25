@@ -32,7 +32,7 @@ const Profile = ({}) => {
 
   useEffect(() => {
     dispatch(loadProfilePosts(id));
-  }, []);
+  }, [dispatch,id]);
 
   return (
     <Container maxWidth='md'>

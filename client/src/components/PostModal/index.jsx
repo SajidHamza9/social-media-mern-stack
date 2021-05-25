@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -7,7 +7,6 @@ import CommentItem from '../CommentItem';
 import { useStyles } from './style';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/actions/modalActions';
-import SkeletonComment from '../SkeletonComment';
 
 const PostModal = () => {
   const classes = useStyles();

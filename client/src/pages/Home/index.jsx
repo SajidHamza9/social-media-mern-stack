@@ -10,9 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadHomePosts } from '../../redux/actions/postActions';
 import SkeletonPost from '../../components/SkeletonPost';
-import { loadUser } from '../../redux/actions/authActions';
 
-import { Redirect, useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -44,7 +42,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(loadHomePosts(currentUserId));
-  }, []);
+  }, [dispatch,currentUserId]);
   return (
     <Container maxWidth='lg'>
       <Grid container spacing={3}>

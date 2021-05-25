@@ -80,6 +80,7 @@
 .disc-card:hover {
   background: #c4c4c4;
 }
+
 .disc-info > p,
 .disc-info > h2 {
   font-size: 1em;
@@ -88,9 +89,13 @@
 .disc-info {
   margin-left: 1em;
 }
+.disc-info > p {
+  color: #ab987a;
+}
 .disc-card > p {
   font-size: 0.65em;
   margin-left: auto;
+  text-align: end;
 }
 
 /* messages sent received */

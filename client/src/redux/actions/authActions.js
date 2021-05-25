@@ -13,7 +13,7 @@ import {
 import { returnErrors } from "./errorsActions";
 import { history } from "../helpers/history";
 import axios from "axios";
-import { Redirect } from "react-router";
+import utils from "../../utils/socket";
 export const loadUser = () => (dispatch, getState) => {
   // loading user
   dispatch({ type: USER_LOADING });
@@ -22,25 +22,25 @@ export const loadUser = () => (dispatch, getState) => {
   const configHeader = tokenConfig(getState);
 
   axios
-    .get('/api/users/auth', configHeader)
+    .get("/api/users/auth", configHeader)
     .then((res) =>
       dispatch({
         type: USER_LOADED,
         payload: res.data,
-      }),
+      })
     )
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({ type: AUTH_ERROR });
     });
 
-    console.log("load user");
+  console.log("load user");
 };
 
 // register User
 export const register = (user) => (dispatch) => {
   axios
-    .post('/api/users', user)
+    .post("/api/users", user)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -57,23 +57,22 @@ export const register = (user) => (dispatch) => {
 //login
 export const login = (user) => (dispatch) => {
   console.log("inside logien");
-  
-  axios.post("/api/users/login", user)
+
+  axios
+    .post("/api/users/login", user)
     .then((res) => {
-      console.log('THEN');
+      console.log("THEN");
       dispatch({
         type: LOGING_SUCCESS,
         payload: res.data,
       });
       dispatch({ type: CLEAR_ERRORS });
 
-      
-
       history.push("/");
       window.location.reload();
     })
     .catch((err) => {
-      console.log('CATCH');
+      console.log("CATCH");
       dispatch({ type: LOGIN_FAIL });
       dispatch(returnErrors(err.response.data, err.response.status));
     });
@@ -86,23 +85,25 @@ export const logout = () => (dispatch, getState) => {
   axios
     .get("/api/users/logout", configHeader)
     .then((res) => {
+      utils.socket.emit("logout", utils.user);
       dispatch({ type: LOGOUT_SUCCESS });
+      utils = {};
     })
-    .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status));
-    })
-}
+    .catch((err) => {
+      dispatch(returnErrors(err.response?.data, err.response?.status));
+    });
+};
 
 export const tokenConfig = (getState) => {
   const token = getState().auth.token;
   //config headers
   const config = {
     headers: {
-      'Content-type': 'application/json',
+      "Content-type": "application/json",
     },
   };
 
-  if (token) config.headers['auth-token'] = token;
+  if (token) config.headers["auth-token"] = token;
   return config;
 };
 
