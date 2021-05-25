@@ -13,6 +13,9 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     maxHeight: '95vh',
     overflowY: 'auto',
+    [theme.breakpoints.up('xs')]: {
+      width: '90vw',
+    },
     [theme.breakpoints.up('sm')]: {
       width: '570px',
     },

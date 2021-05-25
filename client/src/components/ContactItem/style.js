@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
+import { Link as _Link } from 'react-router-dom';
 
 export const Div = styled.div`
   display: flex;
@@ -16,4 +17,8 @@ export const Name = styled(Typography)`
   font-weight: 700;
   font-size: 0.9rem;
   margin-left: 10px;
+`;
+
+export const Link = styled(_Link)`
+  text-decoration: none;
 `;

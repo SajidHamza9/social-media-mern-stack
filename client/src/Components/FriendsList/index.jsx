@@ -33,7 +33,7 @@ const FriendsList = () => {
   return (
     <Card style={{ marginBottom: '1rem' }}>
       <Header style={{ justifyContent: 'space-between' }}>
-        <Title>Friends</Title>
+        <Title>Following</Title>
         <SearchContainer>
           <SearchIcon />
           <SearchInput

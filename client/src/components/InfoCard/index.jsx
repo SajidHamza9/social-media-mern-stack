@@ -22,7 +22,11 @@ const InfoCard = () => {
           <Light>Bio</Light>
         </Item>
         <Item>
-          <Light>Friends</Light>
+          <Light>Following</Light>
+          <Bold>100</Bold>
+        </Item>
+        <Item>
+          <Light>Followers</Light>
           <Bold>25</Bold>
         </Item>
         <Item>

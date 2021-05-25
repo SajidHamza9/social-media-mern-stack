@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Typography, IconButton, Avatar } from '@material-ui/core';
+import { Typography, Button as Btn, Avatar } from '@material-ui/core';
 
 export const Div = styled.div`
   display: flex;
@@ -20,11 +20,18 @@ export const Name = styled(Typography)`
   margin-left: 10px;
 `;
 
-export const Button = styled(IconButton)`
-  border-radius: 6px;
-  border: 1px solid #ab987a;
-  color: #ab987a;
-  padding: 5px;
+export const Button = styled(Btn)`
+  color: ${({ contained }) => (contained ? '#fff' : '#ab987a')};
+  background-color: ${({ contained }) =>
+    contained ? '#ab987a' : 'transparent'};
+  border: 2px solid #ab987a;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 0.5rem;
+  &:hover {
+    background-color: ${({ contained }) =>
+      contained ? '#ab987a' : 'transparent'};
+  }
 `;
 
 export const StyledAvatar = styled(Avatar)`

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Avatar, Divider } from '@material-ui/core';
+import { Avatar, Divider, InputBase } from '@material-ui/core';
 
 export const Card = styled.div`
   background-color: #fff;
@@ -8,6 +8,7 @@ export const Card = styled.div`
   -moz-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   border-top: 5px solid #ab987a;
   margin-bottom: 1rem;
+  width: 100%;
 `;
 
 export const Header = styled.div`
@@ -16,26 +17,12 @@ export const Header = styled.div`
   padding: 1rem;
 `;
 
-export const Input = styled.input`
-  border: none;
+export const Input = styled(InputBase)`
   width: 90%;
   padding: 1rem 0;
-  color: #a09999;
-  font-weight: 300;
+  color: #000;
+  font-weight: 400;
   font-size: 1rem;
-  resize: none;
-
-  &:focus {
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
-
-  &::placeholder {
-    color: #a09999;
-    font-weight: 300;
-    font-size: 1.2rem;
-  }
 `;
 
 export const StyledAvatar = styled(Avatar)`
@@ -56,15 +43,18 @@ export const CardActions = styled.div`
   justify-content: space-between;
 `;
 
-export const Image = styled.div`
+export const ImageContainer = styled.div`
   width: 130px;
   height: 130px;
-  background-image: url(${({ img }) => img});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  border-radius: 6px;
   margin: 1rem 0;
+  border-radius: 6px;
+`;
+
+export const Image = styled.img`
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
 `;
 
 export const Content = styled.div`

@@ -7,7 +7,7 @@ const Friends = () => {
   return (
     <Card>
       <Header>
-        <Title>Friends</Title>
+        <Title>Following</Title>
       </Header>
       <Body>
         {suggestions.map((s) => (
