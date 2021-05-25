@@ -3,6 +3,7 @@ import { GET_USER_PROFILE, GET_USER_PROFILE_SUCCESS } from '../actions/types';
 const initialState = {
   userId: localStorage.getItem('userProdileId'),
   username: null,
+  bio: null,
   pdp: null,
   followers: null,
   following: null,
@@ -22,6 +23,7 @@ export default function (state = initialState, action) {
         ...state,
         userId: action.payload._id,
         username: action.payload.username,
+        bio: action.payload.bio,
         pdp: action.payload.pdp,
         followers: action.payload.followers,
         following: action.payload.following,

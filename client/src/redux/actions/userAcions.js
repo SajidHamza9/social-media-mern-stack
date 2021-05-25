@@ -8,7 +8,7 @@ import tokenConfig from '../helpers/tokenConfig';
 export const getUserId = id => {
     return {
         type: GET_USER_PROFILE,
-        action: {
+        payload: {
             id,
         }
     }
@@ -20,7 +20,7 @@ export const getUserProfile = (userId) => (dispatch, getState) => {
     axios.get(`/api/users/${userId}`, configHeader)
          .then(res => {
              dispatch({
-                 type: GET_USER_PROFILE,
+                 type: GET_USER_PROFILE_SUCCESS,
                  payload: res.data
              }); 
          })

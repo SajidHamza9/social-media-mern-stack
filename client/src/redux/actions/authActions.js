@@ -9,6 +9,9 @@ import {
   CLEAR_ERRORS,
   LOGOUT_SUCCESS,
   IS_AUTH,
+  ADD_DELETE_FOLLOW,
+  ADD_FOLLOW,
+  DELETE_FOLLOW
 } from "./types";
 import { returnErrors } from "./errorsActions";
 import { history } from "../helpers/history";
@@ -109,3 +112,19 @@ export const tokenConfig = (getState) => {
 export const isAuth = () => (dispatch) => {
   dispatch({ type: IS_AUTH });
 };
+
+export const addDeleteFollow = (type) => (dispatch, getState) => {
+    switch(type) {
+      case ADD_FOLLOW:
+        let user = getState().auth.user;
+        user.followingCount += 1;
+        return dispatch({type: ADD_DELETE_FOLLOW, payload: user});
+      
+      case DELETE_FOLLOW:
+        let user = getState().auth.user;
+        user.followingCount -= 1;
+        return dispatch({type: ADD_DELETE_FOLLOW, payload: user});
+    }
+};
+
+
