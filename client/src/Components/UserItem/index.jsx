@@ -54,18 +54,12 @@ const UserItem = ({ img, name, status, userId }) => {
     console.log(config);
 
     try {
+      console.log(userId);
       setDisable(true);
-      await axios.delete('/api/users/following', {
-        headers: {
-          Authorization: config,
-        },
-        data: {
-          id: userId,
-        },
-      });
+      await axios.delete(`/api/users/following/${userId}`, config);
       setDisable(false);
     } catch (error) {
-      console.log(error.response.data);
+      console.log('test');
     }
   };
   return (
