@@ -122,8 +122,8 @@ export const addDeleteFollow = (type) => (dispatch, getState) => {
       return dispatch({ type: ADD_DELETE_FOLLOW, payload: user });
 
     case DELETE_FOLLOW:
-      let user = getState().auth.user;
-      user.followingCount -= 1;
-      return dispatch({ type: ADD_DELETE_FOLLOW, payload: user });
+      let _user = getState().auth.user;
+      _user.followingCount -= 1;
+      return dispatch({ type: ADD_DELETE_FOLLOW, payload: _user });
   }
 };
