@@ -21,6 +21,9 @@ import {
 const EditProfileModal = ({ handleClose, open }) => {
   const classes = useStyles();
   const [file, setFile] = useState(null);
+  const [name, setName] = useState('');
+  const [bioValue, setBioValue] = useState('');
+  const [] = useState('');
   const ref = useRef();
 
   return (
@@ -53,7 +56,7 @@ const EditProfileModal = ({ handleClose, open }) => {
                 }}
               />
               <StyledAvatar
-                src={file ? URL.createObjectURL(file) : '/images/img2.jpeg'}>
+                src={file ? URL.createObjectURL(file) : '/images/default.png'}>
                 <IconButton onClick={() => ref.current.click()}>
                   <AddAPhotoIcon
                     fontSize='large'

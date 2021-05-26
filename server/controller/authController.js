@@ -14,6 +14,7 @@ exports.register = asyncHandler(async (req, res) => {
   const newUser = new User({
     username,
     email,
+    pdp: null,
     password: getHashPassowrd(password),
   });
 
