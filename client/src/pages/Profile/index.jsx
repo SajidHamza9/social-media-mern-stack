@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import SkeletonPost from '../../components/SkeletonPost';
 import { loadProfilePosts } from '../../redux/actions/postActions';
 import EditProfileModal from '../../components/EditProfileModal';
+import axios from 'axios';
 import {
   PrimarydButton,
   ButtonWrapper,
@@ -50,16 +51,59 @@ const Profile = ({}) => {
     (state) => state.userProfile,
   );
   const [followed, setFollowed] = useState(isFollow);
-  const { currentUserId } = useSelector((state) => state.auth);
+  const { currentUserId, token } = useSelector((state) => state.auth);
+  const [disable, setDisable] = useState(false);
 
   const handleClose = () => {
     setOpen(!open);
   };
 
   useEffect(() => {
+    setFollowed(isFollow);
     dispatch(getUserProfile(userId));
     dispatch(loadProfilePosts(userId));
-  }, [userId]);
+  }, [userId, isFollow]);
+
+  const follow = async () => {
+    //config headers
+    setFollowed(!followed);
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+
+    if (token) config.headers['auth-token'] = token;
+    console.log(token);
+    try {
+      setDisable(true);
+      await axios.post('/api/users/following', { id: userId }, config);
+      setDisable(false);
+    } catch (error) {
+      alert(error.response.data);
+    }
+  };
+  const unfollow = async () => {
+    //config headers
+    setFollowed(!followed);
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+
+    if (token) config.headers['auth-token'] = token;
+    console.log(config);
+
+    try {
+      console.log(userId);
+      setDisable(true);
+      await axios.delete(`/api/users/following/${userId}`, config);
+      setDisable(false);
+    } catch (error) {
+      console.log('test');
+    }
+  };
 
   return (
     <Container maxWidth='lg'>
@@ -77,13 +121,15 @@ const Profile = ({}) => {
             <ButtonWrapper>
               {followed ? (
                 <OutlinedButton
-                  onClick={() => setFollowed(!followed)}
+                  disabled={disable}
+                  onClick={unfollow}
                   startIcon={<PersonAddDisabledIcon />}>
                   Unfollow
                 </OutlinedButton>
               ) : (
                 <OutlinedButton
-                  onClick={() => setFollowed(!followed)}
+                  disabled={disable}
+                  onClick={follow}
                   startIcon={<PersonAddIcon />}>
                   Follow
                 </OutlinedButton>

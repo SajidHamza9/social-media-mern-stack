@@ -2,6 +2,8 @@ const asyncHandler = require('express-async-handler');
 const Notifications = require('../models/Notifications');
 const Post = require('../models/Posts');
 const User = require('../models/User');
+const { notifyPost, notifyUser } = require('../utils/sockets');
+
 exports.getFollowers = asyncHandler(async (req, res) => {
   User.findById({ _id: req.user.id }, async (err, data) => {
     if (err) {
@@ -68,7 +70,12 @@ exports.addFollowing = asyncHandler(async (req, res) => {
     return res.status(200).json({ error: 'some fields cannot be empty' });
   const currentUser = await User.findById(req.user.id);
   const targetUser = await User.findById(targetId);
+  const found = currentUser.following.find(
+    (fl) => fl.userId.toString() === targetId.toString(),
+  );
 
+  if (found)
+    return res.status(400).json({ message: 'this follow are already exist' });
   currentUser.following.push({
     userId: targetUser._id,
     username: targetUser.username,
@@ -97,6 +104,7 @@ exports.addFollowing = asyncHandler(async (req, res) => {
   });
 
   await newNotification.save();
+  notifyUser('notification', targetId, { notification: newNotification });
 
   return res.status(201).json({ message: 'add following with success' });
 });
