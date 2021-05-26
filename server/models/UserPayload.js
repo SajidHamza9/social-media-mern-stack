@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+const Image = require('./Image');
 module.exports = UserShema = new Schema(
   {
     userId: {
@@ -12,9 +12,7 @@ module.exports = UserShema = new Schema(
       type: String,
       required: true,
     },
-    pdp: {
-      type: String,
-    },
+    pdp: Image,
     isFollow: {
       type: Boolean
     }
