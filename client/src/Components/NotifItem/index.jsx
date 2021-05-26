@@ -34,6 +34,8 @@ const NotifItem = ({ notification, close }) => {
         return { action: 'Commented your post', icon: AddCommentIcon };
       case 'FOLLOW':
         return { action: 'Followed you', icon: PersonIcon };
+      default:
+        return;
     }
   };
   const SmallIcon = withStyles((theme) => ({

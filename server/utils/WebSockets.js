@@ -12,7 +12,7 @@ class WebSockets {
         socketId: socket.id,
         userId: user,
       });
-      console.log(this.users);
+
       // const loggedIn = this.users.map((user) => user.userId);
       // to remove
       await User.updateOne(

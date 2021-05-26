@@ -52,9 +52,7 @@ const EditProfileModal = ({ handleClose, open }) => {
         await axios.put('/api/users/update', formData, config);
         handleClose();
       }
-    } catch (error) {
-      console.log(error.response.data);
-    }
+    } catch (error) {}
   };
   return (
     <div>

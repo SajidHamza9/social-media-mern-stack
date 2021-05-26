@@ -39,7 +39,7 @@ function App() {
         dispatch(addNotif(data.notification));
       });
     }
-  }, []);
+  }, [dispatch, enqueueSnackbar]);
   return (
     <Router>
       <StylesProvider injectFirst>

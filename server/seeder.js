@@ -61,7 +61,6 @@ const importData = async () => {
 
     // await post.save();
 
-    console.log('Data Imported!');
     process.exit();
   } catch (error) {
     console.error(`${error}`);
@@ -74,7 +73,6 @@ const removeData = async () => {
     await User.deleteMany();
     await Post.deleteMany();
 
-    console.log('Data Destroyed!');
     process.exit();
   } catch (error) {
     console.error(`${error}`);

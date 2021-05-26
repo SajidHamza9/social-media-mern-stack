@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ function Alert(props) {
 
 const ErrorSnackbar = () => {
   const { showSnackbar, errors } = useSelector((state) => state.errorsAuth);
-  const { errors: err, msg, message } = errors;
+  const { errors: err } = errors;
   let messages = [];
   for (const field in err) {
     messages.push(err[field].msg);

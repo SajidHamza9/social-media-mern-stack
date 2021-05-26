@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { SearchContainer, SearchInput, Card } from './style';
+import { SearchContainer, SearchInput } from './style';
 import SearchIcon from '@material-ui/icons/Search';
 import SearchCard from '../SearchCard';
 import axios from 'axios';
@@ -28,7 +28,7 @@ const Search = () => {
     };
 
     if (token) config.headers['auth-token'] = token;
-    console.log(token);
+
     try {
       const { data } = await axios.get(
         `/api/users?q=${e.target.value}`,

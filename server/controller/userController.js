@@ -125,7 +125,6 @@ exports.updateUser = asyncHandler(async (req, res) => {
       //update followers
       const find1 = user.followers.find((fl) => fl.userId == req.user.id);
       if (find1) {
-        console.log(user);
         await User.findByIdAndUpdate(
           { _id: user._id },
           {
@@ -297,7 +296,7 @@ exports.getSuggestion = asyncHandler(async (req, res) => {
   const map = currentUser.following.map((fl) =>
     mongoose.Types.ObjectId(fl.userId),
   );
-  console.log(map);
+
   const toto = await User.aggregate([
     { $match: { _id: { $nin: map } } },
     { $sample: { size: 10 } },

@@ -11,7 +11,6 @@ import { Body } from '../PhotosList/style';
 import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import { friends } from '../../data/Friends';
 import UserItem from '../UserItem';
 import PersonIcon from '@material-ui/icons/Person';
 
@@ -28,7 +27,6 @@ const FriendsList = ({ list, title }) => {
   const [items, setItems] = useState(list);
 
   useEffect(() => {
-    console.log('list');
     setItems(list);
   }, [list]);
 

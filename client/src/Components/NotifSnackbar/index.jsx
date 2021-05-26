@@ -25,6 +25,8 @@ const NotifSnackbar = React.forwardRef((props, ref) => {
         return { action: 'Commented your post', icon: AddCommentIcon };
       case 'FOLLOW':
         return { action: 'Followed you', icon: PersonIcon };
+      default:
+        return;
     }
   };
   const SmallIcon = withStyles((theme) => ({

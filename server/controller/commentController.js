@@ -42,7 +42,6 @@ exports.addComment = asyncHandler(async (req, res) => {
 
     const notif = await newNotification.save();
     notifyUser('notification', post.userId, { notification: notif });
-    console.log(`notif: ${notif}`);
   }
   notifyPost('comment', {
     userId: req.user.id,

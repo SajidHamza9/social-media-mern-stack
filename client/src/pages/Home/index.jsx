@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import Contacts from '../../components/Contacts';
 import InfoCard from '../../components/InfoCard';
 import Suggestions from '../../components/Suggestions';
 import AddPost from '../../components/AddPost';
 import Post from '../../components/Post';
-// import { posts } from '../../data/home';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadHomePosts } from '../../redux/actions/postActions';
@@ -31,20 +30,11 @@ const Home = () => {
   const dispatch = useDispatch();
   const { posts, loading, loadingAddPost } = useSelector((state) => state.post);
   const { currentUserId } = useSelector((state) => state.auth);
-  const [postList, setPostList] = useState(posts);
   const classes = useStyles();
-
-  const addPost = (post) => {
-    setPostList((prev) => {
-      const posts = [...prev, post];
-      posts.reverse();
-      return posts;
-    });
-  };
 
   useEffect(() => {
     dispatch(loadHomePosts(currentUserId));
-  }, []);
+  }, [dispatch, currentUserId]);
   return (
     <Container maxWidth='lg'>
       <Grid container spacing={3}>
@@ -53,7 +43,7 @@ const Home = () => {
           <Suggestions />
         </Grid>
         <Grid item sm={12} md={6} className={classes.middle}>
-          <AddPost addPost={addPost} />
+          <AddPost />
           {loadingAddPost && <SkeletonPost />}
           {loading ? (
             <div>

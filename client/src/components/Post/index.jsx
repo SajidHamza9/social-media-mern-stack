@@ -88,7 +88,7 @@ const Post = ({
         dispatch(updateCommentsSocket(data.postId, data.comments));
       }
     });
-  }, []);
+  }, [currentUserId, dispatch, postId]);
 
   const removePost = () => {
     dispatch(deletePost(postId));

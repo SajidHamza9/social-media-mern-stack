@@ -3,7 +3,6 @@ import { Container, Grid } from '@material-ui/core';
 import HeaderProfile from '../../components/HeaderProfile';
 import Post from '../../components/Post';
 import Photos from '../../components/Photos';
-// import { posts } from '../../data/home';
 import EditIcon from '@material-ui/icons/Edit';
 import Friends from '../../components/Friends';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,7 +61,7 @@ const Profile = ({}) => {
     setFollowed(isFollow);
     dispatch(getUserProfile(userId));
     dispatch(loadProfilePosts(userId));
-  }, [userId, isFollow]);
+  }, [userId, isFollow, dispatch]);
 
   const follow = async () => {
     //config headers
@@ -74,7 +73,7 @@ const Profile = ({}) => {
     };
 
     if (token) config.headers['auth-token'] = token;
-    console.log(token);
+
     try {
       setDisable(true);
       await axios.post('/api/users/following', { id: userId }, config);
@@ -93,16 +92,12 @@ const Profile = ({}) => {
     };
 
     if (token) config.headers['auth-token'] = token;
-    console.log(config);
 
     try {
-      console.log(userId);
       setDisable(true);
       await axios.delete(`/api/users/following/${userId}`, config);
       setDisable(false);
-    } catch (error) {
-      console.log('test');
-    }
+    } catch (error) {}
   };
 
   const showMessage = () => {
@@ -119,8 +114,7 @@ const Profile = ({}) => {
           {currentUserId.toString() === userId?.toString() ? (
             <PrimarydButton
               startIcon={<EditIcon />}
-              onClick={() => setOpen(!open)}
-              primary>
+              onClick={() => setOpen(!open)}>
               Edit Profile
             </PrimarydButton>
           ) : (

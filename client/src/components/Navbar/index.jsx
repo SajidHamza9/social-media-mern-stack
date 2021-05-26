@@ -47,7 +47,6 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    console.log('logout');
     dispatch(logout());
     history.push('/login');
   };
@@ -101,9 +100,9 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={handleLogout}>
+              <NotifItem onClick={handleLogout}>
                 <ExitToAppIcon />
-              </NavLink>
+              </NotifItem>
             </NavItem>
           </NavMenu>
         </NavbarContainer>

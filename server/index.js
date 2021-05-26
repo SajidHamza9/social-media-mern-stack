@@ -20,9 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //use routes api
-app.use("/api/users", require("./routes/api/authentification"));
-app.use("/api/users", require("./routes/api/follows"));
-app.use("/api/users", require("./routes/api/users"));
+app.use('/api/users', require('./routes/api/authentification'));
+app.use('/api/users', require('./routes/api/follows'));
+app.use('/api/users', require('./routes/api/users'));
 //notifications
 app.use('/api/notifications', require('./routes/api/notifications'));
 
@@ -32,9 +32,7 @@ app.use('/conversations', convRoutes);
 app.use('/messages', msgRoutes);
 app.use(errorHandler);
 
-const server = app.listen(process.env.PORT, () => {
-  console.log('server running');
-});
+const server = app.listen(process.env.PORT, () => {});
 /** Create socket connection */
 global.io = socketio(server);
 global.io.on('connection', WebSockets.connection);

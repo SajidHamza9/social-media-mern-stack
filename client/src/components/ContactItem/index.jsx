@@ -41,7 +41,7 @@ const ContactItem = ({ _id, pdp, username, status }) => {
   const history = useHistory();
   const handleClick = async () => {
     const { data } = await axios.get(`/conversations/${_id}/${utils.user}`);
-    console.log('get conv with clicked person');
+
     pers.convId = data._id;
     data &&
       history.push({

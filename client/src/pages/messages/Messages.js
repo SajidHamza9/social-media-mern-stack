@@ -16,8 +16,7 @@ const Messages = () => {
     setPerson(user);
   };
   const orderSidebar = () => {};
-  console.log('conv opened with this person :');
-  console.log(person);
+
   return (
     <div className='msg-page'>
       <div className='msg-container '>

@@ -14,7 +14,6 @@ import {
   ADD_LIKE,
   ADD_LIKE_SUCCESS,
   UPDATE_LIKES_SOCKET,
-  VIDER_POSTS,
 } from './types';
 import tokenConfig from '../helpers/tokenConfig';
 import axios from 'axios';
@@ -68,7 +67,7 @@ export const addPost = (post) => async (dispatch, getState) => {
   });
   try {
     const { data } = await axios.post(`/api/posts`, post, configHeader);
-    console.log(data);
+
     dispatch({
       type: ADD_POST_SUCCESS,
       payload: {
