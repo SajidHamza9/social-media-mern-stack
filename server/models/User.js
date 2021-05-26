@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const UserPayload = require("./UserPayload");
 const Schema = mongoose.Schema;
-
+const Image = require('./Image');
 const PostSchema = new Schema(
   {
     postId: {
@@ -29,13 +29,10 @@ const UserSchema = new Schema(
     bio: {
       type: String,
     },
-    pdp: {
-      type: String,
-      default: "",
-    },
+    pdp: Image,
     status: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     posts: [PostSchema],
     followers: [UserPayload],

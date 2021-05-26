@@ -108,7 +108,7 @@ exports.removeLike = asyncHandler(async (req, res) => {
 exports.addPost = (req, res) => {
   const { caption } = req.body;
   //some validation
-  if(!req.file && !caption )
+  if(!req.file || !caption || caption !== '')
       return res.status(400).json({message: "2 fields cannot be empty"});
 
     var image = null;
