@@ -19,6 +19,7 @@ import {
 import tokenConfig from '../helpers/tokenConfig';
 import axios from 'axios';
 import moment from 'moment';
+import { returnErrors } from '../actions/errorsActions';
 
 export const loadHomePosts = (userId) => async (dispatch, getState) => {
   dispatch({ type: GET_POSTS_LOADING });
@@ -36,7 +37,7 @@ export const loadHomePosts = (userId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -56,7 +57,7 @@ export const loadProfilePosts = (userId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -75,7 +76,7 @@ export const addPost = (post) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -93,7 +94,7 @@ export const deletePost = (postId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -117,7 +118,7 @@ export const updatePost = (postId, caption) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -148,7 +149,7 @@ export const addComment = (postId, comment) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -174,7 +175,7 @@ export const updateComment =
         },
       });
     } catch (error) {
-      alert(error.message);
+      dispatch(returnErrors(error.response.data, error.response.status));
     }
   };
 
@@ -201,7 +202,7 @@ export const deleteComment =
         },
       });
     } catch (error) {
-      alert(error.message);
+      dispatch(returnErrors(error.response.data, error.response.status));
     }
   };
 
@@ -230,7 +231,7 @@ export const addLike = (postId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -259,7 +260,7 @@ export const removeLike = (postId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 

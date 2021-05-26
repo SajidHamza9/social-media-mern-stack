@@ -90,9 +90,8 @@ exports.getUserInfo = asyncHandler(async (req, res) => {
 });
 
 exports.updateUser = asyncHandler(async (req, res) => {
-  
   const { username, bio } = req.body;
-  if (!username | username === '')
+  if (!username | (username === ''))
     return res.status(400).json({ error: 'Username cannot be empty' });
   var pdp = null;
   const dirname = __dirname.replace('\\server\\controller', '');

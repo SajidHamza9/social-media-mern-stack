@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
-const UserPayload = require("./UserPayload");
+const mongoose = require('mongoose');
+const UserPayload = require('./UserPayload');
 const Schema = mongoose.Schema;
 const Image = require('./Image');
 const PostSchema = new Schema(
   {
     postId: {
       type: Schema.Types.ObjectId,
-      ref: "Posts",
+      ref: 'Posts',
     },
   },
-  { _id: false }
+  { _id: false },
 );
 const UserSchema = new Schema(
   {
@@ -28,7 +28,7 @@ const UserSchema = new Schema(
     },
     bio: {
       type: String,
-      default: "Bio"
+      default: 'Bio',
     },
     pdp: Image,
     status: {
@@ -39,7 +39,7 @@ const UserSchema = new Schema(
     followers: [UserPayload],
     following: [UserPayload],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model('User', UserSchema);

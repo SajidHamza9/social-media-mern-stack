@@ -47,7 +47,7 @@ const Profile = ({}) => {
   const { posts, loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { userId, followers, following, isFollow } = useSelector(
+  const { userId, followers, following, isFollow, username, pdp } = useSelector(
     (state) => state.userProfile,
   );
   const [followed, setFollowed] = useState(isFollow);
@@ -105,6 +105,12 @@ const Profile = ({}) => {
     }
   };
 
+  const showMessage = () => {
+    //id : userId
+    //pdp
+    //username
+  };
+
   return (
     <Container maxWidth='lg'>
       <HeaderProfile />
@@ -134,7 +140,9 @@ const Profile = ({}) => {
                   Follow
                 </OutlinedButton>
               )}
-              <PrimarydButton startIcon={<ChatBubbleIcon />}>
+              <PrimarydButton
+                onClick={showMessage}
+                startIcon={<ChatBubbleIcon />}>
                 Message
               </PrimarydButton>
             </ButtonWrapper>
