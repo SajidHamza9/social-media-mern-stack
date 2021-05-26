@@ -28,6 +28,7 @@ const UserSchema = new Schema(
     },
     bio: {
       type: String,
+      default: "Bio"
     },
     pdp: Image,
     status: {
