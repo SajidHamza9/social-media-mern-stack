@@ -3,7 +3,6 @@ const Post = require('../models/Posts');
 const User = require('../models/User');
 const Notification = require('../models/Notifications');
 const { notifyPost, notifyUser } = require('../utils/sockets');
-const WebSockets = require('../utils/WebSockets');
 
 const { encode } = require('base64-arraybuffer');
 const fs = require('fs');
@@ -54,7 +53,7 @@ exports.addLike = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'Like added', post });
   } else {
     res.status(404);
-    throw new Error('Post not found');
+    throw new Error('Post not found please reload the page!');
   }
 });
 
@@ -98,7 +97,7 @@ exports.removeLike = asyncHandler(async (req, res) => {
     }
   } else {
     res.status(404);
-    throw new Error('Post not found');
+    throw new Error('Post not found please reload the page!');
   }
 });
 
@@ -108,7 +107,7 @@ exports.removeLike = asyncHandler(async (req, res) => {
 exports.addPost = (req, res) => {
   const { caption } = req.body;
   //some validation
-  if(!req.file && !caption )
+  if(!req.file || !caption || caption !== '')
       return res.status(400).json({message: "2 fields cannot be empty"});
 
     var image = null;
@@ -122,31 +121,38 @@ exports.addPost = (req, res) => {
 
         //delete file
     fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
-      if(err) throw new Error(err);
-  })
-    }
-  
-    User.findById(req.user.id)
-        .then(user => {
-          const newPost = new Post({
-            userId: user._id,
-            image,
-            caption
-          });
-          newPost.save().then(post => {
-            const postId = {
-              postId: post._id
-            };
-            user.posts.push(postId);
-            post._doc.username = user.username;
-            post._doc.pdp = user.pdp;
-            console.log(post);
-           // post["username"] = user.pdp;
-            user.save().then(() => res.status(201).json(post))
-                        .catch(err => res.status(400).json({error: true, message: 'err'}));
-          }).catch(err => res.status(400).json({error: true, message: err}))
+      if (err) throw new Error(err);
+    });
+  }
+
+  User.findById(req.user.id)
+    .then((user) => {
+      const newPost = new Post({
+        userId: user._id,
+        image,
+        caption,
+      });
+      newPost
+        .save()
+        .then((post) => {
+          const postId = {
+            postId: post._id,
+          };
+          user.posts.push(postId);
+          post._doc.username = user.username;
+          post._doc.pdp = user.pdp;
+
+          // post["username"] = user.pdp;
+          user
+            .save()
+            .then(() => res.status(201).json(post))
+            .catch((err) =>
+              res.status(400).json({ error: true, message: 'err' }),
+            );
         })
         .catch((err) => res.status(400).json({ error: true, message: err }));
+    })
+    .catch((err) => res.status(400).json({ error: true, message: err }));
 };
 
 // @route Put api/posts/:id
@@ -171,39 +177,36 @@ exports.updatePost = (req, res) => {
 exports.deletePost = asyncHandler(async (req, res) => {
   const postId = req.params.id;
 
-  //delete Post 
-  const post = await Post.findById({_id: postId});
-  if(!post)
-    return res.status(400).json({message: "post not found"});
+  //delete Post
+  const post = await Post.findById({ _id: postId });
+  if (!post) return res.status(400).json({ message: 'post not found' });
   await post.remove();
   const user = await User.findById(req.user.id);
-  if(!user) {
+  if (!user) {
     res.status(400);
-    throw new Error("problems with this user");
+    throw new Error('problems with this user');
   }
   //update User
   const index = user.posts.findIndex((post) => post.postId == postId);
-  if(index > -1){
+  if (index > -1) {
     user.posts.splice(index, 1);
     await user.save();
-  } 
+  }
 
   //delete notification
-  await Notification.deleteMany({postId});
-  return res.status(200).json({message: "Post deleted with success"});
-  
-
+  await Notification.deleteMany({ postId });
+  return res.status(200).json({ message: 'Post deleted with success' });
 
   // Post.deleteOne({ _id: idPost })
   //   .then(() => {
-      
+
   //     //delete Notification
 
   //     User.findById(req.user.id)
   //       .then((user) => {
   //         const index = user.posts.findIndex((post) => post.postId == idPost);
   //         if (index > -1) user.posts.splice(index, 1);
-          
+
   //         user.save()
   //             .then(() =>
   //             res.status(200).json({ msg: 'post deleted with success' }),

@@ -5,13 +5,13 @@ export const Card = styled.div`
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  width: 300px;
+  min-width: 300px;
   border-radius: 5px;
   height: 400px;
   box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.75);
-  margin-top: 1.5rem;
+  margin-top: 10px;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

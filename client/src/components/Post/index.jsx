@@ -36,8 +36,10 @@ import {
   addLike,
   removeLike,
   updateLikesSocket,
+  updateCommentsSocket,
 } from '../../redux/actions/postActions';
 import utils from '../../utils/socket';
+import { getUserId } from '../../redux/actions/userAcions';
 
 const Post = ({
   time,
@@ -67,15 +69,26 @@ const Post = ({
   const { currentUserId } = useSelector((state) => state.auth);
   const [likeModal, setLikeModal] = useState(false);
   useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
+  useEffect(() => {
     utils.socket.on('like', (data) => {
       if (
-        data.postId.toString() === postId.toString() &&
-        data.userId.toString() !== currentUserId.toString()
+        data.postId?.toString() === postId.toString() &&
+        data.userId?.toString() !== currentUserId.toString()
       ) {
         dispatch(updateLikesSocket(data.postId, data.likes));
       }
     });
-  }, [currentUserId,dispatch,postId]);
+    utils.socket.on('comment', (data) => {
+      if (
+        data.postId?.toString() === postId.toString() &&
+        data.userId?.toString() !== currentUserId.toString()
+      ) {
+        dispatch(updateCommentsSocket(data.postId, data.comments));
+      }
+    });
+  }, []);
 
   const removePost = () => {
     dispatch(deletePost(postId));
@@ -88,7 +101,8 @@ const Post = ({
 
   const showProfile = () => {
     dispatch(closeModal());
-    history.push(`/profile/${userId}`);
+    dispatch(getUserId(userId));
+    history.push(`/profile`);
   };
 
   const handleClick = (event) => {
@@ -118,7 +132,7 @@ const Post = ({
     }
   };
   const sendComment = () => {
-    if (value) {
+    if (value.trim()) {
       dispatch(addComment(postId, value));
       setValue('');
     }

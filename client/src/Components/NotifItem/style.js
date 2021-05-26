@@ -5,7 +5,7 @@ export const Div = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 0.7rem;
   cursor: pointer;
   background-color: #fff;
   &:hover {
@@ -48,6 +48,7 @@ export const Time = styled(Typography)`
   color: rgba(0, 0, 0, 0.7);
   font-weight: 300;
   font-size: 12px;
+  margin-left: 0.5rem;
 `;
 
 export const StyledAvatar = styled(Avatar)`

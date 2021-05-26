@@ -13,10 +13,11 @@ import {
   ADD_FOLLOW,
   DELETE_FOLLOW,
 } from "./types";
+import utils from "../../utils/socket";
 import { returnErrors } from "./errorsActions";
 import { history } from "../helpers/history";
 import axios from "axios";
-import utils from "../../utils/socket";
+import { Redirect } from "react-router";
 export const loadUser = () => (dispatch, getState) => {
   // loading user
   dispatch({ type: USER_LOADING });
@@ -50,6 +51,8 @@ export const register = (user) => (dispatch) => {
         payload: res.data,
       });
       dispatch({ type: CLEAR_ERRORS });
+      history.push("/");
+      window.location.reload();
     })
     .catch((err) => {
       dispatch({ type: REGISTER_FAIL });
@@ -59,8 +62,6 @@ export const register = (user) => (dispatch) => {
 
 //login
 export const login = (user) => (dispatch) => {
-  console.log("inside logien");
-
   axios
     .post("/api/users/login", user)
     .then((res) => {
@@ -93,7 +94,7 @@ export const logout = () => (dispatch, getState) => {
       utils = {};
     })
     .catch((err) => {
-      dispatch(returnErrors(err.response?.data, err.response?.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
     });
 };
 

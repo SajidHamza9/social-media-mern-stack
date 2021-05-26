@@ -2,6 +2,7 @@ import {
   GET_POSTS_LOADING,
   GET_POSTS_SUCCESS,
   ADD_POST,
+  ADD_POST_SUCCESS,
   DELETE_POST,
   UPDATE_POST,
   ADD_COMMENT,
@@ -13,9 +14,12 @@ import {
   ADD_LIKE,
   ADD_LIKE_SUCCESS,
   UPDATE_LIKES_SOCKET,
+  VIDER_POSTS,
 } from './types';
 import tokenConfig from '../helpers/tokenConfig';
 import axios from 'axios';
+import moment from 'moment';
+import { returnErrors } from '../actions/errorsActions';
 
 export const loadHomePosts = (userId) => async (dispatch, getState) => {
   dispatch({ type: GET_POSTS_LOADING });
@@ -25,6 +29,7 @@ export const loadHomePosts = (userId) => async (dispatch, getState) => {
       `/api/users/${userId}/posts?all=true`,
       configHeader,
     );
+
     dispatch({
       type: GET_POSTS_SUCCESS,
       payload: {
@@ -32,7 +37,7 @@ export const loadHomePosts = (userId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -44,6 +49,7 @@ export const loadProfilePosts = (userId) => async (dispatch, getState) => {
       `/api/users/${userId}/posts?all=false`,
       configHeader,
     );
+
     dispatch({
       type: GET_POSTS_SUCCESS,
       payload: {
@@ -51,23 +57,26 @@ export const loadProfilePosts = (userId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
 export const addPost = (post) => async (dispatch, getState) => {
   const configHeader = tokenConfig(getState);
+  dispatch({
+    type: ADD_POST,
+  });
   try {
     const { data } = await axios.post(`/api/posts`, post, configHeader);
     console.log(data);
     dispatch({
-      type: ADD_POST,
+      type: ADD_POST_SUCCESS,
       payload: {
         post: data,
       },
     });
   } catch (error) {
-    alert(error);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -85,7 +94,7 @@ export const deletePost = (postId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -109,7 +118,7 @@ export const updatePost = (postId, caption) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -130,7 +139,9 @@ export const addComment = (postId, comment) => async (dispatch, getState) => {
     const index = posts.findIndex(
       (p) => p._id.toString() === postId.toString(),
     );
-    posts[index].comments = comments;
+    posts[index].comments = comments.sort((c1, c2) => {
+      return moment(c2.createdAt).diff(c1.createdAt);
+    });
     dispatch({
       type: ADD_COMMENT_SUCCESS,
       payload: {
@@ -138,7 +149,7 @@ export const addComment = (postId, comment) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -164,7 +175,7 @@ export const updateComment =
         },
       });
     } catch (error) {
-      alert(error.message);
+      dispatch(returnErrors(error.response.data, error.response.status));
     }
   };
 
@@ -191,7 +202,7 @@ export const deleteComment =
         },
       });
     } catch (error) {
-      alert(error.message);
+      dispatch(returnErrors(error.response.data, error.response.status));
     }
   };
 
@@ -220,7 +231,7 @@ export const addLike = (postId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -249,7 +260,7 @@ export const removeLike = (postId) => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    alert(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -260,6 +271,21 @@ export const updateLikesSocket =
       (p) => p._id.toString() === postId.toString(),
     );
     posts[index].likes = likes;
+    dispatch({
+      type: UPDATE_LIKES_SOCKET,
+      payload: {
+        posts,
+      },
+    });
+  };
+
+export const updateCommentsSocket =
+  (postId, comments) => async (dispatch, getState) => {
+    const posts = getState().post.posts;
+    const index = posts.findIndex(
+      (p) => p._id.toString() === postId.toString(),
+    );
+    posts[index].comments = comments;
     dispatch({
       type: UPDATE_LIKES_SOCKET,
       payload: {

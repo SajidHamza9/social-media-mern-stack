@@ -37,8 +37,8 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const ContactItem = ({_id, pdp, username, status }) => {
-  const pers={_id, pdp, username, status };
+const ContactItem = ({ _id, pdp, username, status }) => {
+  const pers = { _id, pdp, username, status };
   const history = useHistory();
   const { token } = useSelector((state) => state.auth);
   const handleClick=async()=>{
@@ -51,14 +51,14 @@ const ContactItem = ({_id, pdp, username, status }) => {
       if (token) config.headers["auth-token"] = token;
     const {data}=await axios.get(`/conversations/${_id}/${utils.user}`,config)
     console.log('get conv with clicked person');
-    pers.convId=data._id
-   data && history.push({
-  pathname: '/Messages',
-  pers
-})
-  }
+    pers.convId = data._id;
+    data &&
+      history.push({
+        pathname: '/Messages',
+        pers,
+      });
+  };
   return (
-    
     <Div onClick={handleClick}>
       <StyledBadge
         overlap='circle'

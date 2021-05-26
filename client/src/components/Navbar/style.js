@@ -100,36 +100,23 @@ export const NavLink = styled(Link)`
   }
 `;
 
+export const NotifItem = styled.div`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  height: 100%;
+  justify-content: center;
+  cursor: pointer;
+  @media screen and (max-width: 960px) {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+  }
+`;
+
 export const StyledAvatar = styled(Avatar)`
   width: 30px;
   height: 30px;
-`;
-
-export const SearchContainer = styled.div`
-  width: 18rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  height: 55%;
-  border-radius: 8px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  color: #0f1626;
-  padding: 1rem 0.5rem;
-`;
-
-export const SearchInput = styled.input`
-  border: none;
-  flex-grow: 2;
-  outline: none;
-  height: 100%;
-  border-radius: 8px;
-  width: 100%;
-  color: #0f1626;
-  font-size: 0.9rem;
-  padding: 1rem 0.5rem;
-  &::focus {
-    border: none;
-    outline: none;
-  }
 `;

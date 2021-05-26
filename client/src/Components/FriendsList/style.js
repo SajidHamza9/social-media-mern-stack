@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Typography } from '@material-ui/core';
 
 export const SearchContainer = styled.div`
   width: 16rem;
@@ -34,4 +35,19 @@ export const Item = styled.div`
   padding: 0.5rem;
   width: 100%;
   width: 90%;
+`;
+
+export const EmptyStateContainer = styled.div`
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #ccc;
+`;
+
+export const EmptyStateTitle = styled(Typography)`
+  font-weight: 700;
+  font-size: 1.5rem;
 `;

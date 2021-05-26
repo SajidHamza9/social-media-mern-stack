@@ -1,22 +1,50 @@
 import React from 'react';
-import { Card, Header, Title, Body } from './style';
+import {
+  Card,
+  Title,
+  Body,
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from './style';
+import { Header } from '../Photos/style';
 import { Button, ListItem } from '../InfoCard/style';
 import { suggestions } from '../../data/home';
+import { useHistory } from 'react-router-dom';
 import UserItem from '../UserItem';
-const Friends = () => {
+import PersonIcon from '@material-ui/icons/Person';
+const Friends = ({ title, to, list }) => {
+  const history = useHistory();
   return (
     <Card>
       <Header>
-        <Title>Following</Title>
+        <Title>{title}</Title>
+        <Button
+          onClick={(e) => {
+            history.push(to);
+          }}>
+          View All
+        </Button>
       </Header>
       <Body>
-        {suggestions.map((s) => (
-          <UserItem key={s.id} img={s.img} name={s.name} />
-        ))}
+        {list?.length ? (
+          list
+            ?.slice(0, 3)
+            .map((s) => (
+              <UserItem
+                key={s.userId}
+                img={s.pdp}
+                name={s.username}
+                status={s.isFollow}
+                userId={s.userId}
+              />
+            ))
+        ) : (
+          <EmptyStateContainer>
+            <PersonIcon fontSize='large' />
+            <EmptyStateTitle>{`No users to show.`}</EmptyStateTitle>
+          </EmptyStateContainer>
+        )}
       </Body>
-      <ListItem>
-        <Button href='/friends'>View All</Button>
-      </ListItem>
     </Card>
   );
 };

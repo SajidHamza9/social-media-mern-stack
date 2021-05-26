@@ -6,8 +6,6 @@ export const Card = styled.div`
   box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
   -moz-box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.24);
-  width: 90%;
-  float: left;
   margin-top: 1rem;
 `;
 

@@ -7,8 +7,8 @@ import Typography from '@material-ui/core/Typography';
 const SkeletonPost = () => {
   return (
     <div>
-      <Box display='flex' alignItems='center'>
-        <Box margin={1}>
+      <Box display='flex' alignItems='center' width='100%'>
+        <Box margin={1} width='100%'>
           <Skeleton variant='circle'>
             <Avatar />
           </Skeleton>
