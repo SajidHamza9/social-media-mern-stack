@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const Notifications = require("../models/Notifications");
 const Post = require("../models/Posts");
 const User = require("../models/User");
 exports.getFollowers = asyncHandler(async (req, res) => {
@@ -42,111 +43,60 @@ exports.getFollowing = asyncHandler(async (req, res) => {
   });
 });
 exports.deleteFollowing = asyncHandler(async (req, res) => {
-  User.findById({ _id: req.params.id }, async (err, data) => {
-    if (err) {
-      await res.status(404).json({
-        message: `Cannot find user with this ID : ${req.body.id}`,
-        err: err,
-      });
-    } else {
-      User.findByIdAndUpdate(
-        { _id: req.user.id },
-        {
-          $pull: {
-            following: {
-              userId: req.params.id,
-            },
-          },
-        },
-        async (err, data1) => {
-          if (err) {
-            await res
-              .status(404)
-              .send(`Cannot find follower with this ID : ${req.user.id}`);
-          } else {
-            res.status(201).json({
-              message: "friend deleted  to the list of following",
-            });
+  const user = await User.findById(req.params.id);
+  if(!user)
+      return res.status('400').json({error: "user not found"});
+  console.log(req.user.id);
+  await User.findByIdAndUpdate(
+      {_id: req.user.id},
+      {
+        $pull: {
+          following: {
+            userId: req.params.id
           }
         }
-      );
-      User.findByIdAndUpdate(
-        { _id: req.body.id },
-        {
-          $pull: {
-            followers: {
-              userId: req.user.id,
-            },
-          },
-        },
-        async (err, data1) => {
-          if (err) {
-            await res
-              .status(404)
-              .send(`Cannot find follower with this ID : ${req.body.id}`);
-          } else {
-            res.status(201).json({
-              message: "friend deleted  to the list of followers",
-            });
-          }
-        }
-      );
-    }
-  });
+      }
+  );
+  
+  return res.status(200).json({message: "this following are deleted with success"});
 });
+
 exports.addFollowing = asyncHandler(async (req, res) => {
-  User.findById({ _id: req.body.id }, async (err, data) => {
-    if (err) {
-      await res.status(404).json({
-        message: `Cannot find user with this ID : ${req.body.id}`,
-        err: err,
-      });
-    } else {
-      User.findByIdAndUpdate(
-        { _id: req.user.id },
-        {
-          $push: {
-            following: {
-              userId: req.body.id,
-              username: data.username,
-              pdp: data.pdp,
-            },
-          },
-        },
-        async (err, data1) => {
-          if (err) {
-            await res
-              .status(404)
-              .send(`Cannot find follower with this ID : ${req.user.id}`);
-          } else {
-            User.findByIdAndUpdate(
-              { _id: req.body.id },
-              {
-                $push: {
-                  followers: {
-                    userId: req.user.id,
-                    username: data1.username,
-                    pdp: data1.pdp,
-                  },
-                },
-              },
-              async (err, data2) => {
-                if (err) {
-                  await res
-                    .status(404)
-                    .send(
-                      `Cannot find follower with this ID : ${req.body.id}`
-                    );
-                } else {
-                  res.status(201).json({
-                    message: "follow added to the list of following",
-                  });
-                }
-              }
-            );
-          }
-        }
-      );
-    }
+
+  const targetId = req.body.id;
+  if(!targetId || targetId === '')  
+      return res.status(200).json({error: "some fields cannot be empty"});
+  const currentUser = await User.findById(req.user.id);
+  const targetUser = await User.findById(targetId);
+  
+  currentUser.following.push({
+    userId: targetUser._id,
+    username: targetUser.username,
+    pdp: targetUser.pdp
   });
+  await currentUser.save();
+
+  targetUser.followers.push({
+    userId: currentUser._id,
+    username: currentUser.username,
+    pdp: currentUser.pdp
+  });
+  await targetUser.save();
+
+  //add notification
+    const userPayload = {
+      userId: currentUser._id,
+      username: currentUser.username,
+      pdp: currentUser.pdp
+  };
+  const newNotification = new Notification({
+      type: "FOLLOW",
+      targetUserId: targetId,
+      currentUser: userPayload,
+      postId: null
+  });
+
+  await newNotification.save();
+
+  return res.status(201).json({message: "add following with success"});
 });
