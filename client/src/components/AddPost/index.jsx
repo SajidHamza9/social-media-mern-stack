@@ -14,18 +14,25 @@ import SendIcon from '@material-ui/icons/Send';
 import ImageIcon from '@material-ui/icons/Image';
 import { IconButton } from '@material-ui/core';
 import { addPost } from '../../redux/actions/postActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AddPost = () => {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
   const ref = useRef();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <Card>
       <Header>
-        <StyledAvatar src='/images/img2.jpeg' />
+        <StyledAvatar
+          src={
+            user?.pdp
+              ? `data:${user?.pdp.contentType};base64, ${user?.pdp.data}`
+              : user?.pdp
+          }
+        />
         <Content>
           <Input
             multiline
