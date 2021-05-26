@@ -297,12 +297,13 @@ exports.getSuggestion = asyncHandler(async (req, res) => {
     mongoose.Types.ObjectId(fl.userId),
   );
   map.push(mongoose.Types.ObjectId(req.user.id));
-  const toto = await User.aggregate([
+
+  const suggestions = await User.aggregate([
     { $match: { _id: { $nin: map } } },
     { $sample: { size: 10 } },
     { $project: { _id: 1, username: 1, pdp: 1 } },
   ]);
-  res.status(200).json(toto);
+  res.status(200).json(suggestions);
 });
 
 // exports.updateUser = asyncHandler(async(req, res) => {

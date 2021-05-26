@@ -9,6 +9,10 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     padding: '1rem',
   },
+  backdrop: {
+    zIndex: 1000,
+    color: '#ab987a',
+  },
 }));
 
 export const Label = styled(Typography)`
