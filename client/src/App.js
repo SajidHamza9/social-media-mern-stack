@@ -44,7 +44,7 @@ function App() {
     <Router>
       <StylesProvider injectFirst>
         <GlobalStyle />
-        {pathName !== '/login' && <Navbar />}
+        {isAuth && <Navbar />}
         <Switch>
           {/* <Route path="/" exact component={Home} /> */}
           {/* <Route path="/profile" component={Profile} /> */}
@@ -63,7 +63,7 @@ function App() {
             {isAuth ? <Redirect to='/' /> : <Login />}
           </Route>
         </Switch>
-        {pathName !== '/login' && pathName !== '/messages' && <MessagesBtn />}
+        {isAuth && pathName !== '/messages' && <MessagesBtn />}
         <PostModal />
         <ErrorSnackbar />
       </StylesProvider>

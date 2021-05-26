@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useSelector, useDispatch } from 'react-redux';
 import { CLEAR_ERRORS } from '../../redux/actions/types';
-
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
 }

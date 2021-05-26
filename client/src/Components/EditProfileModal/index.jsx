@@ -28,7 +28,6 @@ const EditProfileModal = ({ handleClose, open }) => {
   const [name, setName] = useState(user?.username);
   const [bioValue, setBioValue] = useState(user?.bio);
   const ref = useRef();
-  console.log("edit prodile");
   useEffect(() => {
     setName(user?.username);
     setBioValue(user?.bio);
