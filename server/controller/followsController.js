@@ -68,7 +68,10 @@ exports.addFollowing = asyncHandler(async (req, res) => {
       return res.status(200).json({error: "some fields cannot be empty"});
   const currentUser = await User.findById(req.user.id);
   const targetUser = await User.findById(targetId);
+  const found = currentUser.following.find(fl => fl.userId.toString() === (targetId).toString());
   
+  if(found)
+    return res.status(400).json({message: "this follow are already exist"});
   currentUser.following.push({
     userId: targetUser._id,
     username: targetUser.username,
@@ -89,7 +92,7 @@ exports.addFollowing = asyncHandler(async (req, res) => {
       username: currentUser.username,
       pdp: currentUser.pdp
   };
-  const newNotification = new Notification({
+  const newNotification = new Notifications({
       type: "FOLLOW",
       targetUserId: targetId,
       currentUser: userPayload,
