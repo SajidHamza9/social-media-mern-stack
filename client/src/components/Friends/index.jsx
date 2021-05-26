@@ -27,15 +27,17 @@ const Friends = ({ title, to, list }) => {
       </Header>
       <Body>
         {list?.length ? (
-          list?.map((s) => (
-            <UserItem
-              key={s.userId}
-              img={s.pdp}
-              name={s.username}
-              status={s.isFollow}
-              userId={s.userId}
-            />
-          ))
+          list
+            ?.slice(0, 3)
+            .map((s) => (
+              <UserItem
+                key={s.userId}
+                img={s.pdp}
+                name={s.username}
+                status={s.isFollow}
+                userId={s.userId}
+              />
+            ))
         ) : (
           <EmptyStateContainer>
             <PersonIcon fontSize='large' />

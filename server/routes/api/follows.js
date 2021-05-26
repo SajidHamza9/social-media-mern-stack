@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const followsController = require('../../controller/followsController');
 const auth = require('../../middleware/auth');
-
-router.route('/:id/followers').get(auth, followsController.getFollowers);
-router.route('/:id/following').get(auth, followsController.getFollowing);
-router.route('/following/:id').delete(auth, followsController.deleteFollowing);
+const paramsValidation = require('../../middleware/paramsValidation');
+const followsController = require('../../controller/followsController');
+// router.route('/:id/followers').get(followsController.getFollowers);
+// router.route('/:id/following').get(followsController.getFollowing);
+router
+  .route('/following/:id')
+  .delete([auth, paramsValidation(['id'])], followsController.deleteFollowing);
 router.route('/following').post(auth, followsController.addFollowing);
 
 module.exports = router;

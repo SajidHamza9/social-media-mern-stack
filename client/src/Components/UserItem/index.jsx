@@ -38,7 +38,7 @@ const UserItem = ({ img, name, status, userId }) => {
       await axios.post('/api/users/following', { id: userId }, config);
       setDisable(false);
     } catch (error) {
-      alert(error.message);
+      alert(error.response.data);
     }
   };
   const unfollow = async () => {
