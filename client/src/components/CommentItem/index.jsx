@@ -64,7 +64,10 @@ const CommentItem = ({
 
   return (
     <Wrapper>
-      <StyledAvatar onClick={showProfile} src={pdp} />
+      <StyledAvatar
+        onClick={showProfile}
+        src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+      />
       <RightSide>
         <Box display='flex' justifyContent='space-between'>
           <Name onClick={showProfile}>{name}</Name>
