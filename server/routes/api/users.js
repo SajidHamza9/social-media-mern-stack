@@ -11,6 +11,8 @@ const bcrypt = require('bcryptjs');
 const { getHashPassowrd } = require('../../config/salt');
 //middleware auth
 const auth = require('../../middleware/auth');
+//upload image middleware
+const uploadImage = require('../../middleware/uploadImage');
 //middleware validation register
 const {
   registerValidation,
@@ -20,7 +22,7 @@ const {
 const { body, validationResult } = require('express-validator');
 
 router.get('/suggestion', auth, userController.getSuggestion);
-router.post('/update', auth, userController.updateUser);
+router.put('/update', [auth, uploadImage.single('image')], userController.updateUser);
 router.route('/:id/posts').get(auth, userController.getPosts);
 router.route('/:id').delete(auth, userController.removeUser);
 router.route('/:id').get(auth, userController.getUserInfo);
