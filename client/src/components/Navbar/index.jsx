@@ -9,8 +9,7 @@ import {
   NavLink,
   NavItem,
   StyledAvatar,
-  SearchContainer,
-  SearchInput,
+  NotifItem,
 } from './style';
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
@@ -18,13 +17,14 @@ import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Badge from '@material-ui/core/Badge';
-import SearchIcon from '@material-ui/icons/Search';
 import NotifCard from '../NotifCard';
 import { useSelector, useDispatch } from 'react-redux';
 //import logout function action
 import { logout } from '../../redux/actions/authActions';
 import { useHistory } from 'react-router-dom';
 import { getNotif } from '../../redux/actions/notificationActions';
+import Search from '../Search';
+import { getUserId } from '../../redux/actions/userAcions';
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
@@ -50,7 +50,6 @@ const Navbar = () => {
     console.log('logout');
     dispatch(logout());
     history.push('/login');
-    
   };
 
   return (
@@ -62,10 +61,7 @@ const Navbar = () => {
             <NavIcon fontSize='large' />
             LOGO
           </NavLogo>
-          <SearchContainer>
-            <SearchIcon />
-            <SearchInput type='text' placeholder='Search...' />
-          </SearchContainer>
+          <Search />
 
           <MobileIcon
             onClick={() => {
@@ -84,14 +80,16 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem onClick={handleToggle} ref={anchorRef}>
-              <NavLink>
+              <NotifItem>
                 <Badge badgeContent={open ? 0 : count} color='error'>
                   <NotificationsIcon />
                 </Badge>
-              </NavLink>
+              </NotifItem>
             </NavItem>
             <NavItem onClick={() => setClick(!click)}>
-              <NavLink to={`/profile/${currentUserId}`}>
+              <NavLink
+                to={'/profile'}
+                onClick={() => dispatch(getUserId(currentUserId))}>
                 <StyledAvatar alt='pdp' src='/images/img2.jpeg' />
               </NavLink>
             </NavItem>

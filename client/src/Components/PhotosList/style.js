@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Typography } from '@material-ui/core';
 
 export const Body = styled.div`
   padding: 2rem;
@@ -30,4 +31,19 @@ export const Image = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 6px;
+`;
+
+export const EmptyStateContainer = styled.div`
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #ccc;
+`;
+
+export const EmptyStateTitle = styled(Typography)`
+  font-weight: 700;
+  font-size: 1.5rem;
 `;

@@ -13,7 +13,7 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_USER_PROFILE:
-      localStorage.setItem('userProdileId', action.payload.id);   
+      localStorage.setItem('userProdileId', action.payload.id);
       return {
         ...state,
         userId: action.payload.id,

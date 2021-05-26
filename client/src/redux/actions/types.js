@@ -13,8 +13,8 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const IS_AUTH = 'IS_AUTH';
 
 //user Profile
-export const GET_USER_PROFILE = "GET_USER_PROFILE";
-export const GET_USER_PROFILE_SUCCESS = "GET_USER_PROFILE_SUCCESS";
+export const GET_USER_PROFILE = 'GET_USER_PROFILE';
+export const GET_USER_PROFILE_SUCCESS = 'GET_USER_PROFILE_SUCCESS';
 
 export const GET_LOGGED_IN = 'GET_LOGGED_IN';
 export const REQUEST_LOGGED_IN_SUCCESS = 'REQUEST_LOGGED_IN_SUCCESS';
@@ -26,6 +26,7 @@ export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const GET_POSTS_LOADING = 'POSTS_LOADING';
 export const GET_POSTS_SUCCESS = 'POSTS_SUCCESS';
 export const ADD_POST = 'ADD_POST';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -45,4 +46,6 @@ export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const ADD_DELETE_FOLLOW = 'ADD_DELETE_FOLLOW';
 export const ADD_FOLLOW = 'ADD_FOLLOW';
 export const DELETE_FOLLOW = 'DELETE_FOLLOW';
-export const ADD_POST = 'ADD_POST';
+export const ADD_DELETE_POST = 'ADD_DELETE_POST';
+
+export const CLOSE_MSG_ERROR = 'SHOW_MSG_ERROR';

@@ -5,12 +5,26 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import PersonIcon from '@material-ui/icons/Person';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../redux/actions/modalActions';
+import { getUserId } from '../../redux/actions/userAcions';
+import { useHistory } from 'react-router-dom';
 
 const NotifItem = ({ notification, close }) => {
   const { type, createdAt, postId, currentUser } = notification;
   const { userId, pdp, username } = currentUser;
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const handleClick = (e) => {
     close(e);
+    if (type === 'FOLLOW') {
+      dispatch(getUserId(userId));
+      history.push('/profile');
+    } else if (type === 'LIKE' || type === 'COMMENT') {
+      dispatch(openModal(postId));
+    }
   };
   const setInfo = () => {
     switch (type) {
@@ -50,7 +64,7 @@ const NotifItem = ({ notification, close }) => {
           <Action>{setInfo().action}</Action>
         </Box>
       </FlexDiv>
-      <Time>2min</Time>
+      <Time>{moment(createdAt).fromNow()}</Time>
     </Div>
   );
 };

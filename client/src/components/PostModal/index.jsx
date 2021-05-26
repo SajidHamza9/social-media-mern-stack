@@ -13,7 +13,7 @@ const PostModal = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isOpen, postId } = useSelector((state) => state.modal);
-  const { posts } = useSelector((state) => state.post);
+  const { posts, loadingAddComment } = useSelector((state) => state.post);
   const post = posts.find((p) => p._id.toString() === postId);
   return (
     <div>
@@ -40,6 +40,7 @@ const PostModal = () => {
                 isLiked={post.isLiked}
                 likes={post.likes}
                 postId={post._id}>
+                {loadingAddComment && <SkeletonComment />}
                 {post.comments.map((c) => (
                   <CommentItem
                     key={c._id}

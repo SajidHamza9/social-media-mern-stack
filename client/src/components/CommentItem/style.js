@@ -4,12 +4,14 @@ import { Typography, Avatar } from '@material-ui/core';
 export const StyledAvatar = styled(Avatar)`
   width: 40px;
   height: 40px;
+  cursor: pointer;
 `;
 
 export const Name = styled(Typography)`
   color: #000;
   font-weight: 700;
   font-size: 0.9rem;
+  cursor: pointer;
 `;
 
 export const Time = styled(Typography)`

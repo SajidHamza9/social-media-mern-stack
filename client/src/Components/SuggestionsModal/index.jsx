@@ -4,9 +4,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useStyles, Card, Header, Title } from '../ConfirmModal/style';
 import { Body } from './style';
-import SimpleUserItem from '../SimpleUserItem';
+import UserItem from '../UserItem';
 
-const LikesModal = ({ open, handleClose, likes }) => {
+const LikesModal = ({ open, handleClose, suggestions }) => {
   const classes = useStyles();
   return (
     <div>
@@ -22,17 +22,17 @@ const LikesModal = ({ open, handleClose, likes }) => {
         <Fade in={open}>
           <Card>
             <Header>
-              <Title>Likes</Title>
+              <Title>Suggestions</Title>
             </Header>
             <Body>
-              {likes.map((like) => (
-                <SimpleUserItem
-                  display
-                  key={like.userId}
-                  name={like.username}
-                  pdp={like.pdp}
-                  userId={like.userId}
-                  closeLikesModal={handleClose}
+              {suggestions.map((s) => (
+                <UserItem
+                  key={s.userId}
+                  name={s.username}
+                  pdp={s.pdp}
+                  userId={s.userId}
+                  close={handleClose}
+                  status={s.isFollow}
                 />
               ))}
             </Body>

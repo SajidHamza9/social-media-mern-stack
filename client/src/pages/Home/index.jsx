@@ -10,9 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadHomePosts } from '../../redux/actions/postActions';
 import SkeletonPost from '../../components/SkeletonPost';
-import { loadUser } from '../../redux/actions/authActions';
+import PhotoIcon from '@material-ui/icons/Photo';
+import { EmptyStateContainer, EmptyStateTitle } from './style';
 
-import { Redirect, useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { posts, loading } = useSelector((state) => state.post);
+  const { posts, loading, loadingAddPost } = useSelector((state) => state.post);
   const { currentUserId } = useSelector((state) => state.auth);
   const [postList, setPostList] = useState(posts);
   const classes = useStyles();
@@ -54,12 +54,13 @@ const Home = () => {
         </Grid>
         <Grid item sm={12} md={6} className={classes.middle}>
           <AddPost addPost={addPost} />
+          {loadingAddPost && <SkeletonPost />}
           {loading ? (
             <div>
               <SkeletonPost />
               <SkeletonPost />
             </div>
-          ) : (
+          ) : posts.length ? (
             posts.map((p) => (
               <Post
                 mb
@@ -77,6 +78,13 @@ const Home = () => {
                 likes={p.likes}
               />
             ))
+          ) : (
+            !loadingAddPost && (
+              <EmptyStateContainer>
+                <PhotoIcon fontSize='large' />
+                <EmptyStateTitle>No posts to show.</EmptyStateTitle>
+              </EmptyStateContainer>
+            )
           )}
         </Grid>
         <Grid item md={3} className={classes.sticky}>
