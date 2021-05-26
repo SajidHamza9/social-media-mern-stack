@@ -114,7 +114,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
   const currentUser = await User.findById(req.user.id);
   currentUser.username = username;
   currentUser.bio = (bio && bio !== '') ? bio : 'Bio';
-  currentUser.pdp = pdp;
+  currentUser.pdp = pdp ? pdp : currentUser.pdp;
   await currentUser.save();
 
   const otherUsers = await User.find(
