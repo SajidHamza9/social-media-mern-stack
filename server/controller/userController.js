@@ -116,125 +116,51 @@ exports.updateUser = asyncHandler(async (req, res) => {
   currentUser.pdp = pdp ? pdp : currentUser.pdp;
   await currentUser.save();
 
-  const otherUsers = await User.find(
-    { _id: { $ne: req.user.id } },
-    'username following followers',
-  ).exec();
-  otherUsers.forEach(
-    asyncHandler(async (user) => {
-      //update followers
-      const find1 = user.followers.find((fl) => fl.userId == req.user.id);
-      if (find1) {
-        console.log(user);
-        await User.findByIdAndUpdate(
-          { _id: user._id },
-          {
-            $pull: {
-              followers: {
-                userId: req.user.id,
-              },
-            },
-          },
-        );
-        await User.findByIdAndUpdate(
-          { _id: user._id },
-          {
-            $push: {
-              followers: {
-                userId: req.user.id,
-                username,
-                pdp,
-              },
-            },
-          },
-        );
-      }
-
-      //update following
-      const find2 = user.following.find((fl) => fl.userId == req.user.id);
-      if (find2) {
-        await User.findByIdAndUpdate(
-          { _id: user._id },
-          {
-            $pull: {
-              following: {
-                userId: req.user.id,
-              },
-            },
-          },
-        );
-        await User.findByIdAndUpdate(
-          { _id: user._id },
-          {
-            $push: {
-              following: {
-                userId: req.user.id,
-                username,
-                pdp,
-              },
-            },
-          },
-        );
-      }
-    }),
+  const followingIds = currentUser.following.map((fl) =>
+    mongoose.Types.ObjectId(fl.userId),
   );
+  
+  const followingUsers = await User.find({_id: {$in: followingIds}});
+  followingUsers.forEach(asyncHandler(async(fl) => {
+      const index = fl.followers.findIndex(t => t.userId == req.user.id);
+      if(index > -1){
+        fl.followers[index].username = username;
+        fl.followers[index].pdp = pdp;
+        await fl.save();
+      }
+  }));
+
+  const followersId = currentUser.followers.map((fl) =>
+  mongoose.Types.ObjectId(fl.userId),
+  );
+  const followerUsers = await User.find({_id: {$in: followersId}});
+  followerUsers.forEach(asyncHandler(async (fl) => {
+      const index = fl.following.findIndex(t => t.userId == req.user.id);
+      if(index > -1){
+        fl.following[index].username = username;
+        fl.following[index].pdp = pdp;
+        await fl.save();
+      }
+  }));
 
   //update comment && likes
   const posts = await Post.find({});
   posts.forEach(
     asyncHandler(async (post) => {
       //update comments
-      const find1 = post.comments.find((cm) => cm.userId == req.user.id);
-      if (find1) {
-        await Post.findByIdAndUpdate(
-          { _id: post._id },
-          {
-            $pull: {
-              comments: {
-                userId: req.user.id,
-              },
-            },
-          },
-        );
-        await Post.findByIdAndUpdate(
-          { _id: post._id },
-          {
-            $push: {
-              comments: {
-                userId: req.user.id,
-                username,
-                pdp,
-              },
-            },
-          },
-        );
+      const index1 = post.comments.findIndex((cm) => cm.userId == req.user.id);
+      if (index1 > -1) {
+        post.comments[index1].username = username;
+        post.comments[index1].pdp = pdp;
+        await post.save();
       }
       //update likes
-      const find2 = post.likes.find((lk) => lk.userId == req.user.id);
-      if (find1) {
-        await Post.findByIdAndUpdate(
-          { _id: post._id },
-          {
-            $pull: {
-              likes: {
-                userId: req.user.id,
-              },
-            },
-          },
-        );
-        await Post.findByIdAndUpdate(
-          { _id: post._id },
-          {
-            $push: {
-              likes: {
-                userId: req.user.id,
-                username,
-                pdp,
-              },
-            },
-          },
-        );
-      }
+       const index2 = post.likes.findIndex((lk) => lk.userId == req.user.id);
+       if(index2 > -1){
+         post.likes[index2].username = username;
+         post.likes[index2].pdp = pdp;
+         await post.save();
+       }
     }),
   );
 
