@@ -94,6 +94,7 @@ exports.getAuth = (req, res) => {
         username: user.username,
         status: user.status,
         bio: user.bio,
+        pdp: user.pdp,
         postsCount: user.posts.length,
         followersCount: user.followers.length,
         followingCount: user.following.length,
