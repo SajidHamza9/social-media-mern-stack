@@ -28,6 +28,7 @@ export const loadHomePosts = (userId) => async (dispatch, getState) => {
       `/api/users/${userId}/posts?all=true`,
       configHeader,
     );
+
     dispatch({
       type: GET_POSTS_SUCCESS,
       payload: {
@@ -47,6 +48,7 @@ export const loadProfilePosts = (userId) => async (dispatch, getState) => {
       `/api/users/${userId}/posts?all=false`,
       configHeader,
     );
+
     dispatch({
       type: GET_POSTS_SUCCESS,
       payload: {

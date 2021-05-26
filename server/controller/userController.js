@@ -21,6 +21,7 @@ exports.getPosts = asyncHandler(async (req, res) => {
     }).sort({
       createdAt: -1,
     });
+
     const users = await User.find(
       {
         _id: {
@@ -39,7 +40,6 @@ exports.getPosts = asyncHandler(async (req, res) => {
       const isLiked = !!p._doc.likes.find(
         (l) => l.userId.toString() === req.user.id.toString(),
       );
-
       return { ...p._doc, pdp, username, isLiked };
     });
 
@@ -62,18 +62,22 @@ exports.getUserInfo = asyncHandler(async (req, res) => {
   );
   if (user) {
     //traitement following and followers
-    user.following.map(fl => {
-       const found = currentUser.following.find(cf => cf.userId.toString() === fl.userId.toString());
-       found ? fl.isFollow = true : fl.isFollow = false;
-       return fl;
+    user.following.map((fl) => {
+      const found = currentUser.following.find(
+        (cf) => cf.userId.toString() === fl.userId.toString(),
+      );
+      found ? (fl.isFollow = true) : (fl.isFollow = false);
+      return fl;
     });
-    user.followers.map(fl => {
-      const found = currentUser.following.find(cf => cf.userId.toString() === fl.userId.toString());
-      found ? fl.isFollow = true : fl.isFollow = false;
+    user.followers.map((fl) => {
+      const found = currentUser.following.find(
+        (cf) => cf.userId.toString() === fl.userId.toString(),
+      );
+      found ? (fl.isFollow = true) : (fl.isFollow = false);
       return fl;
     });
     //found follow
-    const found = currentUser.following.find(fl => fl.userId == userId);
+    const found = currentUser.following.find((fl) => fl.userId == userId);
     user._doc.isFollow = found ? true : false;
     res.json(user);
   } else {
@@ -83,24 +87,26 @@ exports.getUserInfo = asyncHandler(async (req, res) => {
 });
 
 exports.updateUser = asyncHandler(async (req, res) => {
-    const userId = req.user.id;
-    const {username, bio} = req.body;
-    if(!username || username === '' || !bio || bio === '')
-        return res.status(400).json({error: "fileds cannot be empty"});
-    var pdp = null;
-    const dirname = (__dirname).replace("\\server\\controller", "");
-    if(req.file) {
-        const base64String = fs.readFileSync(path.join(dirname + '/uploads/' + req.file.filename));
-        pdp = {
-          data: encode(base64String),
-          contentType: req.file.mimetype
-        }
+  const userId = req.user.id;
+  const { username, bio } = req.body;
+  if (!username || username === '' || !bio || bio === '')
+    return res.status(400).json({ error: 'fileds cannot be empty' });
+  var pdp = null;
+  const dirname = __dirname.replace('\\server\\controller', '');
+  if (req.file) {
+    const base64String = fs.readFileSync(
+      path.join(dirname + '/uploads/' + req.file.filename),
+    );
+    pdp = {
+      data: encode(base64String),
+      contentType: req.file.mimetype,
+    };
 
-        //delete file
-        fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
-          if(err) throw new Error(err);
-        })
-    }
+    //delete file
+    fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
+      if (err) throw new Error(err);
+    });
+  }
   //update user
   const currentUser = await User.findById(req.user.id);
   currentUser.username = username;
@@ -108,129 +114,132 @@ exports.updateUser = asyncHandler(async (req, res) => {
   currentUser.pdp = pdp;
   await currentUser.save();
 
-  
-  const otherUsers = await User.find( { _id: { $ne: req.user.id } }, "username following followers").exec();
-  otherUsers.forEach(asyncHandler(async (user) => {
-    //update followers
-    const find1 = user.followers.find(fl => fl.userId == req.user.id);
-    if(find1){
-      console.log(user);
-      await User.findByIdAndUpdate(
-        {_id: user._id},
-        {
-          $pull: {
-            followers: {
-              userId: req.user.id,
-            },
-          }
-        }
-      );
-      await User.findByIdAndUpdate(
-        { _id: user._id },
-        {
-          $push: {
-            followers: {
-              userId: req.user.id,
-              username,
-              pdp
+  const otherUsers = await User.find(
+    { _id: { $ne: req.user.id } },
+    'username following followers',
+  ).exec();
+  otherUsers.forEach(
+    asyncHandler(async (user) => {
+      //update followers
+      const find1 = user.followers.find((fl) => fl.userId == req.user.id);
+      if (find1) {
+        console.log(user);
+        await User.findByIdAndUpdate(
+          { _id: user._id },
+          {
+            $pull: {
+              followers: {
+                userId: req.user.id,
+              },
             },
           },
-        },
-      )
-     }
+        );
+        await User.findByIdAndUpdate(
+          { _id: user._id },
+          {
+            $push: {
+              followers: {
+                userId: req.user.id,
+                username,
+                pdp,
+              },
+            },
+          },
+        );
+      }
 
-    //update following
-    const find2 = user.following.find(fl => fl.userId == req.user.id);
-    if(find2){
-      await User.findByIdAndUpdate(
-        {_id: user._id},
-        {
-          $pull: {
-            following: {
-              userId: req.user.id,
-            },
-          }
-        }
-      );
-      await User.findByIdAndUpdate(
-        { _id: user._id },
-        {
-          $push: {
-            following: {
-              userId: req.user.id,
-              username,
-              pdp
+      //update following
+      const find2 = user.following.find((fl) => fl.userId == req.user.id);
+      if (find2) {
+        await User.findByIdAndUpdate(
+          { _id: user._id },
+          {
+            $pull: {
+              following: {
+                userId: req.user.id,
+              },
             },
           },
-        },
-      )
-     }
-      
-  }));
+        );
+        await User.findByIdAndUpdate(
+          { _id: user._id },
+          {
+            $push: {
+              following: {
+                userId: req.user.id,
+                username,
+                pdp,
+              },
+            },
+          },
+        );
+      }
+    }),
+  );
 
   //update comment && likes
   const posts = await Post.find({});
-  posts.forEach(asyncHandler( async(post) => {
-    //update comments
-    const find1 = post.comments.find(cm => cm.userId == req.user.id);
-    if(find1) {
-      await Post.findByIdAndUpdate(
-        {_id: post._id},
-        {
-          $pull: {
-            comments: {
-              userId: req.user.id,
-            },
-          }
-        }
-      );
-      await Post.findByIdAndUpdate(
-        { _id: post._id },
-        {
-          $push: {
-            comments: {
-              userId: req.user.id,
-              username,
-              pdp
+  posts.forEach(
+    asyncHandler(async (post) => {
+      //update comments
+      const find1 = post.comments.find((cm) => cm.userId == req.user.id);
+      if (find1) {
+        await Post.findByIdAndUpdate(
+          { _id: post._id },
+          {
+            $pull: {
+              comments: {
+                userId: req.user.id,
+              },
             },
           },
-        },
-      )
-    }
-    //update likes
-    const find2 = post.likes.find(lk => lk.userId == req.user.id);
-    if(find1) {
-      await Post.findByIdAndUpdate(
-        {_id: post._id},
-        {
-          $pull: {
-            likes: {
-              userId: req.user.id,
-            },
-          }
-        }
-      );
-      await Post.findByIdAndUpdate(
-        { _id: post._id },
-        {
-          $push: {
-            likes: {
-              userId: req.user.id,
-              username,
-              pdp
+        );
+        await Post.findByIdAndUpdate(
+          { _id: post._id },
+          {
+            $push: {
+              comments: {
+                userId: req.user.id,
+                username,
+                pdp,
+              },
             },
           },
-        },
-      )
-    }
-  }));
+        );
+      }
+      //update likes
+      const find2 = post.likes.find((lk) => lk.userId == req.user.id);
+      if (find1) {
+        await Post.findByIdAndUpdate(
+          { _id: post._id },
+          {
+            $pull: {
+              likes: {
+                userId: req.user.id,
+              },
+            },
+          },
+        );
+        await Post.findByIdAndUpdate(
+          { _id: post._id },
+          {
+            $push: {
+              likes: {
+                userId: req.user.id,
+                username,
+                pdp,
+              },
+            },
+          },
+        );
+      }
+    }),
+  );
 
-  res.status(200).json({message: "user updated with success"});
+  res.status(200).json({ message: 'user updated with success' });
 
   //return res.status.json({message: "user updated with success"});
-
-
-  });
+});
 
 // @desc    remove account
 // @route   DELETE /users/id
@@ -272,23 +281,28 @@ exports.removeUser = asyncHandler(async (req, res) => {
 exports.getUsers = asyncHandler(async (req, res) => {
   const q = req.query.q ? req.query.q : '';
   var users = [];
-  if(q != '')
-    users = await User.find({username: {$regex: q.toLowerCase(), $options: 'i'} }, 'username pdp').exec();
+  if (q != '')
+    users = await User.find(
+      { username: { $regex: q.toLowerCase(), $options: 'i' } },
+      'username pdp',
+    ).exec();
   res.status(200).json(users);
 });
 
-exports.getSuggestion = asyncHandler(async(req, res) => {
+exports.getSuggestion = asyncHandler(async (req, res) => {
   const currentUser = await User.findById(req.user.id);
 
-  const map = currentUser.following.map(fl => mongoose.Types.ObjectId(fl.userId));
+  const map = currentUser.following.map((fl) =>
+    mongoose.Types.ObjectId(fl.userId),
+  );
   console.log(map);
   const toto = await User.aggregate([
-    {$match: {_id: {$nin: map}}},
-    {$sample: {size: 10}},
-    {$project : { _id: 1, username: 1, pdp: 1 }} 
+    { $match: { _id: { $nin: map } } },
+    { $sample: { size: 10 } },
+    { $project: { _id: 1, username: 1, pdp: 1 } },
   ]);
-    res.status(200).json(toto);
-})
+  res.status(200).json(toto);
+});
 
 // exports.updateUser = asyncHandler(async(req, res) => {
 //     const {username, bio, email, pdp}

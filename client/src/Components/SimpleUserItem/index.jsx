@@ -7,12 +7,13 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getUserId } from '../../redux/actions/userAcions';
 
-const LikeItem = ({ pdp, name, userId, display, close }) => {
+const LikeItem = ({ pdp, name, userId, display, close, closeLikesModal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const showProfile = (e) => {
     dispatch(getUserId(userId));
     close && close(e);
+    closeLikesModal && closeLikesModal();
     history.push('/profile');
   };
   const SmallIcon = withStyles((theme) => ({

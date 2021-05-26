@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadHomePosts } from '../../redux/actions/postActions';
 import SkeletonPost from '../../components/SkeletonPost';
+import PhotoIcon from '@material-ui/icons/Photo';
+import { EmptyStateContainer, EmptyStateTitle } from './style';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
@@ -58,7 +60,7 @@ const Home = () => {
               <SkeletonPost />
               <SkeletonPost />
             </div>
-          ) : (
+          ) : posts.length ? (
             posts.map((p) => (
               <Post
                 mb
@@ -76,6 +78,11 @@ const Home = () => {
                 likes={p.likes}
               />
             ))
+          ) : (
+            <EmptyStateContainer>
+              <PhotoIcon fontSize='large' />
+              <EmptyStateTitle>No posts to show.</EmptyStateTitle>
+            </EmptyStateContainer>
           )}
         </Grid>
         <Grid item md={3} className={classes.sticky}>

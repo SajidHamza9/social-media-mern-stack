@@ -32,6 +32,7 @@ const LikesModal = ({ open, handleClose, likes }) => {
                   name={like.username}
                   pdp={like.pdp}
                   userId={like.userId}
+                  closeLikesModal={handleClose}
                 />
               ))}
             </Body>

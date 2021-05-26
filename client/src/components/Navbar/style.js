@@ -100,6 +100,22 @@ export const NavLink = styled(Link)`
   }
 `;
 
+export const NotifItem = styled.div`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  height: 100%;
+  justify-content: center;
+  cursor: pointer;
+  @media screen and (max-width: 960px) {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+  }
+`;
+
 export const StyledAvatar = styled(Avatar)`
   width: 30px;
   height: 30px;

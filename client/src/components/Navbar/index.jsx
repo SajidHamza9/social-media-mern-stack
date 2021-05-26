@@ -9,6 +9,7 @@ import {
   NavLink,
   NavItem,
   StyledAvatar,
+  NotifItem,
 } from './style';
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
@@ -79,11 +80,11 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem onClick={handleToggle} ref={anchorRef}>
-              <NavLink to=''>
+              <NotifItem>
                 <Badge badgeContent={open ? 0 : count} color='error'>
                   <NotificationsIcon />
                 </Badge>
-              </NavLink>
+              </NotifItem>
             </NavItem>
             <NavItem onClick={() => setClick(!click)}>
               <NavLink

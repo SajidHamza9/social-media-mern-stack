@@ -11,11 +11,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import SkeletonPost from '../../components/SkeletonPost';
 import { loadProfilePosts } from '../../redux/actions/postActions';
 import EditProfileModal from '../../components/EditProfileModal';
-import { PrimarydButton, ButtonWrapper, OutlinedButton } from './style';
+import {
+  PrimarydButton,
+  ButtonWrapper,
+  OutlinedButton,
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from './style';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import { getUserProfile } from '../../redux/actions/userAcions';
+import PhotoIcon from '@material-ui/icons/Photo';
+
 const useStyles = makeStyles((theme) => ({
   sticky: {
     position: 'sticky',
@@ -26,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   last: {
+    width: '100%',
     [theme.breakpoints.down('md')]: {
       order: 3,
     },
@@ -92,7 +101,7 @@ const Profile = ({}) => {
               <SkeletonPost />
               <SkeletonPost />
             </div>
-          ) : (
+          ) : posts.length ? (
             posts.map((p) => (
               <Post
                 mb
@@ -110,6 +119,11 @@ const Profile = ({}) => {
                 likes={p.likes}
               />
             ))
+          ) : (
+            <EmptyStateContainer>
+              <PhotoIcon fontSize='large' />
+              <EmptyStateTitle>No posts to show.</EmptyStateTitle>
+            </EmptyStateContainer>
           )}
         </Grid>
         <Grid item md={6} xs={12} lg={3} className={classes.sticky}>

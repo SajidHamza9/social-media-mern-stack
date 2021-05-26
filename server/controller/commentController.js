@@ -2,7 +2,7 @@ const Post = require('../models/Posts');
 const User = require('../models/User');
 const Notification = require('../models/Notifications');
 const asyncHandler = require('express-async-handler');
-const mongoose = require('mongoose');
+const { notifyPost, notifyUser } = require('../utils/sockets');
 
 // @route Post api/posts/:id/comments
 // @desc  Add comment to post
@@ -27,21 +27,28 @@ exports.addComment = asyncHandler(async (req, res) => {
   await post.save();
 
   //add notification
-  const userPayload = {
-    userId: currentUser._id,
-    username: currentUser.username,
-    pdp: currentUser.pdp,
-  };
-  const newNotification = new Notification({
-    type: 'COMMENT',
-    targetUserId: post.userId,
-    currentUser: userPayload,
-    postId: post._id,
+  if (post.userId.toString() !== req.user.id.toString()) {
+    const userPayload = {
+      userId: currentUser._id,
+      username: currentUser.username,
+      pdp: currentUser.pdp,
+    };
+    const newNotification = new Notification({
+      type: 'COMMENT',
+      targetUserId: post.userId,
+      currentUser: userPayload,
+      postId: post._id,
+    });
+
+    const notif = await newNotification.save();
+    notifyUser('notification', post.userId, { notification: notif });
+    console.log(`notif: ${notif}`);
+  }
+  notifyPost('comment', {
+    userId: req.user.id,
+    postId: post._doc._id,
+    comments: post._doc.comments,
   });
-
-  const notif = await newNotification.save();
-  console.log(`notif: ${notif}`);
-
   return res.status(201).json(post);
 });
 
