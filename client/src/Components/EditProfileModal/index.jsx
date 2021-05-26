@@ -52,7 +52,9 @@ const EditProfileModal = ({ handleClose, open }) => {
         await axios.put('/api/users/update', formData, config);
         handleClose();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
   return (
     <div>
@@ -69,7 +71,7 @@ const EditProfileModal = ({ handleClose, open }) => {
           <Card>
             <Header>
               <Title>Edit Profile</Title>
-              <Button>SAVE</Button>
+              <Button onClick={upadateUser}>SAVE</Button>
             </Header>
             <ImageWrapper>
               <input
@@ -115,7 +117,7 @@ const EditProfileModal = ({ handleClose, open }) => {
                 placeholder='Enter bio'
                 id='bioId'
                 type='text'
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setBioValue(e.target.value)}
               />
             </Form>
           </Card>

@@ -3,6 +3,9 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/Posts');
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
+const { encode } = require('base64-arraybuffer');
 // @desc    get posts
 // @route   GET /users/id/posts?all=true
 // @access  Private
@@ -87,10 +90,9 @@ exports.getUserInfo = asyncHandler(async (req, res) => {
 });
 
 exports.updateUser = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
   const { username, bio } = req.body;
-  if (!username || username === '' || !bio || bio === '')
-    return res.status(400).json({ error: 'fileds cannot be empty' });
+  if (!username | (username === ''))
+    return res.status(400).json({ error: 'Username cannot be empty' });
   var pdp = null;
   const dirname = __dirname.replace('\\server\\controller', '');
   if (req.file) {
@@ -110,8 +112,8 @@ exports.updateUser = asyncHandler(async (req, res) => {
   //update user
   const currentUser = await User.findById(req.user.id);
   currentUser.username = username;
-  currentUser.bio = bio;
-  currentUser.pdp = pdp;
+  currentUser.bio = bio && bio !== '' ? bio : 'Bio';
+  currentUser.pdp = pdp ? pdp : currentUser.pdp;
   await currentUser.save();
 
   const otherUsers = await User.find(
