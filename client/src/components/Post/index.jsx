@@ -132,7 +132,7 @@ const Post = ({
     }
   };
   const sendComment = () => {
-    if (value) {
+    if (value.trim()) {
       dispatch(addComment(postId, value));
       setValue('');
     }

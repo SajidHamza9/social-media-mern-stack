@@ -50,6 +50,8 @@ export const register = (user) => (dispatch) => {
         payload: res.data,
       });
       dispatch({ type: CLEAR_ERRORS });
+      history.push('/');
+      window.location.reload();
     })
     .catch((err) => {
       dispatch({ type: REGISTER_FAIL });
@@ -59,8 +61,6 @@ export const register = (user) => (dispatch) => {
 
 //login
 export const login = (user) => (dispatch) => {
-  console.log('inside logien');
-
   axios
     .post('/api/users/login', user)
     .then((res) => {

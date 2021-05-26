@@ -6,12 +6,14 @@ import { Badge } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getUserId } from '../../redux/actions/userAcions';
+import { closeModal } from '../../redux/actions/modalActions';
 
 const LikeItem = ({ pdp, name, userId, display, close, closeLikesModal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const showProfile = (e) => {
     dispatch(getUserId(userId));
+    dispatch(closeModal());
     close && close(e);
     closeLikesModal && closeLikesModal();
     history.push('/profile');

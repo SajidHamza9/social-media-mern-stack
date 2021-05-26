@@ -79,10 +79,12 @@ const Home = () => {
               />
             ))
           ) : (
-            <EmptyStateContainer>
-              <PhotoIcon fontSize='large' />
-              <EmptyStateTitle>No posts to show.</EmptyStateTitle>
-            </EmptyStateContainer>
+            !loadingAddPost && (
+              <EmptyStateContainer>
+                <PhotoIcon fontSize='large' />
+                <EmptyStateTitle>No posts to show.</EmptyStateTitle>
+              </EmptyStateContainer>
+            )
           )}
         </Grid>
         <Grid item md={3} className={classes.sticky}>

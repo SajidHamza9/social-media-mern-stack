@@ -47,3 +47,5 @@ export const ADD_DELETE_FOLLOW = 'ADD_DELETE_FOLLOW';
 export const ADD_FOLLOW = 'ADD_FOLLOW';
 export const DELETE_FOLLOW = 'DELETE_FOLLOW';
 export const ADD_DELETE_POST = 'ADD_DELETE_POST';
+
+export const CLOSE_MSG_ERROR = 'SHOW_MSG_ERROR';

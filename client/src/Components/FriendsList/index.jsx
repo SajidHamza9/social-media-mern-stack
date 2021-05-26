@@ -25,13 +25,18 @@ const useStyle = makeStyles({
 const FriendsList = ({ list, title }) => {
   const classes = useStyle();
   const [name, setName] = useState('');
-  const [items, setItems] = useState(friends);
+  const [items, setItems] = useState(list);
+
+  useEffect(() => {
+    console.log('list');
+    setItems(list);
+  }, [list]);
 
   const searchHandler = (e) => {
     setName(e.target.value);
     setItems(
-      friends.filter((f) =>
-        f.name
+      list.filter((f) =>
+        f.username
           .trim()
           .toLowerCase()
           .includes(e.target.value.trim().toLowerCase()),
@@ -55,8 +60,8 @@ const FriendsList = ({ list, title }) => {
       <Body>
         <Container maxWidth='md'>
           <Grid container spacing={5}>
-            {list?.length ? (
-              list?.map((f) => (
+            {items?.length ? (
+              items?.map((f) => (
                 <Grid item xs={12} sm={6} key={f.id} className={classes.item}>
                   <Item>
                     <UserItem

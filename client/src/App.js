@@ -23,6 +23,7 @@ import PostModal from './components/PostModal';
 import PrivateRoute from './components/PrivateRoute';
 import { loadUser } from './redux/actions/authActions';
 import { addNotif } from './redux/actions/notificationActions';
+import ErrorSnackbar from './components/ErrorSnackbar';
 function App() {
   const pathName = window.location.pathname;
   const { isAuth } = useSelector((state) => state.auth);
@@ -64,6 +65,7 @@ function App() {
         </Switch>
         {pathName !== '/login' && pathName !== '/messages' && <MessagesBtn />}
         <PostModal />
+        <ErrorSnackbar />
       </StylesProvider>
     </Router>
   );

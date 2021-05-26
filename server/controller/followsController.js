@@ -47,13 +47,24 @@ exports.getFollowing = asyncHandler(async (req, res) => {
 exports.deleteFollowing = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) return res.status('400').json({ error: 'user not found' });
-  console.log(req.user.id);
+
   await User.findByIdAndUpdate(
     { _id: req.user.id },
     {
       $pull: {
         following: {
           userId: req.params.id,
+        },
+      },
+    },
+  );
+
+  await User.findByIdAndUpdate(
+    { _id: req.params.id },
+    {
+      $pull: {
+        followers: {
+          userId: req.user.id,
         },
       },
     },
