@@ -10,6 +10,11 @@ function Alert(props) {
 
 const ErrorSnackbar = () => {
   const { showSnackbar, errors } = useSelector((state) => state.errorsAuth);
+  const { errors: err, msg, message } = errors;
+  let messages = [];
+  for (const field in err) {
+    messages.push(err[field].msg);
+  }
   const dispatch = useDispatch();
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -20,9 +25,9 @@ const ErrorSnackbar = () => {
     });
   };
   return (
-    <Snackbar open={showSnackbar} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={showSnackbar} autoHideDuration={8000} onClose={handleClose}>
       <Alert onClose={handleClose} severity='error'>
-        {errors.msg}
+        {errors.message || errors.msg || messages.map((msg) => <p>{msg}</p>)}
       </Alert>
     </Snackbar>
   );
