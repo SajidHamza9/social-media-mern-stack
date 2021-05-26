@@ -3,16 +3,24 @@ import { Avatar } from "@material-ui/core";
 import utils from "../../utils/socket";
 import moment from "moment";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const DiscutionCard = ({ onClick, cnv }) => {
   const { members, _id, updatedAt } = cnv;
   const [user, setUser] = useState({});
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const getUser = async () => {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      if (token) config.headers["auth-token"] = token;
       const otherUserId = members.find((member) => member !== utils?.user);
-      const { data } = await axios(`/api/users/${otherUserId}`);
-      // console.log("get one sidebar's user");
+      const { data } = await axios(`/api/users/${otherUserId}`, config);
       setUser(data);
     };
     getUser();
