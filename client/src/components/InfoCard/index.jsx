@@ -19,7 +19,13 @@ const InfoCard = () => {
   return (
     <Card>
       <Header>
-        <StyledAvatar src='/images/img2.jpeg' />
+        <StyledAvatar
+          src={
+            user?.pdp
+              ? `data:${user?.pdp.contentType};base64, ${user?.pdp.data}`
+              : user?.pdp
+          }
+        />
       </Header>
       <StyledList>
         <Item>

@@ -32,7 +32,7 @@ const Navbar = () => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  const { currentUserId } = useSelector((state) => state.auth);
+  const { currentUserId, user } = useSelector((state) => state.auth);
   const { count } = useSelector((state) => state.notification);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -90,7 +90,14 @@ const Navbar = () => {
               <NavLink
                 to={'/profile'}
                 onClick={() => dispatch(getUserId(currentUserId))}>
-                <StyledAvatar alt='pdp' src='/images/img2.jpeg' />
+                <StyledAvatar
+                  alt='pdp'
+                  src={
+                    user?.pdp
+                      ? `data:${user?.pdp.contentType};base64, ${user?.pdp.data}`
+                      : user?.pdp
+                  }
+                />
               </NavLink>
             </NavItem>
             <NavItem>

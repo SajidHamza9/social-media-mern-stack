@@ -57,7 +57,9 @@ const NotifItem = ({ notification, close }) => {
             horizontal: 'right',
           }}
           badgeContent={<SmallIcon />}>
-          <StyledAvatar src={pdp} />
+          <StyledAvatar
+            src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+          />
         </Badge>
         <Box>
           <Name>{username}</Name>

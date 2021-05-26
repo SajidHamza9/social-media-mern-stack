@@ -40,7 +40,10 @@ const LikeItem = ({ pdp, name, userId, display, close, closeLikesModal }) => {
             horizontal: 'right',
           }}
           badgeContent={<SmallIcon />}>
-          <StyledAvatar src={pdp} onClick={showProfile} />
+          <StyledAvatar
+            src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+            onClick={showProfile}
+          />
         </Badge>
         <Name onClick={showProfile}>{name}</Name>
       </FlexDiv>

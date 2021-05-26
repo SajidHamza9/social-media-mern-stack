@@ -65,7 +65,10 @@ const UserItem = ({ img, name, status, userId }) => {
   return (
     <Div>
       <FlexDiv>
-        <StyledAvatar onClick={showProfile} src={img} />
+        <StyledAvatar
+          onClick={showProfile}
+          src={img ? `data:${img.contentType};base64, ${img.data}` : img}
+        />
         <Name onClick={showProfile}>{name}</Name>
       </FlexDiv>
       {currentUserId !== userId ? (

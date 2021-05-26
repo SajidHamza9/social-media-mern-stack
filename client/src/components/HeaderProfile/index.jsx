@@ -7,7 +7,9 @@ const HeaderProfile = () => {
   const { username, bio, pdp } = useSelector((state) => state.userProfile);
   return (
     <Header>
-      <StyledAvatar src='/images/img2.jpeg' />
+      <StyledAvatar
+        src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+      />
       <Bold>{username}</Bold>
       <Light>{bio}</Light>
     </Header>
