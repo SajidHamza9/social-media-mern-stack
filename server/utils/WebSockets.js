@@ -14,14 +14,16 @@ class WebSockets {
       });
       console.log(this.users);
 
-      const loggedIn = await User.find(
+      let loggedIn = await User.find(
         { status: true },
         { _id: 1, pdp: 1, username: 1, status: 1 }
       );
       // get friend's sockets id and send them
-
-      // send to all users TODO
-      global.io.sockets.emit("loggedIn", loggedIn);
+      let friends = await User.findOne({ _id: user }, { _id: 0, following: 1 });
+      friends = friends.following?.map((friend) => friend.userId);
+      loggedIn = loggedIn.filter((user) => friends.includes(user._id));
+      console.log(loggedIn);
+      socket.emit("loggedIn", loggedIn);
     });
     socket.on("message", (message) => {
       const toSend = this.users.find(
