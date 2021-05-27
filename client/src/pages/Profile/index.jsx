@@ -11,6 +11,7 @@ import SkeletonPost from '../../components/SkeletonPost';
 import { loadProfilePosts } from '../../redux/actions/postActions';
 import EditProfileModal from '../../components/EditProfileModal';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 import {
   PrimarydButton,
   ButtonWrapper,
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = ({}) => {
   const classes = useStyles();
+  const history = useHistory();
   const { posts, loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -100,10 +102,22 @@ const Profile = ({}) => {
     } catch (error) {}
   };
 
-  const showMessage = () => {
-    //id : userId
-    //pdp
-    //username
+  const showMessage = async() => {
+    const pers = { _id:userId, pdp, username };
+    const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      if (token) config.headers["auth-token"] = token;
+    const {data}=await axios.get(`/conversations/${currentUserId}/${userId}`,config)
+    pers.convId = data._id;
+    data &&
+      history.push({
+        pathname: '/Messages',
+        pers,
+      });
   };
 
   return (

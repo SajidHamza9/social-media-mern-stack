@@ -7,7 +7,7 @@ import CommentItem from '../CommentItem';
 import { useStyles } from './style';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/actions/modalActions';
-import SkeletonComment from '../SkeletonComment';
+import SkeletonComment from '../SkeletonComment'
 
 const PostModal = () => {
   const classes = useStyles();

@@ -1,33 +1,43 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('../../controller/userController');
+const userController = require("../../controller/userController");
 // User model
-const User = require('../../models/User');
+const User = require("../../models/User");
 //JWT
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 //Bcryptjs
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 //hash function
-const { getHashPassowrd } = require('../../config/salt');
+const { getHashPassowrd } = require("../../config/salt");
 //middleware auth
-const auth = require('../../middleware/auth');
+const auth = require("../../middleware/auth");
 //upload image middleware
-const uploadImage = require('../../middleware/uploadImage');
+const uploadImage = require("../../middleware/uploadImage");
 //middleware validation register
 const {
   registerValidation,
   loginValidation,
-} = require('../../middleware/authValidation');
+} = require("../../middleware/authValidation");
 //Validation with express-validator
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require("express-validator");
 
-router.get('/suggestion', auth, userController.getSuggestion);
-router.put('/update', [auth, uploadImage.single('image')], userController.updateUser);
-router.route('/:id/posts').get(auth, userController.getPosts);
-router.route('/:id').delete(auth, userController.removeUser);
-router.route('/:id').get(auth, userController.getUserInfo);
-router.get('/', auth, userController.getUsers);
+router.get("/suggestion", auth, userController.getSuggestion);
+router.put(
+  "/update",
+  [auth, uploadImage.single("image")],
+  userController.updateUser
+);
+router.route("/:id/posts").get(auth, userController.getPosts);
+router.route("/:id").delete(auth, userController.removeUser);
+router.route("/:id").get(auth, userController.getUserInfo);
+router.get("/", auth, userController.getUsers);
 
+router.get("/suggestion", auth, userController.getSuggestion);
+router.post("/update", auth, userController.updateUser);
+router.route("/:id/posts").get(auth, userController.getPosts);
+router.route("/:id").delete(auth, userController.removeUser);
+router.route("/:id").get(auth, userController.getUserInfo);
+router.get("/", auth, userController.getUsers);
 
 // @route POST api/users
 // @desc Register new User

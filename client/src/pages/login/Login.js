@@ -12,10 +12,10 @@ import { useHistory } from 'react-router-dom';
 //##################
 
 const Login = () => {
-  const auth = useSelector((state) => state.auth);
-  const errorsAuth = useSelector((state) => state.errorsAuth);
+  // const auth = useSelector((state) => state.auth);
+  // const errorsAuth = useSelector((state) => state.errorsAuth);
 
-  const history = useHistory();
+  // const history = useHistory();
   const dispath = useDispatch();
 
   const [isLogin, setisLogin] = useState(true);

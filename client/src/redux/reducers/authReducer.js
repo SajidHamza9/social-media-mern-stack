@@ -10,11 +10,11 @@ import {
   IS_AUTH,
   ADD_DELETE_FOLLOW,
   ADD_DELETE_POST,
-} from '../actions/types';
+} from "../actions/types";
 const initialState = {
-  token: localStorage.getItem('token'),
-  currentUserId: localStorage.getItem('currentUserId'),
-  isAuth: localStorage.getItem('isAuth'),
+  token: localStorage.getItem("token"),
+  currentUserId: localStorage.getItem("currentUserId"),
+  isAuth: localStorage.getItem("isAuth"),
   isLoading: false,
   user: null,
 };
@@ -35,9 +35,9 @@ export default function (state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case LOGING_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('currentUserId', action.payload.user.id);
-      localStorage.setItem('isAuth', true);
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("currentUserId", action.payload.user.id);
+      localStorage.setItem("isAuth", true);
       return {
         ...state,
         ...action.payload,
@@ -48,9 +48,9 @@ export default function (state = initialState, action) {
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUserId');
-      localStorage.removeItem('isAuth');
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUserId");
+      localStorage.removeItem("isAuth");
       return {
         ...state,
         token: null,

@@ -5,66 +5,68 @@ import Msg from './Msg';
 import SendIcon from '@material-ui/icons/Send';
 import { useState } from 'react';
 import utils from '../../utils/socket';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getMessages,
+  sendMessage,
+  updateMsgs,
+} from '../../redux/actions/chatActions';
+import Loading from '../Spinner/Loading';
 
-const Conversation = ({ _id, username, pdp, status, convId }) => {
+const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
   const [message, setMessage] = useState('');
-  const [msgs, setMsgs] = useState([]);
-  const [newOne, setNewOne] = useState(null);
-  const sendMessage = async () => {
-    await axios.post(`/messages`, {
-      conversationId: convId,
-      sender: utils.user,
-      text: message,
-    });
-
-    setMsgs([...msgs, { text: message, sender: utils.user }]);
-    utils.socket.emit('message', {
-      sender: utils.user,
-      receiver: _id,
-      text: message,
-    });
+  const dispatch = useDispatch();
+  const { messages, loading, error } = useSelector(
+    (state) => state.messagesReducer,
+  );
+  const sendNewMessage = () => {
+    dispatch(sendMessage(convId, message, _id));
+    orderSidebar();
     setMessage('');
   };
 
   // getMessages
   useEffect(() => {
-    const getMessages = async () => {
-      const { data } = await axios.get(`/messages/${convId}`);
+    dispatch(getMessages(convId));
+  }, [dispatch, convId]);
 
-      setMsgs(data);
-    };
-    getMessages();
-  }, []);
+  const msgReceived = (payload) => {
+    if (_id === payload.message.sender) {
+      dispatch(updateMsgs(payload.message));
+    }
+  };
 
   useEffect(() => {
     utils.socket.on('message', (payload) => {
-      setNewOne(payload.message);
+      msgReceived(payload);
+      orderSidebar();
     });
   }, []);
-  useEffect(() => {
-    newOne && setMsgs([...msgs, newOne]);
-    setNewOne(null);
-  }, [newOne]);
 
   return (
     <div className='conversation'>
       <div className='conversation-header '>
         <div className='user'>
-          <Avatar src={pdp} />
+          <Avatar
+            src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+          />
           <h6>{username}</h6>
         </div>
         <p>{status === true ? 'Online' : 'Offline'}</p>
       </div>
       <ScrollableFeed className='conversation-msgs'>
-        {msgs?.map((mg, i) => (
-          <Msg
-            key={mg._id || i}
-            image={pdp}
-            msg={mg.text}
-            sended={mg.sender === utils.user}
-          />
-        ))}
+        {loading ? (
+          <Loading />
+        ) : (
+          messages?.map((mg, i) => (
+            <Msg
+              key={mg._id || i}
+              image={pdp}
+              msg={mg.text}
+              sended={mg.sender === utils.user}
+            />
+          ))
+        )}
       </ScrollableFeed>
       <div className='conversation-send'>
         <textarea
@@ -74,7 +76,7 @@ const Conversation = ({ _id, username, pdp, status, convId }) => {
           rows='1'
           placeholder='write your message'
         />
-        <IconButton onClick={sendMessage}>
+        <IconButton onClick={sendNewMessage}>
           <SendIcon />
         </IconButton>
       </div>

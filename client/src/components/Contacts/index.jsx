@@ -7,7 +7,7 @@ import { getloggedIn } from '../../redux/actions/LoginActions';
 
 const Contacts = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.loginReducer);
+  const { users, error } = useSelector((state) => state.loginReducer);
   useEffect(() => {
     dispatch(getloggedIn());
   }, [dispatch]);
@@ -17,8 +17,12 @@ const Contacts = () => {
         <Title>Contacts</Title>
       </Header>
       <Body>
-        {users.map(
-          (c) => c._id !== utils?.user && <ContactItem key={c._id} {...c} />,
+        {error ? (
+          <h3>error</h3>
+        ) : (
+          users.map(
+            (c) => c._id !== utils?.user && <ContactItem key={c._id} {...c} />,
+          )
         )}
       </Body>
     </Card>

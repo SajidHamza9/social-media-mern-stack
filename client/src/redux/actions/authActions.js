@@ -13,6 +13,7 @@ import {
   ADD_FOLLOW,
   DELETE_FOLLOW,
 } from './types';
+import utils from '../../utils/socket';
 import { returnErrors } from './errorsActions';
 import { history } from '../helpers/history';
 import axios from 'axios';
@@ -33,7 +34,7 @@ export const loadUser = () => (dispatch, getState) => {
       }),
     )
     .catch((err) => {
-    
+      dispatch(returnErrors(err?.response?.data, err?.response?.status));
       dispatch({ type: AUTH_ERROR });
     });
 };
@@ -84,10 +85,12 @@ export const logout = () => (dispatch, getState) => {
   axios
     .get('/api/users/logout', configHeader)
     .then((res) => {
+      utils.socket.emit('logout', utils.user);
       dispatch({ type: LOGOUT_SUCCESS });
+      utils = {};
     })
     .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err?.response?.data, err?.response?.status));
     });
 };
 
