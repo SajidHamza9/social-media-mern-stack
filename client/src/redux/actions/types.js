@@ -62,3 +62,5 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const SEND_MESSAGE_SUCCESS = "SEND_MESSAGE_SUCCESS";
 export const SEND_MESSAGE_FAILED = "SEND_MESSAGE_FAILED";
 export const UPDATE_MSGS = "UPDATE_MSGS";
+export const SET_LOGOUT = "SET_LOGOUT";
+export const SET_LOGIN = "SET_LOGIN";

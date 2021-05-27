@@ -12,12 +12,11 @@ import {
   ADD_DELETE_FOLLOW,
   ADD_FOLLOW,
   DELETE_FOLLOW,
-} from './types';
-import utils from '../../utils/socket';
-import { returnErrors } from './errorsActions';
-import { history } from '../helpers/history';
-import axios from 'axios';
-import { Redirect } from 'react-router';
+} from "./types";
+import { returnErrors } from "./errorsActions";
+import { history } from "../helpers/history";
+import axios from "axios";
+import { Redirect } from "react-router";
 export const loadUser = () => (dispatch, getState) => {
   // loading user
   dispatch({ type: USER_LOADING });
@@ -26,12 +25,12 @@ export const loadUser = () => (dispatch, getState) => {
   const configHeader = tokenConfig(getState);
 
   axios
-    .get('/api/users/auth', configHeader)
+    .get("/api/users/auth", configHeader)
     .then((res) =>
       dispatch({
         type: USER_LOADED,
         payload: res.data,
-      }),
+      })
     )
     .catch((err) => {
       // dispatch(returnErrors(err?.response?.data, err?.response?.status));
@@ -42,14 +41,14 @@ export const loadUser = () => (dispatch, getState) => {
 // register User
 export const register = (user) => (dispatch) => {
   axios
-    .post('/api/users/register', user)
+    .post("/api/users/register", user)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
       dispatch({ type: CLEAR_ERRORS });
-      history.push('/');
+      history.push("/");
       window.location.reload();
     })
     .catch((err) => {
@@ -61,7 +60,7 @@ export const register = (user) => (dispatch) => {
 //login
 export const login = (user) => (dispatch) => {
   axios
-    .post('/api/users/login', user)
+    .post("/api/users/login", user)
     .then((res) => {
       dispatch({
         type: LOGING_SUCCESS,
@@ -69,12 +68,12 @@ export const login = (user) => (dispatch) => {
       });
       dispatch({ type: CLEAR_ERRORS });
 
-      history.push('/');
+      history.push("/");
       window.location.reload();
     })
     .catch((err) => {
       dispatch({ type: LOGIN_FAIL });
-      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err?.response?.data, err?.response?.status));
     });
 };
 
@@ -82,12 +81,11 @@ export const logout = () => (dispatch, getState) => {
   //config headers
   const configHeader = tokenConfig(getState);
   //send request to server
+
   axios
-    .get('/api/users/logout', configHeader)
+    .get("/api/users/logout", configHeader)
     .then((res) => {
-      // utils.socket.emit('logout', utils.user);
       dispatch({ type: LOGOUT_SUCCESS });
-      // utils = {};
     })
     .catch((err) => {
       dispatch(returnErrors(err?.response?.data, err?.response?.status));
@@ -99,11 +97,11 @@ export const tokenConfig = (getState) => {
   //config headers
   const config = {
     headers: {
-      'Content-type': 'application/json',
+      "Content-type": "application/json",
     },
   };
 
-  if (token) config.headers['auth-token'] = token;
+  if (token) config.headers["auth-token"] = token;
   return config;
 };
 

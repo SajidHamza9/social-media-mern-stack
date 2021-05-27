@@ -1,28 +1,31 @@
-import React, { useEffect } from 'react';
-import { Avatar, IconButton } from '@material-ui/core';
-import ScrollableFeed from 'react-scrollable-feed';
-import Msg from './Msg';
-import SendIcon from '@material-ui/icons/Send';
-import { useState } from 'react';
-import utils from '../../utils/socket';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { Avatar, IconButton } from "@material-ui/core";
+import ScrollableFeed from "react-scrollable-feed";
+import Msg from "./Msg";
+import SendIcon from "@material-ui/icons/Send";
+import { useState } from "react";
+import utils from "../../utils/socket";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getMessages,
   sendMessage,
   updateMsgs,
-} from '../../redux/actions/chatActions';
-import Loading from '../Spinner/Loading';
+} from "../../redux/actions/chatActions";
+import Loading from "../Spinner/Loading";
 
 const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const { messages, loading, error } = useSelector(
-    (state) => state.messagesReducer,
+    (state) => state.messagesReducer
   );
   const sendNewMessage = () => {
-    dispatch(sendMessage(convId, message, _id));
-    orderSidebar();
-    setMessage('');
+    if (message) {
+      console.log("sendNewMessage");
+      dispatch(sendMessage(convId, message, _id));
+      orderSidebar();
+      setMessage("");
+    }
   };
 
   // getMessages
@@ -33,28 +36,30 @@ const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
   const msgReceived = (payload) => {
     if (_id === payload.message.sender) {
       dispatch(updateMsgs(payload.message));
+      payload.message.sender = null;
     }
   };
 
   useEffect(() => {
-    utils.socket.on('message', (payload) => {
+    utils.socket.on("message", (payload) => {
+      console.log("msg received");
       msgReceived(payload);
-      orderSidebar();
+      // orderSidebar();
     });
   }, []);
 
   return (
-    <div className='conversation'>
-      <div className='conversation-header '>
-        <div className='user'>
+    <div className="conversation">
+      <div className="conversation-header ">
+        <div className="user">
           <Avatar
             src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
           />
           <h6>{username}</h6>
         </div>
-        <p>{status === true ? 'Online' : 'Offline'}</p>
+        <p>{status === true ? "Online" : "Offline"}</p>
       </div>
-      <ScrollableFeed className='conversation-msgs'>
+      <ScrollableFeed className="conversation-msgs">
         {loading ? (
           <Loading />
         ) : (
@@ -68,13 +73,13 @@ const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
           ))
         )}
       </ScrollableFeed>
-      <div className='conversation-send'>
+      <div className="conversation-send">
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          type='text'
-          rows='1'
-          placeholder='write your message'
+          type="text"
+          rows="1"
+          placeholder="write your message"
         />
         <IconButton onClick={sendNewMessage}>
           <SendIcon />
