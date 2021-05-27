@@ -7,8 +7,7 @@ import {
   EmptyStateTitle,
 } from './style';
 import { Header } from '../Photos/style';
-import { Button, ListItem } from '../InfoCard/style';
-import { suggestions } from '../../data/home';
+import { Button } from '../InfoCard/style';
 import { useHistory } from 'react-router-dom';
 import UserItem from '../UserItem';
 import PersonIcon from '@material-ui/icons/Person';

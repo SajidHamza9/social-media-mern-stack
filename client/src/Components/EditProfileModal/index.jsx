@@ -4,7 +4,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import IconButton from '@material-ui/core/IconButton';
 import Fade from '@material-ui/core/Fade';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { getUserProfile } from '../../redux/actions/userAcions';
 import {
   useStyles,
   Button,
@@ -17,8 +18,10 @@ import {
   Form,
   Label,
 } from './style';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { loadProfilePosts } from '../../redux/actions/postActions';
+import { loadUser } from '../../redux/actions/authActions';
 
 const EditProfileModal = ({ handleClose, open }) => {
   const classes = useStyles();
@@ -27,6 +30,10 @@ const EditProfileModal = ({ handleClose, open }) => {
   const [image, setImage] = useState(user?.pdp);
   const [name, setName] = useState(user?.username);
   const [bioValue, setBioValue] = useState(user?.bio);
+  const [show, setShow] = React.useState(false);
+  const dispatch = useDispatch();
+  const { userId } = useSelector((state) => state.userProfile);
+
   const ref = useRef();
   useEffect(() => {
     setName(user?.username);
@@ -35,6 +42,7 @@ const EditProfileModal = ({ handleClose, open }) => {
   }, [user]);
 
   const upadateUser = async () => {
+    handleClose();
     const config = {
       headers: {
         'Content-type': 'application/json',
@@ -44,15 +52,19 @@ const EditProfileModal = ({ handleClose, open }) => {
     if (token) config.headers['auth-token'] = token;
     try {
       if (name.trim()) {
+        setShow(true);
         const formData = new FormData();
         formData.append('username', name);
         formData.append('bio', bioValue);
         formData.append('image', file);
         await axios.put('/api/users/update', formData, config);
-        handleClose();
+        dispatch(getUserProfile(userId));
+        dispatch(loadUser());
+        dispatch(loadProfilePosts(userId));
       }
+      setShow(false);
     } catch (error) {
-      console.log(error.response.data);
+      setShow(false);
     }
   };
   return (
@@ -122,6 +134,9 @@ const EditProfileModal = ({ handleClose, open }) => {
           </Card>
         </Fade>
       </Modal>
+      <Backdrop className={classes.backdrop} open={show}>
+        <CircularProgress color='inherit' />
+      </Backdrop>
     </div>
   );
 };

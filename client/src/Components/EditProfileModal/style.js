@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
-import { TextField, Typography, Button as Btn } from '@material-ui/core';
+import { Typography, Button as Btn } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   modal: {
@@ -8,6 +8,10 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '1rem',
+  },
+  backdrop: {
+    zIndex: 1000,
+    color: '#ab987a',
   },
 }));
 

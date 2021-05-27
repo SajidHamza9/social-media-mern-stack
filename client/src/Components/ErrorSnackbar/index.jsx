@@ -9,7 +9,7 @@ function Alert(props) {
 
 const ErrorSnackbar = () => {
   const { showSnackbar, errors } = useSelector((state) => state.errorsAuth);
-  const { errors: err, msg, message } = errors;
+  const { errors: err } = errors;
   let messages = [];
   for (const field in err) {
     messages.push(err[field].msg);

@@ -88,7 +88,7 @@ const Post = ({
         dispatch(updateCommentsSocket(data.postId, data.comments));
       }
     });
-  }, []);
+  }, [currentUserId, dispatch, postId]);
 
   const removePost = () => {
     dispatch(deletePost(postId));
@@ -142,7 +142,9 @@ const Post = ({
       <Card mb={mb}>
         <Header>
           <Box display='flex' alignItems='center'>
-            <StyledAvatar onClick={showProfile} src={pdp} />
+            <StyledAvatar
+              src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+            />
             <Box>
               <Name onClick={showProfile}>{name}</Name>
               <Time>{moment(time).fromNow()}</Time>

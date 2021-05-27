@@ -6,7 +6,6 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import SimpleUserItem from '../SimpleUserItem';
 
 const SearchCard = ({ open, anchorEl, close, users }) => {
-  console.log(users);
   return (
     <Popper style={{ zIndex: 1000 }} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (

@@ -27,12 +27,12 @@ const LikesModal = ({ open, handleClose, suggestions }) => {
             <Body>
               {suggestions.map((s) => (
                 <UserItem
-                  key={s.userId}
+                  key={s._id}
                   name={s.username}
-                  pdp={s.pdp}
-                  userId={s.userId}
+                  img={s.pdp}
+                  userId={s._id}
                   close={handleClose}
-                  status={s.isFollow}
+                  status={false}
                 />
               ))}
             </Body>

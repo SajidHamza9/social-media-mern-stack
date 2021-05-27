@@ -39,7 +39,6 @@ const Photos = () => {
   const postsWithImage = posts.filter((post) => !!post.image).slice(0, 4);
   const dispatch = useDispatch();
 
-  console.log(postsWithImage);
   return (
     <Card>
       <Header>

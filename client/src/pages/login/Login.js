@@ -1,13 +1,14 @@
-import React, { useRef, useState } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import SignInOrUp from "../../components/loginConponents/SignInOrUp";
-import "./login.css";
+import React, { useRef, useState } from 'react';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import SignInOrUp from '../../components/loginConponents/SignInOrUp';
+import './login.css';
 
 //#####################
 
-import { register, login } from "../../redux/actions/authActions";
-import { useDispatch } from "react-redux";
+import { register, login } from '../../redux/actions/authActions';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { useHistory } from 'react-router-dom';
 //##################
 
 const Login = () => {
@@ -19,18 +20,18 @@ const Login = () => {
 
   const [isLogin, setisLogin] = useState(true);
   const [user, setUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
   const refForms = useRef(null);
 
   const showForm = () => {
     setisLogin(!isLogin);
     const toRemove = isLogin
-      ? ["bounceRight", "bounceLeft"]
-      : ["bounceLeft", "bounceRight"];
+      ? ['bounceRight', 'bounceLeft']
+      : ['bounceLeft', 'bounceRight'];
     refForms.current.classList.remove(toRemove[0]);
     refForms.current.classList.add(toRemove[1]);
   };
@@ -42,7 +43,6 @@ const Login = () => {
   const submitform = (e) => {
     e.preventDefault();
     if (!isLogin) {
-      console.log("signup");
       const { username, email, password, confirmPassword } = user;
       const newUser = {
         username,
@@ -59,83 +59,80 @@ const Login = () => {
       };
       dispath(login(userAuth));
     }
-    setUser({ username: "", email: "", password: "", confirmPassword: "" });
+    setUser({ username: '', email: '', password: '', confirmPassword: '' });
   };
 
   return (
     <div
-      style={{ background: "transparent", minHeight: "100vh" }}
-      className="d-flex align-items-center justify-content-center"
-    >
-      <Container style={{ position: "relative" }} fluid="lg">
+      style={{ background: 'transparent', minHeight: '100vh' }}
+      className='d-flex align-items-center justify-content-center'>
+      <Container style={{ position: 'relative' }} fluid='lg'>
         <Row>
           <SignInOrUp
             title="Don't have an account ?"
             body="Create a new account and join the app's family !"
-            action="Sign up"
+            action='Sign up'
             onClick={showForm}
           />
           <SignInOrUp
-            title="Have an account ?"
-            body="login now and get in touch with your friends !"
-            action="Login"
+            title='Have an account ?'
+            body='login now and get in touch with your friends !'
+            action='Login'
             onClick={showForm}
           />
         </Row>
-        <Row ref={refForms} className="bounceRight form-login">
+        <Row ref={refForms} className='bounceRight form-login'>
           {/* login */}
           <Col>
-            <h2 className="text-center">{isLogin ? "Login" : "Sign Up"}</h2>
+            <h2 className='text-center'>{isLogin ? 'Login' : 'Sign Up'}</h2>
             <Form
               onSubmit={submitform}
-              className="d-flex flex-column justify-content-center w-75 mx-auto "
-            >
+              className='d-flex flex-column justify-content-center w-75 mx-auto '>
               {isLogin || (
                 <Form.Control
-                  className="mt-0 mb-3"
-                  type="text"
-                  placeholder="Username"
-                  name="username"
+                  className='mt-0 mb-3'
+                  type='text'
+                  placeholder='Username'
+                  name='username'
                   value={user.username}
                   onChange={handleChange}
                   required
                 />
               )}
               <Form.Control
-                className="mt-0 mb-3"
-                type="email"
-                placeholder="Email"
-                name="email"
+                className='mt-0 mb-3'
+                type='email'
+                placeholder='Email'
+                name='email'
                 value={user.email}
                 onChange={handleChange}
                 required
               />
               <Form.Control
-                className="mb-4"
-                type="password"
-                placeholder="Password"
-                name="password"
+                className='mb-4'
+                type='password'
+                placeholder='Password'
+                name='password'
                 value={user.password}
                 onChange={handleChange}
                 required
               />
               {isLogin || (
                 <Form.Control
-                  className="mt-0 mb-3"
-                  type="password"
-                  placeholder="Confirm Password"
-                  name="confirmPassword"
+                  className='mt-0 mb-3'
+                  type='password'
+                  placeholder='Confirm Password'
+                  name='confirmPassword'
                   value={user.confirmPassword}
                   onChange={handleChange}
                   required
                 />
               )}
               <Button
-                className="ms-auto"
-                variant="outline-primary"
-                type="submit"
-              >
-                {isLogin ? "LOG IN" : "SIGN UP"}
+                className='ms-auto'
+                variant='outline-primary'
+                type='submit'>
+                {isLogin ? 'LOG IN' : 'SIGN UP'}
               </Button>
             </Form>
           </Col>

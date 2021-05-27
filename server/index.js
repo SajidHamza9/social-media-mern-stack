@@ -8,6 +8,7 @@ const msgRoutes = require("./routes/api/message.routes");
 const loggedinRoutes = require("./routes/api/loggedin.routes");
 const socketio = require("socket.io");
 const WebSockets = require("./utils/WebSockets");
+const path = require("path");
 
 //middeleware
 const auth = require("./middleware/auth");
@@ -34,9 +35,16 @@ app.use("/messages", msgRoutes);
 app.use("/loggedin", loggedinRoutes);
 app.use(errorHandler);
 
-const server = app.listen(process.env.PORT, () => {
-  console.log("server running");
-});
+const __direname = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__direname, "/client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+} else {
+}
+
+const server = app.listen(process.env.PORT, () => {});
 /** Create socket connection */
 global.io = socketio(server);
 global.io.on("connection", WebSockets.connection);

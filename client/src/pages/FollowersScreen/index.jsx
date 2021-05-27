@@ -11,7 +11,7 @@ const FollowersScreen = () => {
 
   useEffect(() => {
     dispatch(getUserProfile(userId));
-  }, []);
+  }, [dispatch, userId]);
 
   return (
     <Container maxWidth='md'>

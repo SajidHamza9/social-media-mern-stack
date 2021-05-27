@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import "./messages.css";
-import SideBar from "../../components/msgsComponents/Sidebar";
-import Conversation from "../../components/msgsComponents/Conversation";
-import { useLocation } from "react-router";
-import { useDispatch } from "react-redux";
-import { getConversations, updateMsgs } from "../../redux/actions/chatActions";
-import utils from "../../utils/socket";
+import React, { useState, useEffect } from 'react';
+import './messages.css';
+import SideBar from '../../components/msgsComponents/Sidebar';
+import Conversation from '../../components/msgsComponents/Conversation';
+import { useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { getConversations, updateMsgs } from '../../redux/actions/chatActions';
+import utils from '../../utils/socket';
 
 const Messages = () => {
   // if i click on a connected person
@@ -29,8 +29,8 @@ const Messages = () => {
   };
 
   return (
-    <div className="msg-page">
-      <div className="msg-container ">
+    <div className='msg-page'>
+      <div className='msg-container '>
         <SideBar onClick={selectConv} />
         {person && <Conversation {...person} orderSidebar={orderSidebar} />}
       </div>

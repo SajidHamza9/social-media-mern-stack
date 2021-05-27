@@ -33,11 +33,9 @@ export const loadUser = () => (dispatch, getState) => {
       })
     )
     .catch((err) => {
-      dispatch(returnErrors(err?.response?.data, err?.response?.status));
+      // dispatch(returnErrors(err?.response?.data, err?.response?.status));
       dispatch({ type: AUTH_ERROR });
     });
-
-  console.log("load user");
 };
 
 // register User
@@ -64,7 +62,6 @@ export const login = (user) => (dispatch) => {
   axios
     .post("/api/users/login", user)
     .then((res) => {
-      console.log("THEN");
       dispatch({
         type: LOGING_SUCCESS,
         payload: res.data,
@@ -75,7 +72,6 @@ export const login = (user) => (dispatch) => {
       window.location.reload();
     })
     .catch((err) => {
-      console.log("CATCH");
       dispatch({ type: LOGIN_FAIL });
       dispatch(returnErrors(err?.response?.data, err?.response?.status));
     });

@@ -25,6 +25,8 @@ const NotifSnackbar = React.forwardRef((props, ref) => {
         return { action: 'Commented your post', icon: AddCommentIcon };
       case 'FOLLOW':
         return { action: 'Followed you', icon: PersonIcon };
+      default:
+        return;
     }
   };
   const SmallIcon = withStyles((theme) => ({
@@ -53,7 +55,13 @@ const NotifSnackbar = React.forwardRef((props, ref) => {
                 horizontal: 'right',
               }}
               badgeContent={<SmallIcon />}>
-              <StyledAvatar src={props.notification.currentUser.pdp} />
+              <StyledAvatar
+                src={
+                  props.notification.currentUser.pdp
+                    ? `data:${props.notification.currentUser.pdp.contentType};base64, ${props.notification.currentUser.pdp.data}`
+                    : props.notification.currentUser.pdp
+                }
+              />
             </Badge>
             <Box>
               <Name>{props.notification.currentUser.username}</Name>

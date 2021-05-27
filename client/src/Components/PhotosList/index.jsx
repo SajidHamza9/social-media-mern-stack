@@ -8,7 +8,6 @@ import {
   EmptyStateTitle,
 } from './style';
 import { Container, Grid, Box, CircularProgress } from '@material-ui/core';
-import { photos } from '../../data/photos';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../redux/actions/modalActions';
@@ -32,7 +31,7 @@ const PhotosList = () => {
   useEffect(() => {
     dispatch(getUserProfile(userId));
     dispatch(loadProfilePosts(userId));
-  }, []);
+  }, [dispatch, userId]);
   return (
     <Card style={{ marginBottom: '1rem' }}>
       <Header>

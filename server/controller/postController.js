@@ -107,19 +107,21 @@ exports.removeLike = asyncHandler(async (req, res) => {
 exports.addPost = (req, res) => {
   const { caption } = req.body;
   //some validation
-  if(!req.file && !caption && caption !== '')
-      return res.status(400).json({message: "2 fields cannot be empty"});
+  if (!req.file && !caption && caption !== '')
+    return res.status(400).json({ message: '2 fields cannot be empty' });
 
-    var image = null;
-    const dirname = (__dirname).replace("\\server\\controller", "");
-    if(req.file) {
-      const base64String = fs.readFileSync(path.join(dirname + '/uploads/' + req.file.filename));
-      image = {
-        data: encode(base64String),
-        contentType: req.file.mimetype
-      }
+  var image = null;
+  const dirname = __dirname.replace('\\server\\controller', '');
+  if (req.file) {
+    const base64String = fs.readFileSync(
+      path.join(dirname + '/uploads/' + req.file.filename),
+    );
+    image = {
+      data: encode(base64String),
+      contentType: req.file.mimetype,
+    };
 
-        //delete file
+    //delete file
     fs.unlink(path.join(dirname + '/uploads/' + req.file.filename), (err) => {
       if (err) throw new Error(err);
     });

@@ -32,7 +32,7 @@ const UserItem = ({ img, name, status, userId }) => {
     };
 
     if (token) config.headers['auth-token'] = token;
-    console.log(token);
+
     try {
       setDisable(true);
       await axios.post('/api/users/following', { id: userId }, config);
@@ -51,16 +51,12 @@ const UserItem = ({ img, name, status, userId }) => {
     };
 
     if (token) config.headers['auth-token'] = token;
-    console.log(config);
 
     try {
-      console.log(userId);
       setDisable(true);
       await axios.delete(`/api/users/following/${userId}`, config);
       setDisable(false);
-    } catch (error) {
-      console.log('test');
-    }
+    } catch (error) {}
   };
   return (
     <Div>
