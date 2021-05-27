@@ -29,7 +29,7 @@ const LikesModal = ({ open, handleClose, suggestions }) => {
                 <UserItem
                   key={s._id}
                   name={s.username}
-                  pdp={s.pdp}
+                  img={s.pdp}
                   userId={s._id}
                   close={handleClose}
                   status={false}

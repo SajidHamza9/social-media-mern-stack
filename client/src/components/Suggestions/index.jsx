@@ -45,7 +45,7 @@ const Suggestions = () => {
             <UserItem
               key={s._id}
               name={s.username}
-              pdp={s.pdp}
+              img={s.pdp}
               userId={s._id}
               close={() => setOpen(!open)}
               status={false}

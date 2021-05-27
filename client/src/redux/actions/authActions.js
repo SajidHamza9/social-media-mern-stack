@@ -34,7 +34,7 @@ export const loadUser = () => (dispatch, getState) => {
       }),
     )
     .catch((err) => {
-      dispatch(returnErrors(err?.response?.data, err?.response?.status));
+      // dispatch(returnErrors(err?.response?.data, err?.response?.status));
       dispatch({ type: AUTH_ERROR });
     });
 };
@@ -85,9 +85,9 @@ export const logout = () => (dispatch, getState) => {
   axios
     .get('/api/users/logout', configHeader)
     .then((res) => {
-      utils.socket.emit('logout', utils.user);
+      // utils.socket.emit('logout', utils.user);
       dispatch({ type: LOGOUT_SUCCESS });
-      utils = {};
+      // utils = {};
     })
     .catch((err) => {
       dispatch(returnErrors(err?.response?.data, err?.response?.status));
