@@ -13,7 +13,6 @@ import {
   ADD_FOLLOW,
   DELETE_FOLLOW,
 } from "./types";
-import utils from "../../utils/socket";
 import { returnErrors } from "./errorsActions";
 import { history } from "../helpers/history";
 import axios from "axios";
@@ -78,7 +77,7 @@ export const login = (user) => (dispatch) => {
     .catch((err) => {
       console.log("CATCH");
       dispatch({ type: LOGIN_FAIL });
-      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err?.response?.data, err?.response?.status));
     });
 };
 
@@ -86,12 +85,11 @@ export const logout = () => (dispatch, getState) => {
   //config headers
   const configHeader = tokenConfig(getState);
   //send request to server
+
   axios
     .get("/api/users/logout", configHeader)
     .then((res) => {
-      utils.socket.emit("logout", utils.user);
       dispatch({ type: LOGOUT_SUCCESS });
-      utils = {};
     })
     .catch((err) => {
       dispatch(returnErrors(err?.response?.data, err?.response?.status));

@@ -25,6 +25,7 @@ import { useHistory } from 'react-router-dom';
 import { getNotif } from '../../redux/actions/notificationActions';
 import Search from '../Search';
 import { getUserId } from '../../redux/actions/userAcions';
+import utils from "../../utils/socket";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
@@ -49,6 +50,7 @@ const Navbar = () => {
   const handleLogout = () => {
     console.log('logout');
     dispatch(logout());
+    utils.socket.emit("logout", utils.user);
     history.push('/login');
   };
 
