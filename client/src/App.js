@@ -63,7 +63,7 @@ function App() {
             {isAuth ? <Redirect to="/" /> : <Login />}
           </Route>
         </Switch>
-        {pathName !== "/login" && pathName !== "/messages" && <MessagesBtn />}
+        {isAuth && pathName !== "/messages" && <MessagesBtn />}
         <PostModal />
         <ErrorSnackbar />
       </StylesProvider>

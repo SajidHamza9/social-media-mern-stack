@@ -85,6 +85,8 @@ exports.changePassword = asyncHandler(async (req, res) => {
 });
 
 exports.getAuth = (req, res) => {
+  if(!req.user.id)
+    return res.status(400).json({error: "problem with token"});
   User.findById(req.user.id)
     .select('-password -tokens')
     .then((user) =>
