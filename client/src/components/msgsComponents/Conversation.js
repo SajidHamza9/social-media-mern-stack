@@ -20,9 +20,12 @@ const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
     (state) => state.messagesReducer
   );
   const sendNewMessage = () => {
-    dispatch(sendMessage(convId, message, _id));
-    orderSidebar();
-    setMessage("");
+    if (message) {
+      console.log("sendNewMessage");
+      dispatch(sendMessage(convId, message, _id));
+      orderSidebar();
+      setMessage("");
+    }
   };
 
   // getMessages
@@ -33,13 +36,15 @@ const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
   const msgReceived = (payload) => {
     if (_id === payload.message.sender) {
       dispatch(updateMsgs(payload.message));
+      payload.message.sender = null;
     }
   };
 
   useEffect(() => {
     utils.socket.on("message", (payload) => {
+      console.log("msg received");
       msgReceived(payload);
-      orderSidebar();
+      // orderSidebar();
     });
   }, []);
 
@@ -47,7 +52,9 @@ const Conversation = ({ _id, username, pdp, status, convId, orderSidebar }) => {
     <div className="conversation">
       <div className="conversation-header ">
         <div className="user">
-          <Avatar src={pdp} />
+          <Avatar
+            src={pdp ? `data:${pdp.contentType};base64, ${pdp.data}` : pdp}
+          />
           <h6>{username}</h6>
         </div>
         <p>{status === true ? "Online" : "Offline"}</p>

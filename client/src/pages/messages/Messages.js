@@ -20,6 +20,9 @@ const Messages = () => {
   };
   useEffect(() => {
     dispatch(getConversations());
+    utils.socket.on("message", (payload) => {
+      orderSidebar();
+    });
   }, [dispatch]);
   const orderSidebar = () => {
     dispatch(getConversations());
