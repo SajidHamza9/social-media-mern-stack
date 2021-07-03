@@ -8,6 +8,7 @@ const connectDB = async () => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
+    console.log('BD connected !!');
   } catch (error) {
     process.exit(1);
   }
